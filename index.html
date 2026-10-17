@@ -1,2087 +1,1907 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Неоновая Змейка: Эксклюзивные Скины</title>
-<style>
-* {
-box-sizing: border-box;
-margin: 0;
-padding: 0;
-touch-action: manipulation;
-user-select: none;
--webkit-user-select: none;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Неоновая Змейка: Эксклюзивные Скины</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
 
-body {
-background-color: #090c13;
-color: #d1d5db;
-font-family: system-ui, -apple-system, sans-serif;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-min-height: 100vh;
-padding: 8px;
-overflow: hidden;
-}
+        body {
+            background-color: #090c13;
+            color: #d1d5db;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 8px;
+            overflow: hidden;
+        }
 
-.top-bar {
-display: flex;
-justify-content: space-between;
-width: 360px;
-max-width: 96vw;
-margin-bottom: 6px;
-font-weight: 700;
-font-size: 13px;
-}
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            width: 360px;
+            max-width: 96vw;
+            margin-bottom: 6px;
+            font-weight: 700;
+            font-size: 13px;
+        }
 
-.currencies {
-display: flex;
-gap: 6px;
-}
+        .currencies {
+            display: flex;
+            gap: 6px;
+        }
 
-.matte-badge {
-background: #111624;
-padding: 5px 12px;
-border-radius: 12px;
-display: flex;
-align-items: center;
-gap: 5px;
-border: 1px solid #1f2738;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-}
+        .matte-badge {
+            background: #111624;
+            padding: 5px 12px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid #1f2738;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
 
-.coins-badge { color: #eab308; border-color: #3b3316; }
-.stars-badge { color: #38bdf8; border-color: #16364a; }
-.level-badge { color: #a1a1aa; border-color: #27272a; }
+        .coins-badge { color: #eab308; border-color: #3b3316; }
+        .stars-badge { color: #38bdf8; border-color: #16364a; }
+        .level-badge { color: #a1a1aa; border-color: #27272a; }
 
-.game-container {
-position: relative;
-width: 360px;
-height: 360px;
-max-width: 96vw;
-max-height: 96vw;
-border-radius: 18px;
-overflow: hidden;
-background: #06080e;
-border: 1.5px solid #1a2233;
-box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-}
+        .game-container {
+            position: relative;
+            width: 360px;
+            height: 360px;
+            max-width: 96vw;
+            max-height: 96vw;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #06080e;
+            border: 1.5px solid #1a2233;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
 
-#game {
-display: block;
-width: 100%;
-height: 100%;
-}
+        #game {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
 
-#minimap {
-position: absolute;
-bottom: 8px;
-left: 8px;
-width: 80px;
-height: 80px;
-background: rgba(9, 12, 19, 0.85);
-border: 1.5px solid #222d42;
-border-radius: 10px;
-pointer-events: none;
-z-index: 10;
-backdrop-filter: blur(4px);
-}
+        #minimap {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            width: 80px;
+            height: 80px;
+            background: rgba(9, 12, 19, 0.85);
+            border: 1.5px solid #222d42;
+            border-radius: 10px;
+            pointer-events: none;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
 
-/* Стильное матовое уведомление вместо багованного alert */
-#game-toast {
-position: absolute;
-top: 16px;
-left: 50%;
-transform: translateX(-50%) translateY(-20px);
-background: rgba(17, 24, 39, 0.95);
-color: #f1f5f9;
-border: 1px solid #38bdf8;
-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 12px rgba(56, 189, 248, 0.3);
-border-radius: 10px;
-padding: 8px 14px;
-font-size: 12px;
-font-weight: 700;
-text-align: center;
-pointer-events: none;
-opacity: 0;
-transition: all 0.25s ease;
-z-index: 40;
-max-width: 90%;
-white-space: pre-line;
-}
-#game-toast.show {
-opacity: 1;
-transform: translateX(-50%) translateY(0);
-}
+        /* Стильное матовое уведомление вместо багованного alert */
+        #game-toast {
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: rgba(17, 24, 39, 0.95);
+            color: #f1f5f9;
+            border: 1px solid #38bdf8;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7), 0 0 12px rgba(56, 189, 248, 0.3);
+            border-radius: 10px;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: all 0.25s ease;
+            z-index: 40;
+            max-width: 90%;
+            white-space: pre-line;
+        }
+        #game-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
 
-.modal {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: rgba(9, 12, 19, 0.92);
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-padding: 16px;
-z-index: 20;
-backdrop-filter: blur(14px);
-}
+        .modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(9, 12, 19, 0.92);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 20;
+            backdrop-filter: blur(14px);
+        }
 
-.hidden { display: none !important; }
-
+        .hidden { display: none !important; }
 h2 {
-font-size: 19px;
-margin-bottom: 12px;
-color: #f1f5f9;
-text-transform: uppercase;
-letter-spacing: 1px;
-z-index: 2;
-text-align: center;
-font-weight: 800;
-}
+            font-size: 19px;
+            margin-bottom: 12px;
+            color: #f1f5f9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+            text-align: center;
+            font-weight: 800;
+        }
 
-.top-corner-btn {
-position: absolute;
-top: 12px;
-width: 34px;
-height: 34px;
-border-radius: 10px;
-border: 1px solid #273349;
-background: #111726;
-color: #94a3b8;
-font-size: 16px;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-z-index: 5;
-transition: all 0.15s;
-}
-.top-corner-btn:active { transform: scale(0.92); background: #1a2235; color: #fff; }
-.btn-settings-pos { right: 12px; }
-.btn-info-pos { right: 52px; font-family: serif; font-style: italic; font-weight: bold; }
+        .top-corner-btn {
+            position: absolute;
+            top: 12px;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            border: 1px solid #273349;
+            background: #111726;
+            color: #94a3b8;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 5;
+            transition: all 0.15s;
+        }
+        .top-corner-btn:active { transform: scale(0.92); background: #1a2235; color: #fff; }
+        .btn-settings-pos { right: 12px; }
+        .btn-info-pos { right: 52px; font-family: serif; font-style: italic; font-weight: bold; }
 
-.scroll-content {
-width: 100%;
-max-height: 230px;
-overflow-y: auto;
-padding: 4px 6px;
-margin-bottom: 8px;
-font-size: 12px;
-line-height: 1.5;
-color: #94a3b8;
-z-index: 2;
-}
+        .scroll-content {
+            width: 100%;
+            max-height: 230px;
+            overflow-y: auto;
+            padding: 4px 6px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #94a3b8;
+            z-index: 2;
+        }
 
-.matte-card {
-background: #111624;
-border: 1px solid #1c2436;
-border-radius: 12px;
-padding: 10px;
-margin-bottom: 8px;
-}
+        .matte-card {
+            background: #111624;
+            border: 1px solid #1c2436;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 8px;
+        }
 
-.card-title {
-font-weight: 700;
-font-size: 13px;
-color: #f1f5f9;
-margin-bottom: 6px;
-display: flex;
-align-items: center;
-justify-content: space-between;
-}
+        .card-title {
+            font-weight: 700;
+            font-size: 13px;
+            color: #f1f5f9;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-.btn-menu {
-width: 86%;
-padding: 11px;
-margin: 4px 0;
-border-radius: 12px;
-border: 1px solid rgba(255, 255, 255, 0.05);
-font-size: 14px;
-font-weight: 700;
-cursor: pointer;
-transition: all 0.15s ease;
-z-index: 2;
-background: #161d2e;
-color: #e2e8f0;
-}
-.btn-menu:active { transform: scale(0.97); }
+        .btn-menu {
+            width: 86%;
+            padding: 11px;
+            margin: 4px 0;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            z-index: 2;
+            background: #161d2e;
+            color: #e2e8f0;
+        }
+        .btn-menu:active { transform: scale(0.97); }
 
-.btn-play-highlight {
-background: #1e293b;
-color: #38bdf8;
-border: 1.5px solid #0284c7;
-font-size: 15px;
-box-shadow: 0 4px 16px rgba(2, 132, 199, 0.2);
-}
+        .btn-play-highlight {
+            background: #1e293b;
+            color: #38bdf8;
+            border: 1.5px solid #0284c7;
+            font-size: 15px;
+            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.2);
+        }
 
-.btn-casino-hub {
-background: linear-gradient(135deg, #252012, #1c1828);
-color: #facc15;
-border: 1px solid #854d0e;
-}
+        .btn-casino-hub {
+            background: linear-gradient(135deg, #252012, #1c1828);
+            color: #facc15;
+            border: 1px solid #854d0e;
+        }
 
-.btn-casino-gold {
-background: #252012;
-color: #facc15;
-border: 1px solid #854d0e;
-}
+        .btn-casino-gold {
+            background: #252012;
+            color: #facc15;
+            border: 1px solid #854d0e;
+        }
 
-.btn-casino-skin {
-background: #24142e;
-color: #d946ef;
-border: 1px solid #86198f;
-}
+        .btn-casino-skin {
+            background: #24142e;
+            color: #d946ef;
+            border: 1px solid #86198f;
+        }
 
-.btn-exclusive-spin {
-background: linear-gradient(135deg, #be123c, #1d4ed8);
-color: #ffffff;
-border: 1px solid #fbbf24;
-box-shadow: 0 0 16px rgba(251, 191, 36, 0.4);
-font-weight: 800;
-}
+        .btn-exclusive-spin {
+            background: linear-gradient(135deg, #be123c, #1d4ed8);
+            color: #ffffff;
+            border: 1px solid #fbbf24;
+            box-shadow: 0 0 16px rgba(251, 191, 36, 0.4);
+            font-weight: 800;
+        }
 
-.btn-back {
-background: #151a26;
-color: #94a3b8;
-width: auto;
-padding: 7px 22px;
-margin-top: 6px;
-border: 1px solid #232b3d;
-}
+        .btn-back {
+            background: #151a26;
+            color: #94a3b8;
+            width: auto;
+            padding: 7px 22px;
+            margin-top: 6px;
+            border: 1px solid #232b3d;
+        }
 
-.setting-row {
-display: flex;
-align-items: center;
-justify-content: space-between;
-margin-bottom: 8px;
-font-size: 12px;
-}
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
 
-.segmented-control {
-display: flex;
-background: #0b0f19;
-border-radius: 8px;
-padding: 2px;
-border: 1px solid #1a2233;
-}
+        .segmented-control {
+            display: flex;
+            background: #0b0f19;
+            border-radius: 8px;
+            padding: 2px;
+            border: 1px solid #1a2233;
+        }
 
-.seg-btn {
-border: none;
+        .seg-btn {
+            border: none;
 background: transparent;
-color: #64748b;
-padding: 5px 8px;
-font-size: 11px;
-font-weight: 700;
-border-radius: 6px;
-cursor: pointer;
-}
-.seg-btn.active {
-background: #1e293b;
-color: #38bdf8;
-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-}
+            color: #64748b;
+            padding: 5px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .seg-btn.active {
+            background: #1e293b;
+            color: #38bdf8;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
 
-.tabs-header {
-display: flex;
-gap: 5px;
-margin-bottom: 8px;
-width: 100%;
-justify-content: center;
-z-index: 2;
-}
+        .tabs-header {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 8px;
+            width: 100%;
+            justify-content: center;
+            z-index: 2;
+        }
 
-.tab-btn {
-padding: 5px 10px;
-border-radius: 8px;
-font-size: 10px;
-font-weight: 700;
-border: 1px solid #232c3f;
-background: #101522;
-color: #64748b;
-cursor: pointer;
-}
-.tab-btn.active {
-background: #1e293b;
-color: #f1f5f9;
-border-color: #38bdf8;
-}
+        .tab-btn {
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 700;
+            border: 1px solid #232c3f;
+            background: #101522;
+            color: #64748b;
+            cursor: pointer;
+        }
+        .tab-btn.active {
+            background: #1e293b;
+            color: #f1f5f9;
+            border-color: #38bdf8;
+        }
 
-.skins-grid {
-display: grid;
-grid-template-columns: repeat(4, 1fr);
-gap: 8px;
-margin-bottom: 8px;
-max-height: 135px;
-overflow-y: auto;
-padding: 4px;
-z-index: 2;
-width: 100%;
-}
+        .skins-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 8px;
+            max-height: 135px;
+            overflow-y: auto;
+            padding: 4px;
+            z-index: 2;
+            width: 100%;
+        }
 
-.skin-item {
-height: 48px;
-border-radius: 12px;
-border: 2px solid #1e2638;
-cursor: pointer;
-position: relative;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 16px;
-transition: all 0.2s;
-}
+        .skin-item {
+            height: 48px;
+            border-radius: 12px;
+            border: 2px solid #1e2638;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
 
-.skin-item.selected {
-border-color: #38bdf8;
-box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
-transform: scale(1.05);
-}
+        .skin-item.selected {
+            border-color: #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+            transform: scale(1.05);
+        }
 
-.rarity-pill {
-font-size: 8px;
-font-weight: 800;
-text-transform: uppercase;
-padding: 2px 4px;
-border-radius: 4px;
-position: absolute;
-bottom: 2px;
-right: 2px;
-}
-.pill-common { background: #334155; color: #cbd5e1; }
-.pill-epic { background: #581c87; color: #e879f9; }
-.pill-mythic { background: #713f12; color: #facc15; }
-.pill-exclusive { background: linear-gradient(135deg, #be123c, #1d4ed8); color: #fff; border: 1px solid #facc15; }
+        .rarity-pill {
+            font-size: 8px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 2px 4px;
+            border-radius: 4px;
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+        }
+        .pill-common { background: #334155; color: #cbd5e1; }
+        .pill-epic { background: #581c87; color: #e879f9; }
+        .pill-mythic { background: #713f12; color: #facc15; }
+        .pill-exclusive { background: linear-gradient(135deg, #be123c, #1d4ed8); color: #fff; border: 1px solid #facc15; }
 
-.slot-machine {
-position: relative;
-width: 210px;
-height: 64px;
-background: #090d16;
-border: 1.5px solid #28334a;
-border-radius: 14px;
-overflow: hidden;
-margin-bottom: 8px;
-z-index: 2;
-}
+        .slot-machine {
+            position: relative;
+            width: 210px;
+            height: 64px;
+            background: #090d16;
+            border: 1.5px solid #28334a;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 8px;
+            z-index: 2;
+        }
 
-.slot-reel {
-display: flex;
-flex-direction: column;
-align-items: center;
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-}
+        .slot-reel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
 
-.slot-item {
-height: 64px;
-display: flex;
-align-items: center;
-justify-content: center;
-font-size: 15px;
-font-weight: 800;
-color: #f1f5f9;
-width: 100%;
-text-align: center;
-padding: 0 6px;
-}
+        .slot-item {
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+            color: #f1f5f9;
+            width: 100%;
+            text-align: center;
+            padding: 0 6px;
+        }
 
-.slot-machine::before, .slot-machine::after {
-content: '';
-position: absolute;
-left: 0;
-width: 100%;
-height: 16px;
-z-index: 3;
-pointer-events: none;
-}
-.slot-machine::before { top: 0; background: linear-gradient(to bottom, #090d16, transparent); }
-.slot-machine::after { bottom: 0; background: linear-gradient(to top, #090d16, transparent); }
+        .slot-machine::before, .slot-machine::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 16px;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .slot-machine::before { top: 0; background: linear-gradient(to bottom, #090d16, transparent); }
+        .slot-machine::after { bottom: 0; background: linear-gradient(to top, #090d16, transparent); }
 
-.control-panel {
-width: 360px;
-max-width: 96vw;
-margin-top: 6px;
-display: flex;
-justify-content: space-between;
-gap: 6px;
-}
-
+        .control-panel {
+            width: 360px;
+            max-width: 96vw;
+            margin-top: 6px;
+            display: flex;
+            justify-content: space-between;
+            gap: 6px;
+        }
 .action-btn {
-flex: 1;
-padding: 8px 0;
-border-radius: 10px;
-border: 1px solid #1f2738;
-background: #111624;
-color: #94a3b8;
-font-weight: 700;
-font-size: 13px;
-cursor: pointer;
-}
-.action-btn:active { background: #1a2235; color: #fff; }
+            flex: 1;
+            padding: 8px 0;
+            border-radius: 10px;
+            border: 1px solid #1f2738;
+            background: #111624;
+            color: #94a3b8;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .action-btn:active { background: #1a2235; color: #fff; }
 
-.sprint-btn.active {
-background: #312610 !important;
-border-color: #ca8a04 !important;
-color: #facc15 !important;
-}
+        .sprint-btn.active {
+            background: #312610 !important;
+            border-color: #ca8a04 !important;
+            color: #facc15 !important;
+        }
 
-.joystick-zone {
-margin-top: 6px;
-height: 112px;
-display: flex;
-align-items: center;
-justify-content: center;
-}
+        .joystick-zone {
+            margin-top: 6px;
+            height: 112px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-.dpad-classic {
-display: grid;
-grid-template-columns: repeat(3, 64px);
-grid-template-rows: repeat(2, 50px);
-gap: 6px;
-}
-.dpad-classic button {
-background: #111624;
-color: #94a3b8;
-font-size: 20px;
-border: 1px solid #1e2738;
-border-radius: 12px;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-}
-.dpad-classic button:active { background: #1e293b; color: #38bdf8; border-color: #38bdf8; }
-.d-up { grid-column: 2; grid-row: 1; }
-.d-left { grid-column: 1; grid-row: 2; }
-.d-down { grid-column: 2; grid-row: 2; }
-.d-right { grid-column: 3; grid-row: 2; }
+        .dpad-classic {
+            display: grid;
+            grid-template-columns: repeat(3, 64px);
+            grid-template-rows: repeat(2, 50px);
+            gap: 6px;
+        }
+        .dpad-classic button {
+            background: #111624;
+            color: #94a3b8;
+            font-size: 20px;
+            border: 1px solid #1e2738;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .dpad-classic button:active { background: #1e293b; color: #38bdf8; border-color: #38bdf8; }
+        .d-up    { grid-column: 2; grid-row: 1; }
+        .d-left  { grid-column: 1; grid-row: 2; }
+        .d-down  { grid-column: 2; grid-row: 2; }
+        .d-right { grid-column: 3; grid-row: 2; }
 
-.dpad-row {
-display: flex;
-gap: 10px;
-width: 320px;
-justify-content: center;
-}
-.dpad-row button {
-flex: 1;
-height: 60px;
-background: #111624;
-color: #94a3b8;
-font-size: 22px;
-border: 1px solid #1e2738;
-border-radius: 14px;
-cursor: pointer;
-}
-.dpad-row button:active { background: #1e293b; color: #38bdf8; border-color: #38bdf8; }
+        .dpad-row {
+            display: flex;
+            gap: 10px;
+            width: 320px;
+            justify-content: center;
+        }
+        .dpad-row button {
+            flex: 1;
+            height: 60px;
+            background: #111624;
+            color: #94a3b8;
+            font-size: 22px;
+            border: 1px solid #1e2738;
+            border-radius: 14px;
+            cursor: pointer;
+        }
+        .dpad-row button:active { background: #1e293b; color: #38bdf8; border-color: #38bdf8; }
 
-.dpad-analog {
-position: relative;
-width: 110px;
-height: 110px;
-border-radius: 50%;
-background: #101524;
-border: 2px solid #1e283d;
-display: flex;
-align-items: center;
-justify-content: center;
-touch-action: none;
-}
-.analog-nub {
-width: 44px;
-height: 44px;
-border-radius: 50%;
-background: #1e293b;
-border: 2px solid #38bdf8;
-box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
-pointer-events: none;
-transform: translate(0px, 0px);
-}
-</style>
+        .dpad-analog {
+            position: relative;
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: #101524;
+            border: 2px solid #1e283d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: none;
+        }
+        .analog-nub {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #1e293b;
+            border: 2px solid #38bdf8;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+            pointer-events: none;
+            transform: translate(0px, 0px);
+        }
+    </style>
 </head>
 <body>
 
-<!-- Верхний статус -->
-<div class="top-bar">
-<div class="matte-badge level-badge">
-<span><span data-i18n="lvl">Ур.</span> <b id="level-display">1</b>: <b id="score">0</b>/<span id="goal-display">20</span></span>
-<span style="color: #eab308;">(<b id="mult-display">1x</b>)</span>
-</div>
-<div class="currencies">
-<div class="matte-badge coins-badge">🪙 <span id="coins">0</span></div>
-<div class="matte-badge stars-badge">⭐ <span id="stars">0</span></div>
-</div>
-</div>
+    <!-- Верхний статус -->
+    <div class="top-bar">
+        <div class="matte-badge level-badge">
+            <span><span data-i18n="lvl">Ур.</span> <b id="level-display">1</b>: <b id="score">0</b>/<span id="goal-display">20</span></span>
+            <span style="color: #eab308;">(<b id="mult-display">1x</b>)</span>
+        </div>
+        <div class="currencies">
+            <div class="matte-badge coins-badge">🪙 <span id="coins">0</span></div>
+            <div class="matte-badge stars-badge">⭐ <span id="stars">0</span></div>
+        </div>
+    </div>
 
-<!-- Игровой контейнер -->
-<div class="game-container">
-<canvas id="game" width="360" height="360"></canvas>
-<canvas id="minimap" width="80" height="80"></canvas>
-<div id="game-toast"></div>
+    <!-- Игровой контейнер -->
+    <div class="game-container">
+        <canvas id="game" width="360" height="360"></canvas>
+        <canvas id="minimap" width="80" height="80"></canvas>
+        <div id="game-toast"></div>
 
-<!-- Главное Меню -->
-<div id="screen-main" class="modal">
-<button class="top-corner-btn btn-info-pos" id="btn-open-info" title="Справка">i</button>
-<button class="top-corner-btn btn-settings-pos" id="btn-open-settings" title="Настройки">⚙️</button>
-
+        <!-- Главное Меню -->
+        <div id="screen-main" class="modal">
+            <button class="top-corner-btn btn-info-pos" id="btn-open-info" title="Справка">i</button>
+            <button class="top-corner-btn btn-settings-pos" id="btn-open-settings" title="Настройки">⚙️</button>
 <h2 data-i18n="game_title">НЕОН ЗМЕЙКА</h2>
-<button class="btn-menu btn-play-highlight" id="btn-start-game">▶ ПРОДОЛЖИТЬ</button>
-<button class="btn-menu" id="btn-open-skins" data-i18n="menu_skins">🎨 ГАРДЕРОБ СКИНОВ</button>
-<button class="btn-menu btn-casino-hub" id="btn-open-casino-hub" data-i18n="menu_casino">🎰 КАЗИНО</button>
-</div>
+            <button class="btn-menu btn-play-highlight" id="btn-start-game">▶ ПРОДОЛЖИТЬ</button>
+            <button class="btn-menu" id="btn-open-skins" data-i18n="menu_skins">🎨 ГАРДЕРОБ СКИНОВ</button>
+            <button class="btn-menu btn-casino-hub" id="btn-open-casino-hub" data-i18n="menu_casino">🎰 КАЗИНО</button>
+        </div>
 
-<!-- Меню выбора казино -->
-<div id="screen-casino-select" class="modal hidden">
-<h2 data-i18n="casino_select_title">ВЫБЕРИТЕ КАЗИНО</h2>
-<button class="btn-menu btn-casino-gold" id="btn-choose-coins-casino" data-i18n="casino_coins_btn">🪙 МОНЕТНОЕ КАЗИНО (10 ⭐)</button>
-<button class="btn-menu btn-casino-skin" id="btn-choose-skins-casino" data-i18n="casino_skins_btn">🎨 ЗВЁЗДНОЕ КАЗИНО СКИНОВ (10 ⭐)</button>
-<button class="btn-menu btn-back" id="btn-casino-select-back" data-i18n="back_btn">НАЗАД</button>
-</div>
+        <!-- Меню выбора казино -->
+        <div id="screen-casino-select" class="modal hidden">
+            <h2 data-i18n="casino_select_title">ВЫБЕРИТЕ КАЗИНО</h2>
+            <button class="btn-menu btn-casino-gold" id="btn-choose-coins-casino" data-i18n="casino_coins_btn">🪙 МОНЕТНОЕ КАЗИНО (10 ⭐)</button>
+            <button class="btn-menu btn-casino-skin" id="btn-choose-skins-casino" data-i18n="casino_skins_btn">🎨 ЗВЁЗДНОЕ КАЗИНО СКИНОВ (10 ⭐)</button>
+            <button class="btn-menu btn-back" id="btn-casino-select-back" data-i18n="back_btn">НАЗАД</button>
+        </div>
 
-<!-- Окно Настроек -->
-<div id="screen-settings" class="modal hidden">
-<h2 data-i18n="settings_title">НАСТРОЙКИ</h2>
-<div class="scroll-content">
-<div class="matte-card">
-<div class="card-title"><span data-i18n="lang_setting">Язык / Language</span></div>
-<div class="segmented-control" id="lang-selector">
-<button class="seg-btn active" data-lang="ru">Русский</button>
-<button class="seg-btn" data-lang="en">English</button>
-</div>
-</div>
+        <!-- Окно Настроек -->
+        <div id="screen-settings" class="modal hidden">
+            <h2 data-i18n="settings_title">НАСТРОЙКИ</h2>
+            <div class="scroll-content">
+                <div class="matte-card">
+                    <div class="card-title"><span data-i18n="lang_setting">Язык / Language</span></div>
+                    <div class="segmented-control" id="lang-selector">
+                        <button class="seg-btn active" data-lang="ru">Русский</button>
+                        <button class="seg-btn" data-lang="en">English</button>
+                    </div>
+                </div>
 
-<div class="matte-card">
-<div class="card-title"><span data-i18n="fps_setting">Кадры в секунду (FPS)</span></div>
-<div class="segmented-control" id="fps-selector">
-<button class="seg-btn" data-val="30">30</button>
-<button class="seg-btn active" data-val="60">60</button>
-<button class="seg-btn" data-val="120">120</button>
-<button class="seg-btn" data-val="0">MAX</button>
-</div>
-</div>
+                <div class="matte-card">
+                    <div class="card-title"><span data-i18n="fps_setting">Кадры в секунду (FPS)</span></div>
+                    <div class="segmented-control" id="fps-selector">
+                        <button class="seg-btn" data-val="30">30</button>
+                        <button class="seg-btn active" data-val="60">60</button>
+                        <button class="seg-btn" data-val="120">120</button>
+                        <button class="seg-btn" data-val="0">MAX</button>
+                    </div>
+                </div>
 
-<div class="matte-card">
-<div class="card-title"><span data-i18n="joy_setting">Тип джойстика</span></div>
-<div class="segmented-control" id="joystick-selector">
-<button class="seg-btn active" data-mode="classic" data-i18n="joy_classic">Классик</button>
-<button class="seg-btn" data-mode="row" data-i18n="joy_row">В ряд</button>
-<button class="seg-btn" data-mode="analog" data-i18n="joy_analog">Стик 360°</button>
-</div>
-</div>
+                <div class="matte-card">
+                    <div class="card-title"><span data-i18n="joy_setting">Тип джойстика</span></div>
+                    <div class="segmented-control" id="joystick-selector">
+                        <button class="seg-btn active" data-mode="classic" data-i18n="joy_classic">Классик</button>
+                        <button class="seg-btn" data-mode="row" data-i18n="joy_row">В ряд</button>
+                        <button class="seg-btn" data-mode="analog" data-i18n="joy_analog">Стик 360°</button>
+                    </div>
+                </div>
 
-<div class="matte-card">
-<div class="setting-row">
-<span data-i18n="minimap_setting">Миникарта на арене</span>
-<div class="segmented-control" id="minimap-toggle">
-<button class="seg-btn active" data-val="1" data-i18n="on_btn">ВКЛ</button>
-<button class="seg-btn" data-val="0" data-i18n="off_btn">ВЫКЛ</button>
-</div>
-</div>
-<div class="setting-row" style="margin-bottom: 0;">
-<span data-i18n="vib_setting">Вибрация (Haptic)</span>
-<div class="segmented-control" id="vibrate-toggle">
-<button class="seg-btn active" data-val="1" data-i18n="on_btn">ВКЛ</button>
-<button class="seg-btn" data-val="0" data-i18n="off_btn">ВЫКЛ</button>
-</div>
-</div>
-</div>
-</div>
-<button class="btn-menu btn-back" id="btn-settings-back" data-i18n="save_btn">СОХРАНИТЬ</button>
-</div>
-
+                <div class="matte-card">
+                    <div class="setting-row">
+                        <span data-i18n="minimap_setting">Миникарта на арене</span>
+                        <div class="segmented-control" id="minimap-toggle">
+                            <button class="seg-btn active" data-val="1" data-i18n="on_btn">ВКЛ</button>
+                            <button class="seg-btn" data-val="0" data-i18n="off_btn">ВЫКЛ</button>
+                        </div>
+                    </div>
+                    <div class="setting-row" style="margin-bottom: 0;">
+                        <span data-i18n="vib_setting">Вибрация (Haptic)</span>
+                        <div class="segmented-control" id="vibrate-toggle">
+                            <button class="seg-btn active" data-val="1" data-i18n="on_btn">ВКЛ</button>
+                            <button class="seg-btn" data-val="0" data-i18n="off_btn">ВЫКЛ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn-menu btn-back" id="btn-settings-back" data-i18n="save_btn">СОХРАНИТЬ</button>
+        </div>
 <!-- Окно Справки -->
-<div id="screen-info" class="modal hidden">
-<h2 data-i18n="info_title">СПРАВКА И ГАЙД</h2>
-<div class="scroll-content">
-<div class="matte-card">
-<div class="card-title"><span style="color: #38bdf8;" data-i18n="info_stars_title">⭐ Валюта Звёзды</span></div>
-<div data-i18n="info_stars_desc">• Награда = номер уровня! (Ур. 1 = 1⭐, Ур. 5 = 5⭐ и т.д.)<br>• Обмен в казино: 1000 🪙 = 10 ⭐.<br>• Прокрутка казино стоит 10 ⭐.</div>
-</div>
-<div class="matte-card">
-<div class="card-title"><span style="color: #be123c;" data-i18n="info_excl_title">👑 Эксклюзивные Скины (Флаги)</span></div>
-<div data-i18n="info_excl_desc">• Каждые 5 уровней (5, 10, 15...) открывается БЕСПЛАТНАЯ рулетка с флагами (РФ, США, Китай)!</div>
-</div>
-<div class="matte-card">
-<div class="card-title"><span style="color: #eab308;" data-i18n="info_skins_title">🎨 Редкости Скинов</span></div>
-<div data-i18n="info_skins_desc">• ⚪ Обычные (10 шт): матовые цвета.<br>• 🟣 Эпик (7 шт): пульсирующий глоу раз в 5 сек.<br>• 🟡 Мифик (3 шт): постоянный ультра-градиент.</div>
-</div>
-</div>
-<button class="btn-menu btn-back" id="btn-info-back" data-i18n="ok_btn">ПОНЯТНО</button>
-</div>
+        <div id="screen-info" class="modal hidden">
+            <h2 data-i18n="info_title">СПРАВКА И ГАЙД</h2>
+            <div class="scroll-content">
+                <div class="matte-card">
+                    <div class="card-title"><span style="color: #38bdf8;" data-i18n="info_stars_title">⭐ Валюта Звёзды</span></div>
+                    <div data-i18n="info_stars_desc">• Награда = номер уровня! (Ур. 1 = 1⭐, Ур. 5 = 5⭐ и т.д.)<br>• Обмен в казино: 1000 🪙 = 10 ⭐.<br>• Прокрутка казино стоит 10 ⭐.</div>
+                </div>
+                <div class="matte-card">
+                    <div class="card-title"><span style="color: #be123c;" data-i18n="info_excl_title">👑 Эксклюзивные Скины (Флаги)</span></div>
+                    <div data-i18n="info_excl_desc">• Каждые 5 уровней (5, 10, 15...) открывается БЕСПЛАТНАЯ рулетка с флагами (РФ, США, Китай)!</div>
+                </div>
+                <div class="matte-card">
+                    <div class="card-title"><span style="color: #eab308;" data-i18n="info_skins_title">🎨 Редкости Скинов</span></div>
+                    <div data-i18n="info_skins_desc">• ⚪ Обычные (10 шт): матовые цвета.<br>• 🟣 Эпик (7 шт): пульсирующий глоу раз в 5 сек.<br>• 🟡 Мифик (3 шт): постоянный ультра-градиент.</div>
+                </div>
+            </div>
+            <button class="btn-menu btn-back" id="btn-info-back" data-i18n="ok_btn">ПОНЯТНО</button>
+        </div>
 
-<!-- Окно Гардероба -->
-<div id="screen-skins" class="modal hidden">
-<h2 data-i18n="wardrobe_title">ГАРДЕРОБ</h2>
-<div class="tabs-header">
-<button class="tab-btn active" data-tab="all" data-i18n="tab_all">Все</button>
-<button class="tab-btn" data-tab="common" data-i18n="tab_common">Обыч</button>
-<button class="tab-btn" data-tab="epic" data-i18n="tab_epic">Эпик</button>
-<button class="tab-btn" data-tab="mythic" data-i18n="tab_mythic">Мифик</button>
-<button class="tab-btn" data-tab="exclusive" data-i18n="tab_exclusive" style="color:#f43f5e;">Эксклюзив</button>
-</div>
-<div class="skins-grid" id="skins-list"></div>
-<p id="skin-status" style="font-size: 12px; color: #94a3b8; min-height: 18px; text-align: center; z-index: 2;"></p>
-<button class="btn-menu btn-play-highlight hidden" id="btn-buy-skin" data-i18n="buy_btn">КУПИТЬ</button>
-<button class="btn-menu btn-back" id="btn-skins-back" data-i18n="back_btn">НАЗАД</button>
-</div>
+        <!-- Окно Гардероба -->
+        <div id="screen-skins" class="modal hidden">
+            <h2 data-i18n="wardrobe_title">ГАРДЕРОБ</h2>
+            <div class="tabs-header">
+                <button class="tab-btn active" data-tab="all" data-i18n="tab_all">Все</button>
+                <button class="tab-btn" data-tab="common" data-i18n="tab_common">Обыч</button>
+                <button class="tab-btn" data-tab="epic" data-i18n="tab_epic">Эпик</button>
+                <button class="tab-btn" data-tab="mythic" data-i18n="tab_mythic">Мифик</button>
+                <button class="tab-btn" data-tab="exclusive" data-i18n="tab_exclusive" style="color:#f43f5e;">Эксклюзив</button>
+            </div>
+            <div class="skins-grid" id="skins-list"></div>
+            <p id="skin-status" style="font-size: 12px; color: #94a3b8; min-height: 18px; text-align: center; z-index: 2;"></p>
+            <button class="btn-menu btn-play-highlight hidden" id="btn-buy-skin" data-i18n="buy_btn">КУПИТЬ</button>
+            <button class="btn-menu btn-back" id="btn-skins-back" data-i18n="back_btn">НАЗАД</button>
+        </div>
 
-<!-- Окно Казино -->
-<div id="screen-casino" class="modal hidden">
-<h2 id="casino-title">КАЗИНО</h2>
-<div class="slot-machine">
-<div class="slot-reel" id="slot-reel">
-<div class="slot-item" id="slot-ready-text">КРУТИ!</div>
-</div>
-</div>
-<div class="chances-hint" id="casino-hint"></div>
-<button class="btn-menu btn-play-highlight" id="btn-spin" data-i18n="spin_btn">КРУТИТЬ (10 ⭐)</button>
-<button class="btn-menu" style="background:#161d2e; width:auto; padding:6px 14px; font-size:12px;" id="btn-buy-stars" data-i18n="exchange_stars_btn">+ Обменять 1000 🪙 на 10 ⭐</button>
-<button class="btn-menu btn-back" id="btn-casino-back" data-i18n="back_btn">НАЗАД</button>
-</div>
+        <!-- Окно Казино -->
+        <div id="screen-casino" class="modal hidden">
+            <h2 id="casino-title">КАЗИНО</h2>
+            <div class="slot-machine">
+                <div class="slot-reel" id="slot-reel">
+                    <div class="slot-item" id="slot-ready-text">КРУТИ!</div>
+                </div>
+            </div>
+            <div class="chances-hint" id="casino-hint"></div>
+            <button class="btn-menu btn-play-highlight" id="btn-spin" data-i18n="spin_btn">КРУТИТЬ (10 ⭐)</button>
+            <button class="btn-menu" style="background:#161d2e; width:auto; padding:6px 14px; font-size:12px;" id="btn-buy-stars" data-i18n="exchange_stars_btn">+ Обменять 1000 🪙 на 10 ⭐</button>
+            <button class="btn-menu btn-back" id="btn-casino-back" data-i18n="back_btn">НАЗАД</button>
+        </div>
 
-<!-- Окно ЭКСКЛЮЗИВНОЙ РУЛЕТКИ -->
-<div id="screen-exclusive-roulette" class="modal hidden">
-<h2 style="color: #fbbf24; text-shadow: 0 0 14px rgba(251, 191, 36, 0.6);" data-i18n="excl_roulette_title">👑 ЭКСКЛЮЗИВНАЯ РУЛЕТКА!</h2>
-<p style="font-size: 12px; color: #cbd5e1; margin-bottom: 8px; text-align: center;" data-i18n="excl_roulette_desc">Награда за каждые 5 уровней! Испытай удачу!</p>
+        <!-- Окно ЭКСКЛЮЗИВНОЙ РУЛЕТКИ -->
+        <div id="screen-exclusive-roulette" class="modal hidden">
+            <h2 style="color: #fbbf24; text-shadow: 0 0 14px rgba(251, 191, 36, 0.6);" data-i18n="excl_roulette_title">👑 ЭКСКЛЮЗИВНАЯ РУЛЕТКА!</h2>
+            <p style="font-size: 12px; color: #cbd5e1; margin-bottom: 8px; text-align: center;" data-i18n="excl_roulette_desc">Награда за каждые 5 уровней! Испытай удачу!</p>
 <div class="slot-machine" style="border-color: #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);">
-<div class="slot-reel" id="excl-slot-reel">
-<div class="slot-item" style="color: #fbbf24;">🇷🇺 🇺🇸 🇨🇳</div>
-</div>
-</div>
-<button class="btn-menu btn-exclusive-spin" id="btn-spin-exclusive" data-i18n="spin_free_btn">КРУТИТЬ БЕСПЛАТНО!</button>
-<button class="btn-menu btn-back" id="btn-excl-continue" style="display:none;" data-i18n="continue_btn">ПРОДОЛЖИТЬ</button>
-</div>
+                <div class="slot-reel" id="excl-slot-reel">
+                    <div class="slot-item" style="color: #fbbf24;">🇷🇺 🇺🇸 🇨🇳</div>
+                </div>
+            </div>
+            <button class="btn-menu btn-exclusive-spin" id="btn-spin-exclusive" data-i18n="spin_free_btn">КРУТИТЬ БЕСПЛАТНО!</button>
+            <button class="btn-menu btn-back" id="btn-excl-continue" style="display:none;" data-i18n="continue_btn">ПРОДОЛЖИТЬ</button>
+        </div>
 
-<!-- Меню Победы на Уровне -->
-<div id="screen-win" class="modal hidden">
-<h2 style="color: #4ade80;" id="win-title" data-i18n="level_passed">УРОВЕНЬ ПРОЙДЕН!</h2>
-<p style="font-size: 13px; margin-bottom: 8px; color: #cbd5e1;" id="win-desc" data-i18n="great_job">Отличный заезд!</p>
-<div class="matte-badge" id="win-reward-badge" style="border-color: #38bdf8; color: #38bdf8; font-size: 14px; font-weight: 800; margin-bottom: 12px;">
-🎁 НАГРАДА: +X ⭐ ЗВЁЗД!
-</div>
-<button class="btn-menu btn-next" id="btn-win-next" data-i18n="next_btn">ДАЛЬШЕ ▶</button>
-<button class="btn-menu" id="btn-win-retry" data-i18n="retry_btn">ЗАНОВО</button>
-<button class="btn-menu btn-back" id="btn-win-menu" data-i18n="menu_btn">В МЕНЮ</button>
-</div>
+        <!-- Меню Победы на Уровне -->
+        <div id="screen-win" class="modal hidden">
+            <h2 style="color: #4ade80;" id="win-title" data-i18n="level_passed">УРОВЕНЬ ПРОЙДЕН!</h2>
+            <p style="font-size: 13px; margin-bottom: 8px; color: #cbd5e1;" id="win-desc" data-i18n="great_job">Отличный заезд!</p>
+            <div class="matte-badge" id="win-reward-badge" style="border-color: #38bdf8; color: #38bdf8; font-size: 14px; font-weight: 800; margin-bottom: 12px;">
+                🎁 НАГРАДА: +X ⭐ ЗВЁЗД!
+            </div>
+            <button class="btn-menu btn-next" id="btn-win-next" data-i18n="next_btn">ДАЛЬШЕ ▶</button>
+            <button class="btn-menu" id="btn-win-retry" data-i18n="retry_btn">ЗАНОВО</button>
+            <button class="btn-menu btn-back" id="btn-win-menu" data-i18n="menu_btn">В МЕНЮ</button>
+        </div>
 
-<!-- Меню Поражения -->
-<div id="screen-over" class="modal hidden">
-<h2 style="color: #ef4444;" data-i18n="game_over_title">ИГРА ОКОНЧЕНА</h2>
-<p style="font-size: 13px; margin-bottom: 12px; color: #94a3b8;" id="over-reason"></p>
-<button class="btn-menu btn-play-highlight" id="btn-restart" data-i18n="retry_btn">ЗАНОВО</button>
-<button class="btn-menu btn-back" id="btn-to-menu" data-i18n="menu_btn">В МЕНЮ</button>
-</div>
-</div>
+        <!-- Меню Поражения -->
+        <div id="screen-over" class="modal hidden">
+            <h2 style="color: #ef4444;" data-i18n="game_over_title">ИГРА ОКОНЧЕНА</h2>
+            <p style="font-size: 13px; margin-bottom: 12px; color: #94a3b8;" id="over-reason"></p>
+            <button class="btn-menu btn-play-highlight" id="btn-restart" data-i18n="retry_btn">ЗАНОВО</button>
+            <button class="btn-menu btn-back" id="btn-to-menu" data-i18n="menu_btn">В МЕНЮ</button>
+        </div>
+    </div>
 
-<!-- Панель опций -->
-<div class="control-panel">
-<button class="action-btn" id="btn-pause" data-i18n="pause_btn">⏸ Пауза</button>
-<button class="action-btn sprint-btn" id="btn-sprint" data-i18n="sprint_btn">⚡ СПРИНТ</button>
-<button class="action-btn" id="btn-in-game-menu" data-i18n="menu_btn">🏠 Меню</button>
-</div>
+    <!-- Панель опций -->
+    <div class="control-panel">
+        <button class="action-btn" id="btn-pause" data-i18n="pause_btn">⏸ Пауза</button>
+        <button class="action-btn sprint-btn" id="btn-sprint" data-i18n="sprint_btn">⚡ СПРИНТ</button>
+        <button class="action-btn" id="btn-in-game-menu" data-i18n="menu_btn">🏠 Меню</button>
+    </div>
 
-<!-- Зона Джойстика -->
-<div class="joystick-zone" id="joystick-zone">
-<div class="dpad-classic" id="dpad-classic">
-<button type="button" class="d-up" id="up">▲</button>
-<button type="button" class="d-left" id="left">◀</button>
-<button type="button" class="d-down" id="down">▼</button>
-<button type="button" class="d-right" id="right">▶</button>
-</div>
-<div class="dpad-row hidden" id="dpad-row">
-<button type="button" id="row-left">◀</button>
-<button type="button" id="row-up">▲</button>
-<button type="button" id="row-down">▼</button>
-<button type="button" id="row-right">▶</button>
-</div>
-<div class="dpad-analog hidden" id="dpad-analog">
-<div class="analog-nub" id="analog-nub"></div>
-</div>
-</div>
+    <!-- Зона Джойстика -->
+    <div class="joystick-zone" id="joystick-zone">
+        <div class="dpad-classic" id="dpad-classic">
+            <button type="button" class="d-up" id="up">▲</button>
+            <button type="button" class="d-left" id="left">◀</button>
+            <button type="button" class="d-down" id="down">▼</button>
+            <button type="button" class="d-right" id="right">▶</button>
+        </div>
+        <div class="dpad-row hidden" id="dpad-row">
+            <button type="button" id="row-left">◀</button>
+            <button type="button" id="row-up">▲</button>
+            <button type="button" id="row-down">▼</button>
+            <button type="button" id="row-right">▶</button>
+        </div>
+        <div class="dpad-analog hidden" id="dpad-analog">
+            <div class="analog-nub" id="analog-nub"></div>
+        </div>
+    </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-const I18N = {
-ru: {
-lvl: "Ур.",
-game_title: "НЕОН ЗМЕЙКА",
-menu_skins: "🎨 ГАРДЕРОБ СКИНОВ",
-menu_casino: "🎰 КАЗИНО",
-casino_select_title: "ВЫБЕРИТЕ КАЗИНО",
-casino_coins_btn: "🪙 МОНЕТНОЕ КАЗИНО (10 ⭐)",
-casino_skins_btn: "🎨 ЗВЁЗДНОЕ КАЗИНО СКИНОВ (10 ⭐)",
-back_btn: "НАЗАД",
-settings_title: "НАСТРОЙКИ",
-lang_setting: "Язык / Language",
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const I18N = {
+                ru: {
+                    lvl: "Ур.",
+                    game_title: "НЕОН ЗМЕЙКА",
+                    menu_skins: "🎨 ГАРДЕРОБ СКИНОВ",
+                    menu_casino: "🎰 КАЗИНО",
+                    casino_select_title: "ВЫБЕРИТЕ КАЗИНО",
+                    casino_coins_btn: "🪙 МОНЕТНОЕ КАЗИНО (10 ⭐)",
+                    casino_skins_btn: "🎨 ЗВЁЗДНОЕ КАЗИНО СКИНОВ (10 ⭐)",
+                    back_btn: "НАЗАД",
+                    settings_title: "НАСТРОЙКИ",
+                    lang_setting: "Язык / Language",
 fps_setting: "Кадры в секунду (FPS)",
-joy_setting: "Тип джойстика",
-joy_classic: "Классик",
-joy_row: "В ряд",
-joy_analog: "Стик 360°",
-minimap_setting: "Миникарта на арене",
-vib_setting: "Вибрация (Haptic)",
-on_btn: "ВКЛ",
-off_btn: "ВЫКЛ",
-save_btn: "СОХРАНИТЬ",
-info_title: "СПРАВКА И ГАЙД",
-info_stars_title: "⭐ Валюта Звёзды",
-info_stars_desc: "• Награда = номер уровня! (Ур. 1 = 1⭐, Ур. 5 = 5⭐ и т.д.)<br>• Обмен в казино: 1000 🪙 = 10 ⭐.<br>• Прокрутка казино стоит 10 ⭐.",
-info_excl_title: "👑 Эксклюзивные Скины (Флаги)",
-info_excl_desc: "• Каждые 5 уровней (5, 10, 15...) открывается БЕСПЛАТНАЯ рулетка с флагами (РФ, США, Китай)!",
-info_skins_title: "🎨 Редкости Скинов",
-info_skins_desc: "• ⚪ Обычные (10 шт): матовые цвета.<br>• 🟣 Эпик (7 шт): пульсирующий глоу раз в 5 сек.<br>• 🟡 Мифик (3 шт): постоянный ультра-градиент.",
-ok_btn: "ПОНЯТНО",
-wardrobe_title: "ГАРДЕРОБ",
-tab_all: "Все",
-tab_common: "Обыч",
-tab_epic: "Эпик",
-tab_mythic: "Мифик",
-tab_exclusive: "Эксклюзив",
-buy_btn: "КУПИТЬ",
-spin_btn: "КРУТИТЬ (10 ⭐)",
-spin_free_btn: "КРУТИТЬ БЕСПЛАТНО!",
-continue_btn: "ПРОДОЛЖИТЬ",
-exchange_stars_btn: "+ Обменять 1000 🪙 на 10 ⭐",
-level_passed: "УРОВЕНЬ ПРОЙДЕН!",
-great_job: "Отличный заезд!",
-win_reward: "🎁 НАГРАДА: +{0} ⭐ ЗВЁЗД!",
-next_btn: "ДАЛЬШЕ ▶",
-retry_btn: "ЗАНОВО",
-menu_btn: "В МЕНЮ",
-game_over_title: "ИГРА ОКОНЧЕНА",
-pause_btn: "⏸ Пауза",
-start_btn: "▶ Старт",
-sprint_btn: "⚡ СПРИНТ",
-sprint_on: "⚡ СПРИНТ ВКЛ",
-coins_casino_title: "МОНЕТНОЕ КАЗИНО",
-skins_casino_title: "КАЗИНО СКИНОВ",
-excl_roulette_title: "👑 ЭКСКЛЮЗИВНАЯ РУЛЕТКА!",
-excl_roulette_desc: "Награда за каждые 5 уровней! Испытай удачу!",
-coins_casino_hint: "Шансы: 50% Пусто | 30% 60🪙<br>15% 150🪙 | 4% 500🪙 | 1% 1500🪙",
-skins_casino_hint: "Шансы: Обычный 70% | Эпик 25% | Мифик 5%<br>Повторный скин: компенсация +300🪙",
-collision: "Столкновение!",
-all_levels_beaten: "Все 13 уровней пройдены!",
-champion: "АБСОЛЮТНЫЙ ЧЕМПИОН! 👑",
-first_level_btn: "В НАЧАЛО (УР. 1)",
-need_stars_alert: "Нужно 10 звёзд (⭐)! Заработайте их за уровни или купите за монеты.",
-need_1000_coins: "Нужно минимум 1000 монет для покупки 10 звёзд!",
-bought_10_stars: "Успешно! +10 ⭐ за 1000 🪙",
-duplicate_skin: "Повторный скин: {0}!\nКомпенсация: +300 🪙",
-congrats_new_skin: "ПОЗДРАВЛЯЕМ! Новый скин:\n[{0}]!",
-congrats_excl_skin: "НЕВЕРОЯТНО! Эксклюзивный скин:\n[{0}]!",
-all_excl_unlocked: "Все флаги уже открыты!\nКомпенсация: +1000 🪙 и +15 ⭐!",
-not_enough_coins: "Не хватает монет! Нужно {0} 🪙",
-selected: "Выбран: {0}",
-play_level: "▶ ИГРАТЬ (УР. {0})",
-slot_ready: "КРУТИ!",
-slot_empty: "Ничего 💀",
+                    joy_setting: "Тип джойстика",
+                    joy_classic: "Классик",
+                    joy_row: "В ряд",
+                    joy_analog: "Стик 360°",
+                    minimap_setting: "Миникарта на арене",
+                    vib_setting: "Вибрация (Haptic)",
+                    on_btn: "ВКЛ",
+                    off_btn: "ВЫКЛ",
+                    save_btn: "СОХРАНИТЬ",
+                    info_title: "СПРАВКА И ГАЙД",
+                    info_stars_title: "⭐ Валюта Звёзды",
+                    info_stars_desc: "• Награда = номер уровня! (Ур. 1 = 1⭐, Ур. 5 = 5⭐ и т.д.)<br>• Обмен в казино: 1000 🪙 = 10 ⭐.<br>• Прокрутка казино стоит 10 ⭐.",
+                    info_excl_title: "👑 Эксклюзивные Скины (Флаги)",
+                    info_excl_desc: "• Каждые 5 уровней (5, 10, 15...) открывается БЕСПЛАТНАЯ рулетка с флагами (РФ, США, Китай)!",
+                    info_skins_title: "🎨 Редкости Скинов",
+                    info_skins_desc: "• ⚪ Обычные (10 шт): матовые цвета.<br>• 🟣 Эпик (7 шт): пульсирующий глоу раз в 5 сек.<br>• 🟡 Мифик (3 шт): постоянный ультра-градиент.",
+                    ok_btn: "ПОНЯТНО",
+                    wardrobe_title: "ГАРДЕРОБ",
+                    tab_all: "Все",
+                    tab_common: "Обыч",
+                    tab_epic: "Эпик",
+                    tab_mythic: "Мифик",
+                    tab_exclusive: "Эксклюзив",
+                    buy_btn: "КУПИТЬ",
+                    spin_btn: "КРУТИТЬ (10 ⭐)",
+                    spin_free_btn: "КРУТИТЬ БЕСПЛАТНО!",
+                    continue_btn: "ПРОДОЛЖИТЬ",
+                    exchange_stars_btn: "+ Обменять 1000 🪙 на 10 ⭐",
+                    level_passed: "УРОВЕНЬ ПРОЙДЕН!",
+                    great_job: "Отличный заезд!",
+                    win_reward: "🎁 НАГРАДА: +{0} ⭐ ЗВЁЗД!",
+                    next_btn: "ДАЛЬШЕ ▶",
+                    retry_btn: "ЗАНОВО",
+                    menu_btn: "В МЕНЮ",
+                    game_over_title: "ИГРА ОКОНЧЕНА",
+                    pause_btn: "⏸ Пауза",
+                    start_btn: "▶ Старт",
+                    sprint_btn: "⚡ СПРИНТ",
+                    sprint_on: "⚡ СПРИНТ ВКЛ",
+                    coins_casino_title: "МОНЕТНОЕ КАЗИНО",
+                    skins_casino_title: "КАЗИНО СКИНОВ",
+                    excl_roulette_title: "👑 ЭКСКЛЮЗИВНАЯ РУЛЕТКА!",
+                    excl_roulette_desc: "Награда за каждые 5 уровней! Испытай удачу!",
+                    coins_casino_hint: "Шансы: 50% Пусто | 30% 60🪙<br>15% 150🪙 | 4% 500🪙 | 1% 1500🪙",
+                    skins_casino_hint: "Шансы: Обычный 70% | Эпик 25% | Мифик 5%<br>Повторный скин: компенсация +300🪙",
+                    collision: "Столкновение!",
+                    all_levels_beaten: "Все 13 уровней пройдены!",
+                    champion: "АБСОЛЮТНЫЙ ЧЕМПИОН! 👑",
+                    first_level_btn: "В НАЧАЛО (УР. 1)",
+                    need_stars_alert: "Нужно 10 звёзд (⭐)! Заработайте их за уровни или купите за монеты.",
+                    need_1000_coins: "Нужно минимум 1000 монет для покупки 10 звёзд!",
+                    bought_10_stars: "Успешно! +10 ⭐ за 1000 🪙",
+                    duplicate_skin: "Повторный скин: {0}!\nКомпенсация: +300 🪙",
+                    congrats_new_skin: "ПОЗДРАВЛЯЕМ! Новый скин:\n[{0}]!",
+                    congrats_excl_skin: "НЕВЕРОЯТНО! Эксклюзивный скин:\n[{0}]!",
+                    all_excl_unlocked: "Все флаги уже открыты!\nКомпенсация: +1000 🪙 и +15 ⭐!",
+                    not_enough_coins: "Не хватает монет! Нужно {0} 🪙",
+                    selected: "Выбран: {0}",
+                    play_level: "▶ ИГРАТЬ (УР. {0})",
+                    slot_ready: "КРУТИ!",
+                    slot_empty: "Ничего 💀",
 slot_jackpot: "🏆 1500 🪙!",
-exclusive_locked_hint: "Выпадает только в рулетке за каждые 5 уровней!"
-},
-en: {
-lvl: "Lvl.",
-game_title: "NEON SNAKE",
-menu_skins: "🎨 WARDROBE",
-menu_casino: "🎰 CASINO",
-casino_select_title: "SELECT CASINO",
-casino_coins_btn: "🪙 COINS CASINO (10 ⭐)",
-casino_skins_btn: "🎨 STAR SKINS CASINO (10 ⭐)",
-back_btn: "BACK",
-settings_title: "SETTINGS",
-lang_setting: "Language / Язык",
-fps_setting: "Frames per second (FPS)",
-joy_setting: "Joystick Type",
-joy_classic: "Classic",
-joy_row: "In Row",
-joy_analog: "360° Stick",
-minimap_setting: "Minimap on Arena",
-vib_setting: "Vibration (Haptic)",
-on_btn: "ON",
-off_btn: "OFF",
-save_btn: "SAVE",
-info_title: "HELP & GUIDE",
-info_stars_title: "⭐ Star Currency",
-info_stars_desc: "• Reward = level number! (Lvl. 1 = 1⭐, Lvl. 5 = 5⭐ etc.)<br>• Casino exchange: 1000 🪙 = 10 ⭐.<br>• Casino spin costs 10 ⭐.",
-info_excl_title: "👑 Exclusive Skins (Flags)",
-info_excl_desc: "• Every 5 levels (5, 10, 15...) unlocks a FREE roulette with flag skins (RF, USA, China)!",
-info_skins_title: "🎨 Skin Rarities",
-info_skins_desc: "• ⚪ Common (10 pcs): matte colors.<br>• 🟣 Epic (7 pcs): pulse glow every 5s.<br>• 🟡 Mythic (3 pcs): permanent ultra-gradient.",
-ok_btn: "GOT IT",
-wardrobe_title: "WARDROBE",
-tab_all: "All",
-tab_common: "Common",
-tab_epic: "Epic",
-tab_mythic: "Mythic",
-tab_exclusive: "Exclusive",
-buy_btn: "BUY",
-spin_btn: "SPIN (10 ⭐)",
-spin_free_btn: "SPIN FOR FREE!",
-continue_btn: "CONTINUE",
-exchange_stars_btn: "+ Exchange 1000 🪙 for 10 ⭐",
-level_passed: "LEVEL COMPLETED!",
-great_job: "Great run!",
-win_reward: "🎁 REWARD: +{0} ⭐ STARS!",
-next_btn: "NEXT ▶",
-retry_btn: "RETRY",
-menu_btn: "TO MENU",
-game_over_title: "GAME OVER",
-pause_btn: "⏸ Pause",
-start_btn: "▶ Resume",
-sprint_btn: "⚡ SPRINT",
-sprint_on: "⚡ SPRINT ON",
-coins_casino_title: "COINS CASINO",
-skins_casino_title: "SKINS CASINO",
-excl_roulette_title: "👑 EXCLUSIVE ROULETTE!",
-excl_roulette_desc: "Reward every 5 levels! Test your luck!",
-coins_casino_hint: "Odds: 50% Empty | 30% 60🪙<br>15% 150🪙 | 4% 500🪙 | 1% 1500🪙",
-skins_casino_hint: "Odds: Common 70% | Epic 25% | Mythic 5%<br>Duplicate skin refund: +300🪙",
-collision: "Collision!",
-all_levels_beaten: "All 13 levels completed!",
-champion: "ABSOLUTE CHAMPION! 👑",
-first_level_btn: "TO START (LVL 1)",
-need_stars_alert: "Need 10 stars (⭐)! Earn them from levels or exchange coins.",
-need_1000_coins: "Need at least 1000 coins to buy 10 stars!",
-bought_10_stars: "Success! +10 ⭐ for 1000 🪙",
+                    exclusive_locked_hint: "Выпадает только в рулетке за каждые 5 уровней!"
+                },
+                en: {
+                    lvl: "Lvl.",
+                    game_title: "NEON SNAKE",
+                    menu_skins: "🎨 WARDROBE",
+                    menu_casino: "🎰 CASINO",
+                    casino_select_title: "SELECT CASINO",
+                    casino_coins_btn: "🪙 COINS CASINO (10 ⭐)",
+                    casino_skins_btn: "🎨 STAR SKINS CASINO (10 ⭐)",
+                    back_btn: "BACK",
+                    settings_title: "SETTINGS",
+                    lang_setting: "Language / Язык",
+                    fps_setting: "Frames per second (FPS)",
+                    joy_setting: "Joystick Type",
+                    joy_classic: "Classic",
+                    joy_row: "In Row",
+                    joy_analog: "360° Stick",
+                    minimap_setting: "Minimap on Arena",
+                    vib_setting: "Vibration (Haptic)",
+                    on_btn: "ON",
+                    off_btn: "OFF",
+                    save_btn: "SAVE",
+                    info_title: "HELP & GUIDE",
+                    info_stars_title: "⭐ Star Currency",
+                    info_stars_desc: "• Reward = level number! (Lvl. 1 = 1⭐, Lvl. 5 = 5⭐ etc.)<br>• Casino exchange: 1000 🪙 = 10 ⭐.<br>• Casino spin costs 10 ⭐.",
+                    info_excl_title: "👑 Exclusive Skins (Flags)",
+                    info_excl_desc: "• Every 5 levels (5, 10, 15...) unlocks a FREE roulette with flag skins (RF, USA, China)!",
+                    info_skins_title: "🎨 Skin Rarities",
+                    info_skins_desc: "• ⚪ Common (10 pcs): matte colors.<br>• 🟣 Epic (7 pcs): pulse glow every 5s.<br>• 🟡 Mythic (3 pcs): permanent ultra-gradient.",
+                    ok_btn: "GOT IT",
+                    wardrobe_title: "WARDROBE",
+                    tab_all: "All",
+                    tab_common: "Common",
+                    tab_epic: "Epic",
+                    tab_mythic: "Mythic",
+                    tab_exclusive: "Exclusive",
+                    buy_btn: "BUY",
+                    spin_btn: "SPIN (10 ⭐)",
+                    spin_free_btn: "SPIN FOR FREE!",
+                    continue_btn: "CONTINUE",
+                    exchange_stars_btn: "+ Exchange 1000 🪙 for 10 ⭐",
+                    level_passed: "LEVEL COMPLETED!",
+                    great_job: "Great run!",
+                    win_reward: "🎁 REWARD: +{0} ⭐ STARS!",
+                    next_btn: "NEXT ▶",
+                    retry_btn: "RETRY",
+                    menu_btn: "TO MENU",
+                    game_over_title: "GAME OVER",
+                    pause_btn: "⏸ Pause",
+                    start_btn: "▶ Resume",
+                    sprint_btn: "⚡ SPRINT",
+                    sprint_on: "⚡ SPRINT ON",
+                    coins_casino_title: "COINS CASINO",
+                    skins_casino_title: "SKINS CASINO",
+                    excl_roulette_title: "👑 EXCLUSIVE ROULETTE!",
+                    excl_roulette_desc: "Reward every 5 levels! Test your luck!",
+                    coins_casino_hint: "Odds: 50% Empty | 30% 60🪙<br>15% 150🪙 | 4% 500🪙 | 1% 1500🪙",
+                    skins_casino_hint: "Odds: Common 70% | Epic 25% | Mythic 5%<br>Duplicate skin refund: +300🪙",
+                    collision: "Collision!",
+                    all_levels_beaten: "All 13 levels completed!",
+                    champion: "ABSOLUTE CHAMPION! 👑",
+                    first_level_btn: "TO START (LVL 1)",
+                    need_stars_alert: "Need 10 stars (⭐)! Earn them from levels or exchange coins.",
+                    need_1000_coins: "Need at least 1000 coins to buy 10 stars!",
+                    bought_10_stars: "Success! +10 ⭐ for 1000 🪙",
 duplicate_skin: "Duplicate skin: {0}!\nRefund: +300 🪙",
-congrats_new_skin: "CONGRATS! New skin:\n[{0}]!",
-congrats_excl_skin: "UNBELIEVABLE! Exclusive skin:\n[{0}]!",
-all_excl_unlocked: "All flags already unlocked!\nBonus reward: +1000 🪙 & +15 ⭐!",
-not_enough_coins: "Not enough coins! Need {0} 🪙",
-selected: "Selected: {0}",
-play_level: "▶ PLAY (LVL {0})",
-slot_ready: "SPIN!",
-slot_empty: "Nothing 💀",
-slot_jackpot: "🏆 1500 🪙!",
-exclusive_locked_hint: "Available only in roulette every 5 levels!"
-}
-};
+                    congrats_new_skin: "CONGRATS! New skin:\n[{0}]!",
+                    congrats_excl_skin: "UNBELIEVABLE! Exclusive skin:\n[{0}]!",
+                    all_excl_unlocked: "All flags already unlocked!\nBonus reward: +1000 🪙 & +15 ⭐!",
+                    not_enough_coins: "Not enough coins! Need {0} 🪙",
+                    selected: "Selected: {0}",
+                    play_level: "▶ PLAY (LVL {0})",
+                    slot_ready: "SPIN!",
+                    slot_empty: "Nothing 💀",
+                    slot_jackpot: "🏆 1500 🪙!",
+                    exclusive_locked_hint: "Available only in roulette every 5 levels!"
+                }
+            };
 
-const canvas = document.getElementById('game');
-const ctx = canvas.getContext('2d');
-const miniCanvas = document.getElementById('minimap');
-const mCtx = miniCanvas.getContext('2d');
-const toastEl = document.getElementById('game-toast');
+            const canvas = document.getElementById('game');
+            const ctx = canvas.getContext('2d');
+            const miniCanvas = document.getElementById('minimap');
+            const mCtx = miniCanvas.getContext('2d');
+            const toastEl = document.getElementById('game-toast');
 
-const scoreEl = document.getElementById('score');
-const goalDisplayEl = document.getElementById('goal-display');
-const levelDisplayEl = document.getElementById('level-display');
-const multDisplayEl = document.getElementById('mult-display');
-const coinsEl = document.getElementById('coins');
-const starsEl = document.getElementById('stars');
+            const scoreEl = document.getElementById('score');
+            const goalDisplayEl = document.getElementById('goal-display');
+            const levelDisplayEl = document.getElementById('level-display');
+            const multDisplayEl = document.getElementById('mult-display');
+            const coinsEl = document.getElementById('coins');
+            const starsEl = document.getElementById('stars');
 
-const cellSize = 20;
-const mapSize = 60;
+            const cellSize = 20;
+            const mapSize = 60;
 
-// Скорости: стандартная и спринт
-const SPEED_NORMAL = 175;
-const SPEED_SPRINT = 85;
+            // Скорости: стандартная и спринт
+            const SPEED_NORMAL = 175;
+            const SPEED_SPRINT = 85;
 
-// 23 СКИНА
-const SKINS = [
-{ id: 0, name: 'Матовый Белый', nameEn: 'Matte White', rarity: 'common', head: '#e2e8f0', body: '#94a3b8', glow: null, price: 0 },
-{ id: 1, name: 'Изумрудный', nameEn: 'Emerald', rarity: 'common', head: '#10b981', body: '#059669', glow: null, price: 200 },
-{ id: 2, name: 'Морская Волна', nameEn: 'Aqua Wave', rarity: 'common', head: '#06b6d4', body: '#0891b2', glow: null, price: 200 },
-{ id: 3, name: 'Песочный', nameEn: 'Sand Gold', rarity: 'common', head: '#f59e0b', body: '#d97706', glow: null, price: 200 },
-{ id: 4, name: 'Графит', nameEn: 'Graphite', rarity: 'common', head: '#64748b', body: '#475569', glow: null, price: 200 },
-{ id: 5, name: 'Лаванда', nameEn: 'Lavender', rarity: 'common', head: '#a855f7', body: '#9333ea', glow: null, price: 200 },
-{ id: 6, name: 'Коралл', nameEn: 'Coral Red', rarity: 'common', head: '#f43f5e', body: '#e11d48', glow: null, price: 200 },
-{ id: 7, name: 'Мята', nameEn: 'Mint Fresh', rarity: 'common', head: '#6ee7b7', body: '#059669', glow: null, price: 200 },
-{ id: 8, name: 'Индиго', nameEn: 'Indigo Night',rarity: 'common', head: '#6366f1', body: '#4338ca', glow: null, price: 200 },
-{ id: 9, name: 'Уголь', nameEn: 'Dark Charcoal',rarity: 'common',head: '#334155', body: '#1e293b', glow: null, price: 200 },
+            // 23 СКИНА
+            const SKINS = [
+                { id: 0, name: 'Матовый Белый', nameEn: 'Matte White', rarity: 'common', head: '#e2e8f0', body: '#94a3b8', glow: null, price: 0 },
+                { id: 1, name: 'Изумрудный',   nameEn: 'Emerald',     rarity: 'common', head: '#10b981', body: '#059669', glow: null, price: 200 },
+                { id: 2, name: 'Морская Волна', nameEn: 'Aqua Wave',   rarity: 'common', head: '#06b6d4', body: '#0891b2', glow: null, price: 200 },
+                { id: 3, name: 'Песочный',     nameEn: 'Sand Gold',   rarity: 'common', head: '#f59e0b', body: '#d97706', glow: null, price: 200 },
+                { id: 4, name: 'Графит',       nameEn: 'Graphite',    rarity: 'common', head: '#64748b', body: '#475569', glow: null, price: 200 },
+                { id: 5, name: 'Лаванда',      nameEn: 'Lavender',    rarity: 'common', head: '#a855f7', body: '#9333ea', glow: null, price: 200 },
+                { id: 6, name: 'Коралл',       nameEn: 'Coral Red',   rarity: 'common', head: '#f43f5e', body: '#e11d48', glow: null, price: 200 },
+                { id: 7, name: 'Мята',         nameEn: 'Mint Fresh',  rarity: 'common', head: '#6ee7b7', body: '#059669', glow: null, price: 200 },
+                { id: 8, name: 'Индиго',       nameEn: 'Indigo Night',rarity: 'common', head: '#6366f1', body: '#4338ca', glow: null, price: 200 },
+                { id: 9, name: 'Уголь',        nameEn: 'Dark Charcoal',rarity: 'common',head: '#334155', body: '#1e293b', glow: null, price: 200 },
 
-{ id: 10, name: 'Кибер-Фиолет', nameEn: 'Cyber Violet', rarity: 'epic', head: '#e879f9', body: '#a21caf', glow: '#d946ef', price: 600 },
-{ id: 11, name: 'Нео-Оранж', nameEn: 'Neo Orange', rarity: 'epic', head: '#fed7aa', body: '#ea580c', glow: '#f97316', price: 600 },
-{ id: 12, name: 'Электро-Блю', nameEn: 'Electro Blue', rarity: 'epic', head: '#93c5fd', body: '#2563eb', glow: '#3b82f6', price: 600 },
-{ id: 13, name: 'Кислотный Лайм',nameEn: 'Acid Lime', rarity: 'epic', head: '#bef264', body: '#65a30d', glow: '#84cc16', price: 600 },
-{ id: 14, name: 'Рубиновый Огонь',nameEn: 'Ruby Fire', rarity: 'epic', head: '#fca5a5', body: '#dc2626', glow: '#ef4444', price: 600 },
-{ id: 15, name: 'Солнечный Всплеск',nameEn: 'Solar Flare',rarity: 'epic', head: '#fef08a', body: '#ca8a04', glow: '#eab308', price: 600 },
-{ id: 16, name: 'Кибер-Роза', nameEn: 'Cyber Rose', rarity: 'epic', head: '#f472b6', body: '#be185d', glow: '#ec4899', price: 600 },
+                { id: 10, name: 'Кибер-Фиолет', nameEn: 'Cyber Violet', rarity: 'epic', head: '#e879f9', body: '#a21caf', glow: '#d946ef', price: 600 },
+                { id: 11, name: 'Нео-Оранж',    nameEn: 'Neo Orange',   rarity: 'epic', head: '#fed7aa', body: '#ea580c', glow: '#f97316', price: 600 },
+                { id: 12, name: 'Электро-Блю',  nameEn: 'Electro Blue', rarity: 'epic', head: '#93c5fd', body: '#2563eb', glow: '#3b82f6', price: 600 },
+                { id: 13, name: 'Кислотный Лайм',nameEn: 'Acid Lime',   rarity: 'epic', head: '#bef264', body: '#65a30d', glow: '#84cc16', price: 600 },
+{ id: 14, name: 'Рубиновый Огонь',nameEn: 'Ruby Fire',  rarity: 'epic', head: '#fca5a5', body: '#dc2626', glow: '#ef4444', price: 600 },
+                { id: 15, name: 'Солнечный Всплеск',nameEn: 'Solar Flare',rarity: 'epic', head: '#fef08a', body: '#ca8a04', glow: '#eab308', price: 600 },
+                { id: 16, name: 'Кибер-Роза',   nameEn: 'Cyber Rose',   rarity: 'epic', head: '#f472b6', body: '#be185d', glow: '#ec4899', price: 600 },
 
-{ id: 17, name: 'Аврора Бореалис', nameEn: 'Aurora Borealis', rarity: 'mythic', gradHead: ['#10b981', '#06b6d4'], gradBody: ['#059669', '#0284c7'], cssPreview: 'linear-gradient(135deg, #10b981, #06b6d4)', glow: '#06b6d4', price: 5000 },
-{ id: 18, name: 'Солнечная Магма', nameEn: 'Solar Magma', rarity: 'mythic', gradHead: ['#ef4444', '#f59e0b'], gradBody: ['#dc2626', '#d97706'], cssPreview: 'linear-gradient(135deg, #ef4444, #f59e0b)', glow: '#f59e0b', price: 5000 },
-{ id: 19, name: 'Космический Токсик', nameEn: 'Cosmic Toxic', rarity: 'mythic', gradHead: ['#a855f7', '#84cc16'], gradBody: ['#9333ea', '#65a30d'], cssPreview: 'linear-gradient(135deg, #a855f7, #84cc16)', glow: '#a855f7', price: 5000 },
+                { id: 17, name: 'Аврора Бореалис', nameEn: 'Aurora Borealis', rarity: 'mythic', gradHead: ['#10b981', '#06b6d4'], gradBody: ['#059669', '#0284c7'], cssPreview: 'linear-gradient(135deg, #10b981, #06b6d4)', glow: '#06b6d4', price: 5000 },
+                { id: 18, name: 'Солнечная Магма', nameEn: 'Solar Magma',    rarity: 'mythic', gradHead: ['#ef4444', '#f59e0b'], gradBody: ['#dc2626', '#d97706'], cssPreview: 'linear-gradient(135deg, #ef4444, #f59e0b)', glow: '#f59e0b', price: 5000 },
+                { id: 19, name: 'Космический Токсик', nameEn: 'Cosmic Toxic', rarity: 'mythic', gradHead: ['#a855f7', '#84cc16'], gradBody: ['#9333ea', '#65a30d'], cssPreview: 'linear-gradient(135deg, #a855f7, #84cc16)', glow: '#a855f7', price: 5000 },
 
-{
-id: 20, name: '🇷🇺 Флаг РФ', nameEn: '🇷🇺 Flag of Russia', rarity: 'exclusive',
-type: 'flag_ru', cssPreview: 'linear-gradient(180deg, #ffffff 33%, #1d4ed8 33%, #1d4ed8 66%, #dc2626 66%)',
-glow: '#3b82f6', price: null
-},
-{
-id: 21, name: '🇺🇸 Флаг США', nameEn: '🇺🇸 Flag of USA', rarity: 'exclusive',
-type: 'flag_us', cssPreview: 'linear-gradient(135deg, #1e3a8a 35%, #dc2626 35%, #ffffff 50%, #dc2626 70%, #ffffff 85%)',
-glow: '#ef4444', price: null
-},
-{
-id: 22, name: '🇨🇳 Флаг Китая', nameEn: '🇨🇳 Flag of China', rarity: 'exclusive',
-type: 'flag_cn', cssPreview: 'linear-gradient(135deg, #dc2626, #b91c1c)',
-glow: '#eab308', price: null
-}
-];
+                { 
+                    id: 20, name: '🇷🇺 Флаг РФ', nameEn: '🇷🇺 Flag of Russia', rarity: 'exclusive', 
+                    type: 'flag_ru', cssPreview: 'linear-gradient(180deg, #ffffff 33%, #1d4ed8 33%, #1d4ed8 66%, #dc2626 66%)', 
+                    glow: '#3b82f6', price: null 
+                },
+                { 
+                    id: 21, name: '🇺🇸 Флаг США', nameEn: '🇺🇸 Flag of USA', rarity: 'exclusive', 
+                    type: 'flag_us', cssPreview: 'linear-gradient(135deg, #1e3a8a 35%, #dc2626 35%, #ffffff 50%, #dc2626 70%, #ffffff 85%)', 
+                    glow: '#ef4444', price: null 
+                },
+                { 
+                    id: 22, name: '🇨🇳 Флаг Китая', nameEn: '🇨🇳 Flag of China', rarity: 'exclusive', 
+                    type: 'flag_cn', cssPreview: 'linear-gradient(135deg, #dc2626, #b91c1c)', 
+                    glow: '#eab308', price: null 
+                }
+            ];
 
-let coins = 0;
-let stars = 0;
-let unlockedSkins = [0];
-let selectedSkin = 0;
-let currentLevel = 1;
+            let coins = 0;
+            let stars = 0;
+            let unlockedSkins = [0];
+            let selectedSkin = 0;
+            let currentLevel = 1;
 
-let configFPS = 60;
-let configJoystick = 'classic';
-let configMinimap = true;
-let configVibration = true;
-let currentLang = 'ru';
+            let configFPS = 60;
+            let configJoystick = 'classic';
+            let configMinimap = true;
+            let configVibration = true;
+            let currentLang = 'ru';
 
-try {
-coins = parseInt(localStorage.getItem('snake_v12_coins') || '0', 10) || 0;
-stars = parseInt(localStorage.getItem('snake_v12_stars') || '0', 10) || 0;
-unlockedSkins = JSON.parse(localStorage.getItem('snake_v12_skins') || '[0]');
-selectedSkin = parseInt(localStorage.getItem('snake_v12_skin') || '0', 10) || 0;
-currentLevel = parseInt(localStorage.getItem('snake_v12_level') || '1', 10) || 1;
+            try {
+                coins = parseInt(localStorage.getItem('snake_v12_coins') || '0', 10) || 0;
+                stars = parseInt(localStorage.getItem('snake_v12_stars') || '0', 10) || 0;
+                unlockedSkins = JSON.parse(localStorage.getItem('snake_v12_skins') || '[0]');
+                selectedSkin = parseInt(localStorage.getItem('snake_v12_skin') || '0', 10) || 0;
+                currentLevel = parseInt(localStorage.getItem('snake_v12_level') || '1', 10) || 1;
 
-configFPS = parseInt(localStorage.getItem('snake_v12_fps') || '60', 10);
-configJoystick = localStorage.getItem('snake_v12_joy') || 'classic';
-configMinimap = localStorage.getItem('snake_v12_map') !== '0';
-configVibration = localStorage.getItem('snake_v12_vib') !== '0';
-currentLang = localStorage.getItem('snake_v12_lang') || 'ru';
-} catch (e) {}
+                configFPS = parseInt(localStorage.getItem('snake_v12_fps') || '60', 10);
+                configJoystick = localStorage.getItem('snake_v12_joy') || 'classic';
+                configMinimap = localStorage.getItem('snake_v12_map') !== '0';
+                configVibration = localStorage.getItem('snake_v12_vib') !== '0';
+                currentLang = localStorage.getItem('snake_v12_lang') || 'ru';
+            } catch (e) {}
 
-function saveStorage() {
-try {
-localStorage.setItem('snake_v12_coins', coins);
-localStorage.setItem('snake_v12_stars', stars);
-localStorage.setItem('snake_v12_skins', JSON.stringify(unlockedSkins));
-localStorage.setItem('snake_v12_skin', selectedSkin);
+            function saveStorage() {
+                try {
+                    localStorage.setItem('snake_v12_coins', coins);
+                    localStorage.setItem('snake_v12_stars', stars);
+                    localStorage.setItem('snake_v12_skins', JSON.stringify(unlockedSkins));
+                    localStorage.setItem('snake_v12_skin', selectedSkin);
 localStorage.setItem('snake_v12_level', currentLevel);
-localStorage.setItem('snake_v12_fps', configFPS);
-localStorage.setItem('snake_v12_joy', configJoystick);
-localStorage.setItem('snake_v12_map', configMinimap ? '1' : '0');
-localStorage.setItem('snake_v12_vib', configVibration ? '1' : '0');
-localStorage.setItem('snake_v12_lang', currentLang);
-} catch (e) {}
-coinsEl.textContent = coins;
-starsEl.textContent = stars;
-}
-saveStorage();
+                    localStorage.setItem('snake_v12_fps', configFPS);
+                    localStorage.setItem('snake_v12_joy', configJoystick);
+                    localStorage.setItem('snake_v12_map', configMinimap ? '1' : '0');
+                    localStorage.setItem('snake_v12_vib', configVibration ? '1' : '0');
+                    localStorage.setItem('snake_v12_lang', currentLang);
+                } catch (e) {}
+                coinsEl.textContent = coins;
+                starsEl.textContent = stars;
+            }
+            saveStorage();
 
-let toastTimeout = null;
-function showToast(text) {
-if (!toastEl) return;
-toastEl.textContent = text;
-toastEl.classList.add('show');
-if (toastTimeout) clearTimeout(toastTimeout);
-toastTimeout = setTimeout(() => {
-toastEl.classList.remove('show');
-}, 2400);
-}
+            let toastTimeout = null;
+            function showToast(text) {
+                if (!toastEl) return;
+                toastEl.textContent = text;
+                toastEl.classList.add('show');
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toastEl.classList.remove('show');
+                }, 2400);
+            }
 
-function applyLanguage() {
-const dict = I18N[currentLang];
-document.querySelectorAll('[data-i18n]').forEach(el => {
-const key = el.getAttribute('data-i18n');
-if (dict[key]) el.innerHTML = dict[key];
-});
-document.getElementById('slot-ready-text').textContent = dict.slot_ready;
-updateLevelUI();
-if (!document.getElementById('screen-skins').classList.contains('hidden')) {
-renderSkinsMenu();
-}
-}
+            function applyLanguage() {
+                const dict = I18N[currentLang];
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (dict[key]) el.innerHTML = dict[key];
+                });
+                document.getElementById('slot-ready-text').textContent = dict.slot_ready;
+                updateLevelUI();
+                if (!document.getElementById('screen-skins').classList.contains('hidden')) {
+                    renderSkinsMenu();
+                }
+            }
 
-function generateLevelConfig(lvl) {
-const goals = [20, 40, 70, 100, 130, 160, 200, 240, 280, 330, 380, 440, 500];
-const goal = goals[lvl - 1] || (lvl * 40);
-const multiplier = lvl;
+            function generateLevelConfig(lvl) {
+                const goals = [20, 40, 70, 100, 130, 160, 200, 240, 280, 330, 380, 440, 500];
+                const goal = goals[lvl - 1] || (lvl * 40);
+                const multiplier = lvl;
 
-let botsCount = 3;
-if (lvl >= 8) botsCount = 10;
-else if (lvl >= 3) botsCount = 5;
+                let botsCount = 3;
+                if (lvl >= 8) botsCount = 10;
+                else if (lvl >= 3) botsCount = 5;
 
-const obsCount = 4 + (lvl - 1) * 3;
-const obstacles = [];
-for (let i = 0; i < obsCount; i++) {
-obstacles.push({
-x: Math.floor(10 + ((i * 17) % (mapSize - 20))),
-y: Math.floor(10 + ((i * 23) % (mapSize - 20)))
-});
-}
-return { goal, multiplier, botsCount, obstacles };
-}
+                const obsCount = 4 + (lvl - 1) * 3;
+                const obstacles = [];
+                for (let i = 0; i < obsCount; i++) {
+                    obstacles.push({
+                        x: Math.floor(10 + ((i * 17) % (mapSize - 20))),
+                        y: Math.floor(10 + ((i * 23) % (mapSize - 20)))
+                    });
+                }
+                return { goal, multiplier, botsCount, obstacles };
+            }
 
-const EXP_ORBS = [
-{ points: 1, color: '#38bdf8', core: '#ffffff', glow: '#0284c7' },
-{ points: 2, color: '#facc15', core: '#fef08a', glow: '#eab308' },
-{ points: 3, color: '#4ade80', core: '#bbf7d0', glow: '#22c55e' },
-{ points: 4, color: '#c084fc', core: '#f3e8ff', glow: '#a855f7' },
-{ points: 5, color: '#f87171', core: '#fecaca', glow: '#ef4444' }
- ];
+            const EXP_ORBS = [
+                { points: 1, color: '#38bdf8', core: '#ffffff', glow: '#0284c7' },
+                { points: 2, color: '#facc15', core: '#fef08a', glow: '#eab308' },
+                { points: 3, color: '#4ade80', core: '#bbf7d0', glow: '#22c55e' },
+                { points: 4, color: '#c084fc', core: '#f3e8ff', glow: '#a855f7' },
+                { points: 5, color: '#f87171', core: '#fecaca', glow: '#ef4444' }
+            ];
 
-const BOT_PRESETS = [
-{ head: '#e879f9', body: '#a21caf', glow: '#d946ef', start: { x: 12, y: 12 } },
-{ head: '#fed7aa', body: '#ea580c', glow: '#f97316', start: { x: 48, y: 12 } },
-{ head: '#67e8f9', body: '#0891b2', glow: '#06b6d4', start: { x: 12, y: 48 } },
-{ head: '#f472b6', body: '#db2777', glow: '#ec4899', start: { x: 48, y: 48 } },
-{ head: '#bef264', body: '#65a30d', glow: '#84cc16', start: { x: 30, y: 52 } },
-{ head: '#fca5a5', body: '#b91c1c', glow: '#ef4444', start: { x: 30, y: 8 } },
-{ head: '#93c5fd', body: '#1d4ed8', glow: '#3b82f6', start: { x: 8, y: 30 } },
-{ head: '#fde68a', body: '#d97706', glow: '#f59e0b', start: { x: 52, y: 30 } },
-{ head: '#86efac', body: '#15803d', glow: '#22c55e', start: { x: 20, y: 20 } },
-{ head: '#e2e8f0', body: '#475569', glow: '#94a3b8', start: { x: 40, y: 40 } }
- ];
-
+            const BOT_PRESETS = [
+                { head: '#e879f9', body: '#a21caf', glow: '#d946ef', start: { x: 12, y: 12 } },
+                { head: '#fed7aa', body: '#ea580c', glow: '#f97316', start: { x: 48, y: 12 } },
+                { head: '#67e8f9', body: '#0891b2', glow: '#06b6d4', start: { x: 12, y: 48 } },
+                { head: '#f472b6', body: '#db2777', glow: '#ec4899', start: { x: 48, y: 48 } },
+                { head: '#bef264', body: '#65a30d', glow: '#84cc16', start: { x: 30, y: 52 } },
+                { head: '#fca5a5', body: '#b91c1c', glow: '#ef4444', start: { x: 30, y: 8 } },
+                { head: '#93c5fd', body: '#1d4ed8', glow: '#3b82f6', start: { x: 8, y: 30 } },
+                { head: '#fde68a', body: '#d97706', glow: '#f59e0b', start: { x: 52, y: 30 } },
+                { head: '#86efac', body: '#15803d', glow: '#22c55e', start: { x: 20, y: 20 } },
+                { head: '#e2e8f0', body: '#475569', glow: '#94a3b8', start: { x: 40, y: 40 } }
+            ];
 let currentLevelConfig = generateLevelConfig(currentLevel);
-let snake = [];
-let bots = [];
-let obstacles = [];
-let foods = [];
-let particles = [];
-let dx = 1, dy = 0;
-let score = 0;
-let isRunning = false;
-let isPaused = false;
-let isSprinting = false;
-let turnLocked = false;
-let isDying = false;
+            let snake = [];
+            let bots = [];
+            let obstacles = [];
+            let foods = [];
+            let particles = [];
+            let dx = 1, dy = 0;
+            let score = 0;
+            let isRunning = false;
+            let isPaused = false;
+            let isSprinting = false;
+            let turnLocked = false;
+            let isDying = false;
 
-let cameraX = 30 * cellSize;
-let cameraY = 30 * cellSize;
+            let cameraX = 30 * cellSize;
+            let cameraY = 30 * cellSize;
 
-// РАЗДЕЛЬНЫЕ ТАЙМЕРЫ: ИГРОК И БОТЫ
-let lastPlayerTickTime = 0;
-let lastBotTickTime = 0;
-let lastFrameTime = 0;
+            // РАЗДЕЛЬНЫЕ ТАЙМЕРЫ: ИГРОК И БОТЫ
+            let lastPlayerTickTime = 0;
+            let lastBotTickTime = 0;
+            let lastFrameTime = 0;
 
-function showScreen(id) {
-document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
-if (id) document.getElementById(id).classList.remove('hidden');
-}
+            function showScreen(id) {
+                document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
+                if (id) document.getElementById(id).classList.remove('hidden');
+            }
 
-function updateLevelUI() {
-scoreEl.textContent = score;
-goalDisplayEl.textContent = currentLevelConfig.goal;
-levelDisplayEl.textContent = currentLevel;
-multDisplayEl.textContent = ${currentLevelConfig.multiplier}x`;
-const dict = I18N[currentLang];
-document.getElementById('btn-start-game').textContent = dict.play_level.replace('{0}', currentLevel);
-}
+            function updateLevelUI() {
+                scoreEl.textContent = score;
+                goalDisplayEl.textContent = currentLevelConfig.goal;
+                levelDisplayEl.textContent = currentLevel;
+                multDisplayEl.textContent = `${currentLevelConfig.multiplier}x`;
+                const dict = I18N[currentLang];
+                document.getElementById('btn-start-game').textContent = dict.play_level.replace('{0}', currentLevel);
+            }
 
-function triggerHaptic() {
-if (configVibration && navigator.vibrate) {
-try { navigator.vibrate(15); } catch (e) {}
-}
-}
+            function triggerHaptic() {
+                if (configVibration && navigator.vibrate) {
+                    try { navigator.vibrate(15); } catch (e) {}
+                }
+            }
 
-function applyJoystickUI() {
-document.getElementById('dpad-classic').classList.add('hidden');
-document.getElementById('dpad-row').classList.add('hidden');
-document.getElementById('dpad-analog').classList.add('hidden');
+            function applyJoystickUI() {
+                document.getElementById('dpad-classic').classList.add('hidden');
+                document.getElementById('dpad-row').classList.add('hidden');
+                document.getElementById('dpad-analog').classList.add('hidden');
 
-if (configJoystick === 'classic') document.getElementById('dpad-classic').classList.remove('hidden');
-else if (configJoystick === 'row') document.getElementById('dpad-row').classList.remove('hidden');
-else if (configJoystick === 'analog') document.getElementById('dpad-analog').classList.remove('hidden');
-}
+                if (configJoystick === 'classic') document.getElementById('dpad-classic').classList.remove('hidden');
+                else if (configJoystick === 'row') document.getElementById('dpad-row').classList.remove('hidden');
+                else if (configJoystick === 'analog') document.getElementById('dpad-analog').classList.remove('hidden');
+            }
 
-function initSettingsUI() {
-document.querySelectorAll('#lang-selector .seg-btn').forEach(b => {
-b.classList.toggle('active', b.dataset.lang === currentLang);
-b.onclick = () => {
-document.querySelectorAll('#lang-selector .seg-btn').forEach(x => x.classList.remove('active'));
-b.classList.add('active');
-currentLang = b.dataset.lang;
-saveStorage();
-applyLanguage();
-};
-});
+            function initSettingsUI() {
+                document.querySelectorAll('#lang-selector .seg-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.lang === currentLang);
+                    b.onclick = () => {
+                        document.querySelectorAll('#lang-selector .seg-btn').forEach(x => x.classList.remove('active'));
+                        b.classList.add('active');
+                        currentLang = b.dataset.lang;
+                        saveStorage();
+                        applyLanguage();
+                    };
+                });
 
-document.querySelectorAll('#fps-selector .seg-btn').forEach(b => {
-b.classList.toggle('active', parseInt(b.dataset.val) === configFPS);
-b.onclick = () => {
-document.querySelectorAll('#fps-selector .seg-btn').forEach(x => x.classList.remove('active'));
-b.classList.add('active');
-configFPS = parseInt(b.dataset.val);
-saveStorage();
-};
-});
+                document.querySelectorAll('#fps-selector .seg-btn').forEach(b => {
+                    b.classList.toggle('active', parseInt(b.dataset.val) === configFPS);
+                    b.onclick = () => {
+                        document.querySelectorAll('#fps-selector .seg-btn').forEach(x => x.classList.remove('active'));
+                        b.classList.add('active');
+                        configFPS = parseInt(b.dataset.val);
+                        saveStorage();
+                    };
+                });
 
-document.querySelectorAll('#joystick-selector .seg-btn').forEach(b => {
-b.classList.toggle('active', b.dataset.mode === configJoystick);
-b.onclick = () => {
-document.querySelectorAll('#joystick-selector .seg-btn').forEach(x => x.classList.remove('active'));
-b.classList.add('active');
-configJoystick = b.dataset.mode;
-applyJoystickUI();
-saveStorage();
-};
-});
-
+                document.querySelectorAll('#joystick-selector .seg-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.mode === configJoystick);
+                    b.onclick = () => {
+                        document.querySelectorAll('#joystick-selector .seg-btn').forEach(x => x.classList.remove('active'));
+                        b.classList.add('active');
+                        configJoystick = b.dataset.mode;
+                        applyJoystickUI();
+                        saveStorage();
+                    };
+                });
 document.querySelectorAll('#minimap-toggle .seg-btn').forEach(b => {
-b.classList.toggle('active', (b.dataset.val === '1') === configMinimap);
-b.onclick = () => {
-document.querySelectorAll('#minimap-toggle .seg-btn').forEach(x => x.classList.remove('active'));
-b.classList.add('active');
-configMinimap = (b.dataset.val === '1');
-miniCanvas.style.display = configMinimap ? 'block' : 'none';
-saveStorage();
-};
-});
+                    b.classList.toggle('active', (b.dataset.val === '1') === configMinimap);
+                    b.onclick = () => {
+                        document.querySelectorAll('#minimap-toggle .seg-btn').forEach(x => x.classList.remove('active'));
+                        b.classList.add('active');
+                        configMinimap = (b.dataset.val === '1');
+                        miniCanvas.style.display = configMinimap ? 'block' : 'none';
+                        saveStorage();
+                    };
+                });
 
-document.querySelectorAll('#vibrate-toggle .seg-btn').forEach(b => {
-b.classList.toggle('active', (b.dataset.val === '1') === configVibration);
-b.onclick = () => {
-document.querySelectorAll('#vibrate-toggle .seg-btn').forEach(x => x.classList.remove('active'));
-b.classList.add('active');
-configVibration = (b.dataset.val === '1');
-saveStorage();
-};
-});
+                document.querySelectorAll('#vibrate-toggle .seg-btn').forEach(b => {
+                    b.classList.toggle('active', (b.dataset.val === '1') === configVibration);
+                    b.onclick = () => {
+                        document.querySelectorAll('#vibrate-toggle .seg-btn').forEach(x => x.classList.remove('active'));
+                        b.classList.add('active');
+                        configVibration = (b.dataset.val === '1');
+                        saveStorage();
+                    };
+                });
 
-miniCanvas.style.display = configMinimap ? 'block' : 'none';
-applyJoystickUI();
-applyLanguage();
-}
+                miniCanvas.style.display = configMinimap ? 'block' : 'none';
+                applyJoystickUI();
+                applyLanguage();
+            }
 
-document.getElementById('btn-open-settings').addEventListener('click', () => showScreen('screen-settings'));
-document.getElementById('btn-settings-back').addEventListener('click', () => showScreen('screen-main'));
+            document.getElementById('btn-open-settings').addEventListener('click', () => showScreen('screen-settings'));
+            document.getElementById('btn-settings-back').addEventListener('click', () => showScreen('screen-main'));
 
-document.getElementById('btn-open-info').addEventListener('click', () => showScreen('screen-info'));
-document.getElementById('btn-info-back').addEventListener('click', () => showScreen('screen-main'));
+            document.getElementById('btn-open-info').addEventListener('click', () => showScreen('screen-info'));
+            document.getElementById('btn-info-back').addEventListener('click', () => showScreen('screen-main'));
 
-// --- ГАРДЕРОБ СКИНОВ ---
-let currentSkinTab = 'all';
-let viewingSkin = selectedSkin;
+            // --- ГАРДЕРОБ СКИНОВ ---
+            let currentSkinTab = 'all';
+            let viewingSkin = selectedSkin;
 
-function getSkinName(skin) {
-return currentLang === 'en' ? skin.nameEn : skin.name;
-}
+            function getSkinName(skin) {
+                return currentLang === 'en' ? skin.nameEn : skin.name;
+            }
 
-function renderSkinsMenu() {
-const list = document.getElementById('skins-list');
-list.innerHTML = '';
+            function renderSkinsMenu() {
+                const list = document.getElementById('skins-list');
+                list.innerHTML = '';
+                
+                const filtered = SKINS.filter(s => currentSkinTab === 'all' || s.rarity === currentSkinTab);
 
-const filtered = SKINS.filter(s => currentSkinTab === 'all' || s.rarity === currentSkinTab);
+                filtered.forEach(skin => {
+                    const item = document.createElement('div');
+                    item.className = 'skin-item' + (selectedSkin === skin.id ? ' selected' : '');
+                    
+                    if (skin.gradHead || skin.cssPreview) item.style.background = skin.cssPreview;
+                    else item.style.backgroundColor = skin.head;
 
-filtered.forEach(skin => {
-const item = document.createElement('div');
-item.className = 'skin-item' + (selectedSkin === skin.id ? ' selected' : '');
+                    if (!unlockedSkins.includes(skin.id)) item.textContent = '🔒';
 
-if (skin.gradHead || skin.cssPreview) item.style.background = skin.cssPreview;
-else item.style.backgroundColor = skin.head;
+                    const pill = document.createElement('div');
+                    pill.className = `rarity-pill pill-${skin.rarity}`;
+                    pill.textContent = skin.rarity === 'common' 
+                        ? (currentLang === 'ru' ? 'Обыч' : 'Com') 
+                        : (skin.rarity === 'epic' ? 'Эпик' : (skin.rarity === 'mythic' ? 'Мифик' : 'Экскл'));
+                    item.appendChild(pill);
 
-if (!unlockedSkins.includes(skin.id)) item.textContent = '🔒';
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        previewSkin(skin.id);
+                    });
+                    list.appendChild(item);
+                });
+                previewSkin(viewingSkin);
+            }
 
-const pill = document.createElement('div');
-pill.className = rarity-pill pill-${skin.rarity}`;
-pill.textContent = skin.rarity === 'common'
-? (currentLang === 'ru' ? 'Обыч' : 'Com')
-: (skin.rarity === 'epic' ? 'Эпик' : (skin.rarity === 'mythic' ? 'Мифик' : 'Экскл'));
-item.appendChild(pill);
+            function previewSkin(id) {
+                viewingSkin = id;
+                const status = document.getElementById('skin-status');
+                const buyBtn = document.getElementById('btn-buy-skin');
+                const skin = SKINS[id];
+                const isUnlocked = unlockedSkins.includes(id);
+                const dict = I18N[currentLang];
 
-item.addEventListener('click', (e) => {
-e.preventDefault();
-previewSkin(skin.id);
-});
-list.appendChild(item);
-});
-previewSkin(viewingSkin);
-}
-
-function previewSkin(id) {
-viewingSkin = id;
-const status = document.getElementById('skin-status');
-const buyBtn = document.getElementById('btn-buy-skin');
-const skin = SKINS[id];
-const isUnlocked = unlockedSkins.includes(id);
-const dict = I18N[currentLang];
-
-render(performance.now());
-
+                render(performance.now());
 if (isUnlocked) {
-selectedSkin = id;
-saveStorage();
-status.textContent = dict.selected.replace('{0}', getSkinName(skin));
-status.style.color = '#38bdf8';
-buyBtn.classList.add('hidden');
-document.querySelectorAll('.skin-item').forEach((it, idx) => {
-const targetSkin = SKINS.filter(s => currentSkinTab === 'all' || s.rarity === currentSkinTab)[idx];
-it.classList.toggle('selected', selectedSkin === targetSkin?.id);
-});
-} else {
-if (skin.rarity === 'exclusive') {
-status.textContent = ${getSkinName(skin)} — 👑 ${dict.tab_exclusive};
-status.style.color = '#fbbf24';
-buyBtn.classList.add('hidden');
-} else {
-status.textContent = ${getSkinName(skin)} — ${skin.price} 🪙;
-status.style.color = '#facc15';
-buyBtn.textContent = ${dict.buy_btn} (${skin.price} 🪙);
-buyBtn.classList.remove('hidden');
-}
-}
-}
+                    selectedSkin = id;
+                    saveStorage();
+                    status.textContent = dict.selected.replace('{0}', getSkinName(skin));
+                    status.style.color = '#38bdf8';
+                    buyBtn.classList.add('hidden');
+                    document.querySelectorAll('.skin-item').forEach((it, idx) => {
+                        const targetSkin = SKINS.filter(s => currentSkinTab === 'all' || s.rarity === currentSkinTab)[idx];
+                        it.classList.toggle('selected', selectedSkin === targetSkin?.id);
+                    });
+                } else {
+                    if (skin.rarity === 'exclusive') {
+                        status.textContent = `${getSkinName(skin)} — 👑 ${dict.tab_exclusive}`;
+                        status.style.color = '#fbbf24';
+                        buyBtn.classList.add('hidden');
+                    } else {
+                        status.textContent = `${getSkinName(skin)} — ${skin.price} 🪙`;
+                        status.style.color = '#facc15';
+                        buyBtn.textContent = `${dict.buy_btn} (${skin.price} 🪙)`;
+                        buyBtn.classList.remove('hidden');
+                    }
+                }
+            }
 
-document.getElementById('btn-buy-skin').addEventListener('click', (e) => {
-e.preventDefault();
-const skin = SKINS[viewingSkin];
-const dict = I18N[currentLang];
-if (skin.price && coins >= skin.price) {
-coins -= skin.price;
-unlockedSkins.push(skin.id);
-selectedSkin = skin.id;
-saveStorage();
-previewSkin(skin.id);
-renderSkinsMenu();
-} else if (skin.price) {
-showToast(dict.not_enough_coins.replace('{0}', skin.price));
-}
-});
+            document.getElementById('btn-buy-skin').addEventListener('click', (e) => {
+                e.preventDefault();
+                const skin = SKINS[viewingSkin];
+                const dict = I18N[currentLang];
+                if (skin.price && coins >= skin.price) {
+                    coins -= skin.price;
+                    unlockedSkins.push(skin.id);
+                    selectedSkin = skin.id;
+                    saveStorage();
+                    previewSkin(skin.id);
+                    renderSkinsMenu();
+                } else if (skin.price) {
+                    showToast(dict.not_enough_coins.replace('{0}', skin.price));
+                }
+            });
 
-document.querySelectorAll('.tab-btn').forEach(btn => {
-btn.onclick = () => {
-document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
-btn.classList.add('active');
-currentSkinTab = btn.dataset.tab;
-renderSkinsMenu();
-};
-});
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll('.tab-btn').forEach(x => x.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentSkinTab = btn.dataset.tab;
+                    renderSkinsMenu();
+                };
+            });
 
-document.getElementById('btn-open-skins').addEventListener('click', () => {
-showScreen('screen-skins');
-renderSkinsMenu();
-});
-document.getElementById('btn-skins-back').addEventListener('click', () => showScreen('screen-main'));
+            document.getElementById('btn-open-skins').addEventListener('click', () => {
+                showScreen('screen-skins');
+                renderSkinsMenu();
+            });
+            document.getElementById('btn-skins-back').addEventListener('click', () => showScreen('screen-main'));
 
-// --- КАЗИНО ХАБ ---
-let casinoMode = 'coins';
-let spinning = false;
-const slotReel = document.getElementById('slot-reel');
+            // --- КАЗИНО ХАБ ---
+            let casinoMode = 'coins';
+            let spinning = false;
+            const slotReel = document.getElementById('slot-reel');
 
-document.getElementById('btn-open-casino-hub').addEventListener('click', () => {
-showScreen('screen-casino-select');
-});
-document.getElementById('btn-casino-select-back').addEventListener('click', () => {
-showScreen('screen-main');
-});
+            document.getElementById('btn-open-casino-hub').addEventListener('click', () => {
+                showScreen('screen-casino-select');
+            });
+            document.getElementById('btn-casino-select-back').addEventListener('click', () => {
+                showScreen('screen-main');
+            });
 
-function openCasino(mode) {
-casinoMode = mode;
-const title = document.getElementById('casino-title');
-const hint = document.getElementById('casino-hint');
-const dict = I18N[currentLang];
+            function openCasino(mode) {
+                casinoMode = mode;
+                const title = document.getElementById('casino-title');
+                const hint = document.getElementById('casino-hint');
+                const dict = I18N[currentLang];
 
-if (mode === 'coins') {
-title.textContent = dict.coins_casino_title;
-title.style.color = '#facc15';
-hint.innerHTML = dict.coins_casino_hint;
-} else {
-title.textContent = dict.skins_casino_title;
-title.style.color = '#d946ef';
-hint.innerHTML = dict.skins_casino_hint;
-}
-showScreen('screen-casino');
-}
-
+                if (mode === 'coins') {
+                    title.textContent = dict.coins_casino_title;
+                    title.style.color = '#facc15';
+                    hint.innerHTML = dict.coins_casino_hint;
+                } else {
+                    title.textContent = dict.skins_casino_title;
+                    title.style.color = '#d946ef';
+                    hint.innerHTML = dict.skins_casino_hint;
+                }
+                showScreen('screen-casino');
+            }
 document.getElementById('btn-choose-coins-casino').addEventListener('click', () => openCasino('coins'));
-document.getElementById('btn-choose-skins-casino').addEventListener('click', () => openCasino('skins'));
-document.getElementById('btn-casino-back').addEventListener('click', () => showScreen('screen-casino-select'));
+            document.getElementById('btn-choose-skins-casino').addEventListener('click', () => openCasino('skins'));
+            document.getElementById('btn-casino-back').addEventListener('click', () => showScreen('screen-casino-select'));
 
-// ПОКУПКА ЗВЁЗД БЕЗ БЕСКОНЕЧНОГО АЛЕРТА
-document.getElementById('btn-buy-stars').addEventListener('click', (e) => {
-e.preventDefault();
-const dict = I18N[currentLang];
-if (coins >= 1000) {
-coins -= 1000;
-stars += 10;
-saveStorage();
-showToast(dict.bought_10_stars);
-} else {
-showToast(dict.need_1000_coins);
-}
-});
+            // ПОКУПКА ЗВЁЗД БЕЗ БЕСКОНЕЧНОГО АЛЕРТА
+            document.getElementById('btn-buy-stars').addEventListener('click', (e) => {
+                e.preventDefault();
+                const dict = I18N[currentLang];
+                if (coins >= 1000) {
+                    coins -= 1000;
+                    stars += 10;
+                    saveStorage();
+                    showToast(dict.bought_10_stars);
+                } else {
+                    showToast(dict.need_1000_coins);
+                }
+            });
 
-document.getElementById('btn-spin').addEventListener('click', (e) => {
-e.preventDefault();
-if (spinning) return;
-const dict = I18N[currentLang];
-if (stars < 10) {
-showToast(dict.need_stars_alert);
-return;
-}
+            document.getElementById('btn-spin').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (spinning) return;
+                const dict = I18N[currentLang];
+                if (stars < 10) {
+                    showToast(dict.need_stars_alert);
+                    return;
+                }
 
-stars -= 10;
-saveStorage();
-spinning = true;
+                stars -= 10;
+                saveStorage();
+                spinning = true;
 
-const rand = Math.random() * 100;
-let finalResult = null;
+                const rand = Math.random() * 100;
+                let finalResult = null;
 
-if (casinoMode === 'coins') {
-if (rand < 1) finalResult = { text: dict.slot_jackpot, color: '#facc15', type: 'coins', val: 1500 };
-else if (rand < 5) finalResult = { text: '🎉 +500 🪙!', color: '#38bdf8', type: 'coins', val: 500 };
-else if (rand < 20) finalResult = { text: '🪙 +150 🪙', color: '#4ade80', type: 'coins', val: 150 };
-else if (rand < 50) finalResult = { text: '🪙 +60 🪙', color: '#facc15', type: 'coins', val: 60 };
-else finalResult = { text: dict.slot_empty, color: '#64748b', type: 'coins', val: 0 };
-} else {
-let chosenRarity = 'common';
-if (rand < 5) chosenRarity = 'mythic';
-else if (rand < 30) chosenRarity = 'epic';
+                if (casinoMode === 'coins') {
+                    if (rand < 1) finalResult = { text: dict.slot_jackpot, color: '#facc15', type: 'coins', val: 1500 };
+                    else if (rand < 5) finalResult = { text: '🎉 +500 🪙!', color: '#38bdf8', type: 'coins', val: 500 };
+                    else if (rand < 20) finalResult = { text: '🪙 +150 🪙', color: '#4ade80', type: 'coins', val: 150 };
+                    else if (rand < 50) finalResult = { text: '🪙 +60 🪙', color: '#facc15', type: 'coins', val: 60 };
+                    else finalResult = { text: dict.slot_empty, color: '#64748b', type: 'coins', val: 0 };
+                } else {
+                    let chosenRarity = 'common';
+                    if (rand < 5) chosenRarity = 'mythic';
+                    else if (rand < 30) chosenRarity = 'epic';
 
-const pool = SKINS.filter(s => s.rarity === chosenRarity);
-const wonSkin = pool[Math.floor(Math.random() * pool.length)];
+                    const pool = SKINS.filter(s => s.rarity === chosenRarity);
+                    const wonSkin = pool[Math.floor(Math.random() * pool.length)];
 
-finalResult = {
-text: 🎨 ${getSkinName(wonSkin)}`,
-color: chosenRarity === 'mythic' ? '#facc15' : (chosenRarity === 'epic' ? '#d946ef' : '#38bdf8'),
-type: 'skin',
-skin: wonSkin
-};
-}
+                    finalResult = {
+                        text: `🎨 ${getSkinName(wonSkin)}` ,
+                        color: chosenRarity === 'mythic' ? '#facc15' : (chosenRarity === 'epic' ? '#d946ef' : '#38bdf8'),
+                        type: 'skin',
+                        skin: wonSkin
+                    };
+                }
 
-slotReel.innerHTML = '';
-const previewItems = ['⭐ 10', '🪙 60', '🎨 SKIN', '💀 EMPTY', '⭐ 100'];
-for (let i = 0; i < 20; i++) {
-const div = document.createElement('div');
-div.className = 'slot-item';
-div.textContent = previewItems[Math.floor(Math.random() * previewItems.length)];
-slotReel.appendChild(div);
-}
-const winDiv = document.createElement('div');
-winDiv.className = 'slot-item';
-winDiv.textContent = finalResult.text;
-winDiv.style.color = finalResult.color;
-slotReel.appendChild(winDiv);
+                slotReel.innerHTML = '';
+                const previewItems = ['⭐ 10', '🪙 60', '🎨 SKIN', '💀 EMPTY', '⭐ 100'];
+                for (let i = 0; i < 20; i++) {
+                    const div = document.createElement('div');
+                    div.className = 'slot-item';
+                    div.textContent = previewItems[Math.floor(Math.random() * previewItems.length)];
+                    slotReel.appendChild(div);
+                }
+                const winDiv = document.createElement('div');
+                winDiv.className = 'slot-item';
+                winDiv.textContent = finalResult.text;
+                winDiv.style.color = finalResult.color;
+                slotReel.appendChild(winDiv);
 
-const startTime = performance.now();
-const totalDuration = 2200;
-const targetOffset = -20 * 64;
+                const startTime = performance.now();
+                const totalDuration = 2200;
+                const targetOffset = -20 * 64;
 
-function animateSlot(currentTime) {
-const progress = Math.min((currentTime - startTime) / totalDuration, 1);
-const ease = 1 - Math.pow(1 - progress, 3);
-slotReel.style.transform = translateY(${targetOffset * ease}px)`;
-
+                function animateSlot(currentTime) {
+                    const progress = Math.min((currentTime - startTime) / totalDuration, 1);
+                    const ease = 1 - Math.pow(1 - progress, 3);
+                    slotReel.style.transform = `translateY(${targetOffset * ease}px)`;
 if (progress < 1) {
-requestAnimationFrame(animateSlot);
-} else {
-spinning = false;
-if (finalResult.type === 'coins' && finalResult.val > 0) {
-coins += finalResult.val;
-} else if (finalResult.type === 'skin') {
-if (unlockedSkins.includes(finalResult.skin.id)) {
-coins += 300;
-showToast(dict.duplicate_skin.replace('{0}', getSkinName(finalResult.skin)));
-} else {
-unlockedSkins.push(finalResult.skin.id);
-selectedSkin = finalResult.skin.id;
-showToast(dict.congrats_new_skin.replace('{0}', getSkinName(finalResult.skin)));
-}
-}
-saveStorage();
-}
-}
-requestAnimationFrame(animateSlot);
-});
+                        requestAnimationFrame(animateSlot);
+                    } else {
+                        spinning = false;
+                        if (finalResult.type === 'coins' && finalResult.val > 0) {
+                            coins += finalResult.val;
+                        } else if (finalResult.type === 'skin') {
+                            if (unlockedSkins.includes(finalResult.skin.id)) {
+                                coins += 300;
+                                showToast(dict.duplicate_skin.replace('{0}', getSkinName(finalResult.skin)));
+                            } else {
+                                unlockedSkins.push(finalResult.skin.id);
+                                selectedSkin = finalResult.skin.id;
+                                showToast(dict.congrats_new_skin.replace('{0}', getSkinName(finalResult.skin)));
+                            }
+                        }
+                        saveStorage();
+                    }
+                }
+                requestAnimationFrame(animateSlot);
+            });
 
-// --- БЕСПЛАТНАЯ ЭКСКЛЮЗИВНАЯ РУЛЕТКА ---
-const exclSlotReel = document.getElementById('excl-slot-reel');
-let exclSpinning = false;
+            // --- БЕСПЛАТНАЯ ЭКСКЛЮЗИВНАЯ РУЛЕТКА ---
+            const exclSlotReel = document.getElementById('excl-slot-reel');
+            let exclSpinning = false;
 
-function openExclusiveRoulette() {
-exclSpinning = false;
-document.getElementById('btn-spin-exclusive').style.display = 'block';
-document.getElementById('btn-excl-continue').style.display = 'none';
-exclSlotReel.style.transform = 'translateY(0px)';
-exclSlotReel.innerHTML = '<div class="slot-item" style="color:#fbbf24;">🇷🇺 🇺🇸 🇨🇳</div>';
-showScreen('screen-exclusive-roulette');
-}
+            function openExclusiveRoulette() {
+                exclSpinning = false;
+                document.getElementById('btn-spin-exclusive').style.display = 'block';
+                document.getElementById('btn-excl-continue').style.display = 'none';
+                exclSlotReel.style.transform = 'translateY(0px)';
+                exclSlotReel.innerHTML = '<div class="slot-item" style="color:#fbbf24;">🇷🇺 🇺🇸 🇨🇳</div>';
+                showScreen('screen-exclusive-roulette');
+            }
 
-document.getElementById('btn-spin-exclusive').addEventListener('click', (e) => {
-e.preventDefault();
-if (exclSpinning) return;
-exclSpinning = true;
+            document.getElementById('btn-spin-exclusive').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (exclSpinning) return;
+                exclSpinning = true;
 
-const dict = I18N[currentLang];
-const exclusiveSkins = SKINS.filter(s => s.rarity === 'exclusive');
-const lockedExcl = exclusiveSkins.filter(s => !unlockedSkins.includes(s.id));
+                const dict = I18N[currentLang];
+                const exclusiveSkins = SKINS.filter(s => s.rarity === 'exclusive');
+                const lockedExcl = exclusiveSkins.filter(s => !unlockedSkins.includes(s.id));
 
-let wonSkin = null;
-let isBonus = false;
+                let wonSkin = null;
+                let isBonus = false;
 
-if (lockedExcl.length > 0) {
-wonSkin = lockedExcl[Math.floor(Math.random() * lockedExcl.length)];
-} else {
-isBonus = true;
-wonSkin = exclusiveSkins[Math.floor(Math.random() * exclusiveSkins.length)];
-}
+                if (lockedExcl.length > 0) {
+                    wonSkin = lockedExcl[Math.floor(Math.random() * lockedExcl.length)];
+                } else {
+                    isBonus = true;
+                    wonSkin = exclusiveSkins[Math.floor(Math.random() * exclusiveSkins.length)];
+                }
 
-exclSlotReel.innerHTML = '';
-for (let i = 0; i < 20; i++) {
-const rnd = exclusiveSkins[Math.floor(Math.random() * exclusiveSkins.length)];
-const div = document.createElement('div');
-div.className = 'slot-item';
-div.textContent = getSkinName(rnd);
-div.style.color = '#fbbf24';
-exclSlotReel.appendChild(div);
-}
+                exclSlotReel.innerHTML = '';
+                for (let i = 0; i < 20; i++) {
+                    const rnd = exclusiveSkins[Math.floor(Math.random() * exclusiveSkins.length)];
+                    const div = document.createElement('div');
+                    div.className = 'slot-item';
+                    div.textContent = getSkinName(rnd);
+                    div.style.color = '#fbbf24';
+                    exclSlotReel.appendChild(div);
+                }
 
-const winDiv = document.createElement('div');
-winDiv.className = 'slot-item';
-winDiv.textContent = getSkinName(wonSkin);
-winDiv.style.color = '#fbbf24';
-winDiv.style.textShadow = '0 0 10px #f59e0b';
-exclSlotReel.appendChild(winDiv);
+                const winDiv = document.createElement('div');
+                winDiv.className = 'slot-item';
+                winDiv.textContent = getSkinName(wonSkin);
+                winDiv.style.color = '#fbbf24';
+                winDiv.style.textShadow = '0 0 10px #f59e0b';
+                exclSlotReel.appendChild(winDiv);
 
-const startTime = performance.now();
-const totalDuration = 2400;
-const targetOffset = -20 * 64;
+                const startTime = performance.now();
+                const totalDuration = 2400;
+                const targetOffset = -20 * 64;
 
-function animateExcl(currentTime) {
-const progress = Math.min((currentTime - startTime) / totalDuration, 1);
-const ease = 1 - Math.pow(1 - progress, 3);
-exclSlotReel.style.transform = translateY(${targetOffset * ease}px)`;
-
+                function animateExcl(currentTime) {
+                    const progress = Math.min((currentTime - startTime) / totalDuration, 1);
+                    const ease = 1 - Math.pow(1 - progress, 3);
+                    exclSlotReel.style.transform = `translateY(${targetOffset * ease}px)`;
 if (progress < 1) {
-requestAnimationFrame(animateExcl);
-} else {
-exclSpinning = false;
-document.getElementById('btn-spin-exclusive').style.display = 'none';
-document.getElementById('btn-excl-continue').style.display = 'block';
+                        requestAnimationFrame(animateExcl);
+                    } else {
+                        exclSpinning = false;
+                        document.getElementById('btn-spin-exclusive').style.display = 'none';
+                        document.getElementById('btn-excl-continue').style.display = 'block';
 
-if (!isBonus) {
-unlockedSkins.push(wonSkin.id);
-selectedSkin = wonSkin.id;
-saveStorage();
-showToast(dict.congrats_excl_skin.replace('{0}', getSkinName(wonSkin)));
-} else {
-coins += 1000;
-stars += 15;
-saveStorage();
-showToast(dict.all_excl_unlocked);
-}
-}
-}
-requestAnimationFrame(animateExcl);
-});
+                        if (!isBonus) {
+                            unlockedSkins.push(wonSkin.id);
+                            selectedSkin = wonSkin.id;
+                            saveStorage();
+                            showToast(dict.congrats_excl_skin.replace('{0}', getSkinName(wonSkin)));
+                        } else {
+                            coins += 1000;
+                            stars += 15;
+                            saveStorage();
+                            showToast(dict.all_excl_unlocked);
+                        }
+                    }
+                }
+                requestAnimationFrame(animateExcl);
+            });
 
-document.getElementById('btn-excl-continue').addEventListener('click', (e) => {
-e.preventDefault();
-showWinScreenAfterRoulette();
-});
+            document.getElementById('btn-excl-continue').addEventListener('click', (e) => {
+                e.preventDefault();
+                showWinScreenAfterRoulette();
+            });
 
-document.getElementById('btn-to-menu').addEventListener('click', () => showScreen('screen-main'));
-document.getElementById('btn-in-game-menu').addEventListener('click', () => {
-isRunning = false;
-isDying = false;
-disableSprint();
-showScreen('screen-main');
-});
+            document.getElementById('btn-to-menu').addEventListener('click', () => showScreen('screen-main'));
+            document.getElementById('btn-in-game-menu').addEventListener('click', () => {
+                isRunning = false;
+                isDying = false;
+                disableSprint();
+                showScreen('screen-main');
+            });
 
-// --- УРОВНИ И ИГРА ---
-function initLevel(levelNum) {
-currentLevel = levelNum;
-saveStorage();
-currentLevelConfig = generateLevelConfig(currentLevel);
+            // --- УРОВНИ И ИГРА ---
+            function initLevel(levelNum) {
+                currentLevel = levelNum;
+                saveStorage();
+                currentLevelConfig = generateLevelConfig(currentLevel);
 
-snake = [{ x: 30, y: 30 }, { x: 29, y: 30 }, { x: 28, y: 30 }];
-dx = 1; dy = 0;
-score = 0;
-particles = [];
-isDying = false;
+                snake = [{ x: 30, y: 30 }, { x: 29, y: 30 }, { x: 28, y: 30 }];
+                dx = 1; dy = 0;
+                score = 0;
+                particles = [];
+                isDying = false;
 
-cameraX = snake[0].x * cellSize + cellSize / 2;
-cameraY = snake[0].y * cellSize + cellSize / 2;
+                cameraX = snake[0].x * cellSize + cellSize / 2;
+                cameraY = snake[0].y * cellSize + cellSize / 2;
 
-obstacles = [...currentLevelConfig.obstacles];
+                obstacles = [...currentLevelConfig.obstacles];
 
-bots = [];
-for (let i = 0; i < currentLevelConfig.botsCount; i++) {
-const p = BOT_PRESETS[i % BOT_PRESETS.length];
-bots.push({
-id: i,
-...p,
-body: [{ x: p.start.x, y: p.start.y }, { x: p.start.x + 1, y: p.start.y }, { x: p.start.x + 2, y: p.start.y }]
-});
-}
+                bots = [];
+                for (let i = 0; i < currentLevelConfig.botsCount; i++) {
+                    const p = BOT_PRESETS[i % BOT_PRESETS.length];
+                    bots.push({
+                        id: i,
+                        ...p,
+                        bodyColor: p.body,
+                        body: [{ x: p.start.x, y: p.start.y }, { x: p.start.x + 1, y: p.start.y }, { x: p.start.x + 2, y: p.start.y }]
+                    });
+                }
 
-foods = [];
-while (foods.length < 18) spawnSingleFood();
-updateLevelUI();
-}
+                foods = [];
+                while (foods.length < 18) spawnSingleFood();
+                updateLevelUI();
+            }
 
-function spawnSingleFood() {
-let attempts = 0;
-while (attempts < 300) {
-attempts++;
-const fx = Math.floor(Math.random() * mapSize);
-const fy = Math.floor(Math.random() * mapSize);
+            function spawnSingleFood() {
+                let attempts = 0;
+                while (attempts < 300) {
+                    attempts++;
+                    const fx = Math.floor(Math.random() * mapSize);
+                    const fy = Math.floor(Math.random() * mapSize);
 
-const occupied = obstacles.some(o => o.x === fx && o.y === fy) ||
-snake.some(s => s.x === fx && s.y === fy) ||
-bots.some(b => b.body.some(bp => bp.x === fx && bp.y === fy)) ||
-foods.some(f => f.x === fx && f.y === fy);
-if (!occupied) {
-const orb = EXP_ORBS[Math.floor(Math.random() * EXP_ORBS.length)];
-foods.push({ x: fx, y: fy, ...orb });
-break;
-}
-}
-}
+                    const occupied = obstacles.some(o => o.x === fx && o.y === fy) ||
+                                     snake.some(s => s.x === fx && s.y === fy) ||
+                                     bots.some(b => b.body.some(bp => bp.x === fx && bp.y === fy)) ||
+                                     foods.some(f => f.x === fx && f.y === fy);
+                if (!occupied) {
+                    const orb = EXP_ORBS[Math.floor(Math.random() * EXP_ORBS.length)];
+                    foods.push({ x: fx, y: fy, ...orb });
+                    break;
+                }
+                }
+            }
 
-function dropOrbsFromBot(botBody) {
-const dropCount = Math.min(botBody.length, Math.floor(4 + Math.random() * 3));
+            function dropOrbsFromBot(botBody) {
+                const dropCount = Math.min(botBody.length, Math.floor(4 + Math.random() * 3));
 for (let i = 0; i < dropCount; i++) {
-const seg = botBody[i % botBody.length];
-const orb = EXP_ORBS[Math.floor(Math.random() * EXP_ORBS.length)];
-if (!foods.some(f => f.x === seg.x && f.y === seg.y)) {
-foods.push({ x: seg.x, y: seg.y, ...orb });
-}
-}
-}
+                    const seg = botBody[i % botBody.length];
+                    const orb = EXP_ORBS[Math.floor(Math.random() * EXP_ORBS.length)];
+                    if (!foods.some(f => f.x === seg.x && f.y === seg.y)) {
+                        foods.push({ x: seg.x, y: seg.y, ...orb });
+                    }
+                }
+            }
 
-function getBotNextMove(botObj) {
-const head = botObj.body[0];
-const moves = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
+            function getBotNextMove(botObj) {
+                const head = botObj.body[0];
+                const moves = [{ x: 0, y: -1 }, { x: 0, y: 1 }, { x: -1, y: 0 }, { x: 1, y: 0 }];
 
-let nearestFood = null;
-let minDist = 9999;
-for (const f of foods) {
-const d = Math.abs(f.x - head.x) + Math.abs(f.y - head.y);
-if (d < minDist) {
-minDist = d;
-nearestFood = f;
-}
-}
+                let nearestFood = null;
+                let minDist = 9999;
+                for (const f of foods) {
+                    const d = Math.abs(f.x - head.x) + Math.abs(f.y - head.y);
+                    if (d < minDist) {
+                        minDist = d;
+                        nearestFood = f;
+                    }
+                }
 
-if (nearestFood) {
-moves.sort((a, b) => {
-const da = Math.hypot(head.x + a.x - nearestFood.x, head.y + a.y - nearestFood.y);
-const db = Math.hypot(head.x + b.x - nearestFood.x, head.y + b.y - nearestFood.y);
-return da - db;
-});
-}
+                if (nearestFood) {
+                    moves.sort((a, b) => {
+                        const da = Math.hypot(head.x + a.x - nearestFood.x, head.y + a.y - nearestFood.y);
+                        const db = Math.hypot(head.x + b.x - nearestFood.x, head.y + b.y - nearestFood.y);
+                        return da - db;
+                    });
+                }
 
-for (const m of moves) {
-const nx = head.x + m.x;
-const ny = head.y + m.y;
-if (nx >= 0 && nx < mapSize && ny >= 0 && ny < mapSize) {
-const hitObstacle = obstacles.some(o => o.x === nx && o.y === ny);
-const hitSnake = snake.some(s => s.x === nx && s.y === ny);
-const hitSelf = botObj.body.slice(0, -1).some(b => b.x === nx && b.y === ny);
-const hitOther = bots.some(ob => ob.id !== botObj.id && ob.body.some(p => p.x === nx && p.y === ny));
-if (!hitObstacle && !hitSnake && !hitSelf && !hitOther) return m;
-}
-}
-return { x: 0, y: 1 };
-}
+                for (const m of moves) {
+                    const nx = head.x + m.x;
+                    const ny = head.y + m.y;
+                    if (nx >= 0 && nx < mapSize && ny >= 0 && ny < mapSize) {
+                        const hitObstacle = obstacles.some(o => o.x === nx && o.y === ny);
+                        const hitSnake = snake.some(s => s.x === nx && s.y === ny);
+                        const hitSelf = botObj.body.slice(0, -1).some(b => b.x === nx && b.y === ny);
+                        const hitOther = bots.some(ob => ob.id !== botObj.id && ob.body.some(p => p.x === nx && p.y === ny));
+                        if (!hitObstacle && !hitSnake && !hitSelf && !hitOther) return m;
+                    }
+                }
+                return { x: 0, y: 1 };
+            }
 
-function triggerDeathAnimation(reason) {
-isDying = true;
-disableSprint();
-triggerHaptic();
+            function triggerDeathAnimation(reason) {
+                isDying = true;
+                disableSprint();
+                triggerHaptic();
 
-const skin = SKINS[selectedSkin];
-particles = [];
+                const skin = SKINS[selectedSkin];
+                particles = [];
 
-snake.forEach(part => {
-const cx = part.x * cellSize + cellSize / 2;
-const cy = part.y * cellSize + cellSize / 2;
-for (let i = 0; i < 6; i++) {
-const angle = Math.random() * Math.PI * 2;
-const speed = 2 + Math.random() * 3.5;
-particles.push({
-x: cx, y: cy,
-vx: Math.cos(angle) * speed,
-vy: Math.sin(angle) * speed,
-size: 3 + Math.random() * 3,
-color: skin.gradHead ? skin.gradHead[0] : (skin.head || '#ffffff'),
-glow: skin.glow || '#38bdf8',
-alpha: 1.0,
-decay: 0.025 + Math.random() * 0.02
-});
-}
-});
-snake = [];
-}
+                snake.forEach(part => {
+                    const cx = part.x * cellSize + cellSize / 2;
+                    const cy = part.y * cellSize + cellSize / 2;
+                    for (let i = 0; i < 6; i++) {
+                        const angle = Math.random() * Math.PI * 2;
+                        const speed = 2 + Math.random() * 3.5;
+                        particles.push({
+                            x: cx, y: cy,
+                            vx: Math.cos(angle) * speed,
+                            vy: Math.sin(angle) * speed,
+                            size: 3 + Math.random() * 3,
+                            color: skin.gradHead ? skin.gradHead[0] : (skin.head || '#ffffff'),
+                            glow: skin.glow || '#38bdf8',
+                            alpha: 1.0,
+                            decay: 0.025 + Math.random() * 0.02
+                        });
+                    }
+                });
+                snake = [];
+                isRunning = false;
+                const reasonEl = document.getElementById('over-reason');
+                if (reasonEl) reasonEl.textContent = reason || I18N[currentLang].collision;
+                showScreen('screen-over');
+            }
 
-function triggerLevelWin() {
-isRunning = false;
-disableSprint();
-triggerHaptic();
+            function triggerLevelWin() {
+                isRunning = false;
+                disableSprint();
+                triggerHaptic();
 
-const earnedStars = currentLevel;
-stars += earnedStars;
-saveStorage();
+                const earnedStars = currentLevel;
+                stars += earnedStars;
+                saveStorage();
 
-if (currentLevel % 5 === 0) {
-openExclusiveRoulette();
-} else {
-showWinScreenAfterRoulette();
-}
-}
+                if (currentLevel % 5 === 0) {
+                    openExclusiveRoulette();
+                } else {
+                    showWinScreenAfterRoulette();
+                }
+            }
 
-function showWinScreenAfterRoulette() {
+            function showWinScreenAfterRoulette() {
 const winTitle = document.getElementById('win-title');
-const winDesc = document.getElementById('win-desc');
-const nextBtn = document.getElementById('btn-win-next');
-const dict = I18N[currentLang];
+                const winDesc = document.getElementById('win-desc');
+                const nextBtn = document.getElementById('btn-win-next');
+                const dict = I18N[currentLang];
 
-const earnedStars = currentLevel;
-document.getElementById('win-reward-badge').textContent = dict.win_reward.replace('{0}', earnedStars);
+                const earnedStars = currentLevel;
+                document.getElementById('win-reward-badge').textContent = dict.win_reward.replace('{0}', earnedStars);
 
-if (currentLevel < 13) {
-winTitle.textContent = dict.level_passed;
-winDesc.textContent = dict.great_job;
-nextBtn.textContent = dict.next_btn;
-} else {
-winTitle.textContent = dict.champion;
-winDesc.textContent = dict.all_levels_beaten;
-nextBtn.textContent = dict.first_level_btn;
-}
-showScreen('screen-win');
-}
+                if (currentLevel < 13) {
+                    winTitle.textContent = dict.level_passed;
+                    winDesc.textContent = dict.great_job;
+                    nextBtn.textContent = dict.next_btn;
+                } else {
+                    winTitle.textContent = dict.champion;
+                    winDesc.textContent = dict.all_levels_beaten;
+                    nextBtn.textContent = dict.first_level_btn;
+                }
+                showScreen('screen-win');
+            }
 
-document.getElementById('btn-win-next').addEventListener('click', (e) => {
-e.preventDefault();
-if (currentLevel < 13) startGame(currentLevel + 1);
-else startGame(1);
-});
+            document.getElementById('btn-win-next').addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentLevel < 13) startGame(currentLevel + 1);
+                else startGame(1);
+            });
 
-document.getElementById('btn-win-retry').addEventListener('click', (e) => {
-e.preventDefault();
-startGame(currentLevel);
-});
+            document.getElementById('btn-win-retry').addEventListener('click', (e) => {
+                e.preventDefault();
+                startGame(currentLevel);
+            });
 
-document.getElementById('btn-win-menu').addEventListener('click', (e) => {
-e.preventDefault();
-showScreen('screen-main');
-});
+            document.getElementById('btn-win-menu').addEventListener('click', (e) => {
+                e.preventDefault();
+                showScreen('screen-main');
+            });
 
-// ШАГ ИГРОКА (ЗАВИСИТ ОТ СПРИНТА: 85мс или 175мс)
-function tickPlayer() {
-turnLocked = false;
-const cfg = currentLevelConfig;
-const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-const foodIdx = foods.findIndex(f => f.x === head.x && f.y === head.y);
-const willEat = (foodIdx !== -1);
+            // ШАГ ИГРОКА (ЗАВИСИТ ОТ СПРИНТА: 85мс или 175мс)
+            function tickPlayer() {
+                turnLocked = false;
+                const cfg = currentLevelConfig;
+                const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+                const foodIdx = foods.findIndex(f => f.x === head.x && f.y === head.y);
+                const willEat = (foodIdx !== -1);
 
-const hitWall = head.x < 0 || head.x >= mapSize || head.y < 0 || head.y >= mapSize;
-const hitObstacle = obstacles.some(o => o.x === head.x && o.y === head.y);
-const hitSelf = (willEat ? snake : snake.slice(0, -1)).some(s => s.x === head.x && s.y === head.y);
-const hitAnyBot = bots.some(b => b.body.some(p => p.x === head.x && p.y === head.y));
+                const hitWall = head.x < 0 || head.x >= mapSize || head.y < 0 || head.y >= mapSize;
+                const hitObstacle = obstacles.some(o => o.x === head.x && o.y === head.y);
+                const hitSelf = (willEat ? snake : snake.slice(0, -1)).some(s => s.x === head.x && s.y === head.y);
+                const hitAnyBot = bots.some(b => b.body.some(p => p.x === head.x && p.y === head.y));
 
-if (hitWall || hitObstacle || hitSelf || hitAnyBot) {
-return triggerDeathAnimation(I18N[currentLang].collision);
-}
+                if (hitWall || hitObstacle || hitSelf || hitAnyBot) {
+                    return triggerDeathAnimation(I18N[currentLang].collision);
+                }
 
-snake.unshift(head);
+                snake.unshift(head);
 
-if (willEat) {
-const orb = foods[foodIdx];
-score += orb.points;
-coins += (5 * orb.points) * cfg.multiplier;
-saveStorage();
-updateLevelUI();
-triggerHaptic();
+                if (willEat) {
+                    const orb = foods[foodIdx];
+                    score += orb.points;
+                    coins += (5 * orb.points) * cfg.multiplier;
+                    saveStorage();
+                    updateLevelUI();
+                    triggerHaptic();
 
-foods.splice(foodIdx, 1);
-spawnSingleFood();
+                    foods.splice(foodIdx, 1);
+                    spawnSingleFood();
 
-if (score >= cfg.goal) return triggerLevelWin();
-} else {
-snake.pop();
-}
-}
+                    if (score >= cfg.goal) return triggerLevelWin();
+                } else {
+                    snake.pop();
+                }
+            }
 
-// ШАГ БОТОВ (ВСЕГДА 175мс — НЕ УСКОРЯЮТСЯ ОТ СПРИНТА ИГРОКА!)
-function tickBots() {
-bots.forEach(b => {
-const bm = getBotNextMove(b);
-const bh = { x: b.body[0].x + bm.x, y: b.body[0].y + bm.y };
-const bFoodIdx = foods.findIndex(f => f.x === bh.x && f.y === bh.y);
-const bWillEat = (bFoodIdx !== -1);
+            // ШАГ БОТОВ (ВСЕГДА 175мс — НЕ УСКОРЯЮТСЯ ОТ СПРИНТА ИГРОКА!)
+            function tickBots() {
+                bots.forEach(b => {
+                    const bm = getBotNextMove(b);
+                    const bh = { x: b.body[0].x + bm.x, y: b.body[0].y + bm.y };
+                    const bFoodIdx = foods.findIndex(f => f.x === bh.x && f.y === bh.y);
+                    const bWillEat = (bFoodIdx !== -1);
 
-const bHitWall = bh.x < 0 || bh.x >= mapSize || bh.y < 0 || bh.y >= mapSize;
-const bHitObstacle = obstacles.some(o => o.x === bh.x && o.y === bh.y);
-const bHitSelf = (bWillEat ? b.body : b.body.slice(0, -1)).some(p => p.x === bh.x && p.y === bh.y);
-const bHitOther = bots.some(ob => ob.id !== b.id && ob.body.some(p => p.x === bh.x && p.y === bh.y));
-const bHitPlayer = snake.some(s => s.x === bh.x && s.y === bh.y);
+                    const bHitWall = bh.x < 0 || bh.x >= mapSize || bh.y < 0 || bh.y >= mapSize;
+                    const bHitObstacle = obstacles.some(o => o.x === bh.x && o.y === bh.y);
+                    const bHitSelf = (bWillEat ? b.body : b.body.slice(0, -1)).some(p => p.x === bh.x && p.y === bh.y);
+                    const bHitOther = bots.some(ob => ob.id !== b.id && ob.body.some(p => p.x === bh.x && p.y === bh.y));
+                    const bHitPlayer = snake.some(s => s.x === bh.x && s.y === bh.y);
+                    if (bHitWall || bHitObstacle || bHitSelf || bHitOther || bHitPlayer) {
+                        dropOrbsFromBot(b.body);
+                        b.body = [{ x: 5 + Math.floor(Math.random() * (mapSize - 10)), y: 5 + Math.floor(Math.random() * (mapSize - 10)) }];
+                        return;
+                    }
 
-if (bHitWall || bHitObstacle || bHitSelf || bHitOther || bHitPlayer) {
-if (bHitPlayer) dropOrbsFromBot(b.body);
-b.body = [{ x: b.start.x, y: b.start.y }, { x: b.start.x + 1, y: b.start.y }, { x: b.start.x + 2, y: b.start.y }];
-} else {
-b.body.unshift(bh);
-if (bWillEat) {
-foods.splice(bFoodIdx, 1);
-spawnSingleFood();
-} else {
-b.body.pop();
-}
-}
-});
-}
+                    b.body.unshift(bh);
+                    if (bWillEat) {
+                        foods.splice(bFoodIdx, 1);
+                        dropOrbsFromBot([bh]);
+                        spawnSingleFood();
+                    } else {
+                        b.body.pop();
+                    }
+                });
+            }
 
-function renderMinimap() {
-if (!configMinimap) return;
-const mw = miniCanvas.width;
-const mh = miniCanvas.height;
-const scale = mw / (mapSize * cellSize);
+            function disableSprint() {
+                isSprinting = false;
+                const sprintBtn = document.getElementById('btn-sprint');
+                if (sprintBtn) sprintBtn.classList.remove('active');
+            }
 
-mCtx.clearRect(0, 0, mw, mh);
-mCtx.fillStyle = '#090d16';
-mCtx.fillRect(0, 0, mw, mh);
+            function startGame(levelNum = currentLevel) {
+                initLevel(levelNum);
+                isRunning = true;
+                isPaused = false;
+                isDying = false;
+                lastPlayerTickTime = 0;
+                lastBotTickTime = 0;
+                showScreen(null);
+            }
 
-mCtx.fillStyle = '#475569';
-obstacles.forEach(o => mCtx.fillRect(o.x * cellSize * scale, o.y * cellSize * scale, cellSize * scale + 0.5, cellSize * scale + 0.5));
+            const startBtn = document.getElementById('btn-start-game');
+            if (startBtn) startBtn.addEventListener('click', () => startGame(currentLevel));
+            const restartBtn = document.getElementById('btn-restart');
+            if (restartBtn) restartBtn.addEventListener('click', () => startGame(currentLevel));
 
-mCtx.fillStyle = '#ef4444';
-foods.forEach(f => mCtx.fillRect(f.x * cellSize * scale, f.y * cellSize * scale, 1.5, 1.5));
+            const pauseBtn = document.getElementById('btn-pause');
+            if (pauseBtn) pauseBtn.addEventListener('click', () => {
+                if (!isRunning) return;
+                isPaused = !isPaused;
+                pauseBtn.textContent = isPaused ? '▶ Продолжить' : '⏸ Пауза';
+            });
 
-mCtx.fillStyle = '#c084fc';
-bots.forEach(b => b.body.forEach(p => mCtx.fillRect(p.x * cellSize * scale, p.y * cellSize * scale, 2, 2)));
+            const sprintBtn = document.getElementById('btn-sprint');
+            if (sprintBtn) sprintBtn.addEventListener('click', () => {
+                if (!isRunning || isPaused) return;
+                isSprinting = !isSprinting;
+                sprintBtn.classList.toggle('active', isSprinting);
+            });
 
-if (snake.length > 0) {
-mCtx.fillStyle = '#22c55e';
-snake.forEach(p => mCtx.fillRect(p.x * cellSize * scale, p.y * cellSize * scale, 2.5, 2.5));
+            function changeDirection(nx, ny) {
+                if (turnLocked || (nx === -dx && ny === -dy)) return;
+                dx = nx; dy = ny; turnLocked = true;
+            }
 
-const camBoxW = canvas.width * scale;
-const camBoxH = canvas.height * scale;
-const camBoxX = (cameraX - canvas.width / 2) * scale;
-const camBoxY = (cameraY - canvas.height / 2) * scale;
-mCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
-mCtx.lineWidth = 1;
-mCtx.strokeRect(camBoxX, camBoxY, camBoxW, camBoxH);
-}
-}
+            const directionButtons = {
+                'up': [0, -1], 'down': [0, 1], 'left': [-1, 0], 'right': [1, 0]
+            };
+            document.querySelectorAll('[data-direction]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const d = directionButtons[btn.dataset.direction];
+                    if (d) changeDirection(d[0], d[1]);
+                });
+            });
+            const directionIds = { up: 'up', down: 'down', left: 'left', right: 'right', 'row-up': 'up', 'row-down': 'down', 'row-left': 'left', 'row-right': 'right' };
+            Object.entries(directionIds).forEach(([id, direction]) => {
+                const btn = document.getElementById(id);
+                if (btn) btn.addEventListener('click', () => {
+                    const d = directionButtons[direction];
+                    changeDirection(d[0], d[1]);
+                });
+            });
+            document.addEventListener('keydown', e => {
+                const keys = {
+                    ArrowUp: [0, -1], w: [0, -1], W: [0, -1],
+                    ArrowDown: [0, 1], s: [0, 1], S: [0, 1],
+                    ArrowLeft: [-1, 0], a: [-1, 0], A: [-1, 0],
+                    ArrowRight: [1, 0], d: [1, 0], D: [1, 0]
+                };
+                if (keys[e.key]) {
+                    e.preventDefault();
+                    changeDirection(keys[e.key][0], keys[e.key][1]);
+                } else if (e.key === ' ' && isRunning) {
+                    e.preventDefault();
+                    isPaused = !isPaused;
+                }
+            });
 
-function drawFlagSegment(type, px, py, isHead, index) {
-if (type === 'flag_ru') {
-const h3 = cellSize / 3;
-ctx.fillStyle = '#ffffff';
-ctx.fillRect(px + 1, py + 1, cellSize - 2, h3);
-ctx.fillStyle = '#1d4ed8';
-ctx.fillRect(px + 1, py + 1 + h3, cellSize - 2, h3);
-ctx.fillStyle = '#dc2626';
-ctx.fillRect(px + 1, py + 1 + h3 * 2, cellSize - 2, h3);
-} else if (type === 'flag_us') {
-if (isHead) {
-ctx.fillStyle = '#1e3a8a';
-ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
-ctx.fillStyle = '#ffffff';
-ctx.beginPath();
-ctx.arc(px + cellSize / 2, py + cellSize / 2, 2.5, 0, Math.PI * 2);
-ctx.fill();
-} else {
-ctx.fillStyle = (index % 2 === 0) ? '#dc2626' : '#ffffff';
-ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
-}
-} else if (type === 'flag_cn') {
-ctx.fillStyle = '#dc2626';
-ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
-if (isHead || index % 3 === 0) {
-ctx.fillStyle = '#facc15';
-ctx.beginPath();
-ctx.arc(px + cellSize / 2, py + cellSize / 2, 2, 0, Math.PI * 2);
-ctx.fill();
-}
-}
-}
+            function drawCell(x, y, color, size = cellSize, glow = null) {
+                const px = x * size, py = y * size;
+                if (glow) { ctx.shadowColor = glow; ctx.shadowBlur = 8; }
+                ctx.fillStyle = color;
+                ctx.fillRect(px + 2, py + 2, size - 4, size - 4);
+                ctx.shadowBlur = 0;
+            }
 
-function render(timestamp) {
-ctx.fillStyle = '#06080e';
-ctx.fillRect(0, 0, canvas.width, canvas.height);
+            function renderGame(now) {
+                const w = canvas.width, h = canvas.height;
+                if (!w || !h) return;
+                ctx.clearRect(0, 0, w, h);
+                ctx.fillStyle = '#06080e';
+                ctx.fillRect(0, 0, w, h);
 
-if (snake.length > 0) {
-const targetCamX = snake[0].x * cellSize + cellSize / 2;
-const targetCamY = snake[0].y * cellSize + cellSize / 2;
-cameraX += (targetCamX - cameraX) * 0.15;
-cameraY += (targetCamY - cameraY) * 0.15;
-}
+                const viewSize = mapSize * cellSize;
+                const player = snake[0];
+                if (player) {
+                    const targetX = player.x * cellSize + cellSize / 2;
+                    const targetY = player.y * cellSize + cellSize / 2;
+                    cameraX += (targetX - cameraX) * 0.12;
+                    cameraY += (targetY - cameraY) * 0.12;
+                }
+                const offsetX = w / 2 - cameraX;
+                const offsetY = h / 2 - cameraY;
+                ctx.save();
+                ctx.translate(offsetX, offsetY);
 
-const viewOffsetX = canvas.width / 2 - cameraX;
-const viewOffsetY = canvas.height / 2 - cameraY;
+                ctx.strokeStyle = 'rgba(56,189,248,0.07)';
+                ctx.lineWidth = 1;
+                for (let x = 0; x <= viewSize; x += cellSize) {
+                    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, viewSize); ctx.stroke();
+                }
+                for (let y = 0; y <= viewSize; y += cellSize) {
+                    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(viewSize, y); ctx.stroke();
+                }
 
-ctx.save();
-ctx.translate(viewOffsetX, viewOffsetY);
+                obstacles.forEach(o => drawCell(o.x, o.y, '#273449', cellSize, '#334155'));
+                foods.forEach(f => {
+                    ctx.beginPath();
+                    ctx.fillStyle = f.color;
+                    ctx.shadowColor = f.glow;
+                    ctx.shadowBlur = 12;
+                    ctx.arc(f.x * cellSize + cellSize / 2, f.y * cellSize + cellSize / 2, 5 + f.points * 0.4, 0, Math.PI * 2);
+                    ctx.fill(); ctx.shadowBlur = 0;
+                });
 
-ctx.strokeStyle = '#334155';
-ctx.lineWidth = 4;
-ctx.strokeRect(0, 0, mapSize * cellSize, mapSize * cellSize);
+                bots.forEach(b => {
+                    b.body.forEach((part, i) => drawCell(part.x, part.y, i === 0 ? b.head : b.bodyColor, cellSize, b.glow));
+                });
+                const skin = SKINS[selectedSkin] || SKINS[0];
+                snake.forEach((part, i) => {
+                    let color = i === 0 ? (skin.head || '#38bdf8') : (skin.body || skin.head || '#0284c7');
+                    if (skin.type === 'flag_ru') color = ['#fff','#1d4ed8','#dc2626'][Math.floor(part.y % 3)];
+                    if (skin.type === 'flag_cn') color = '#dc2626';
+                    if (skin.type === 'flag_us') color = i % 2 ? '#dc2626' : '#fff';
+                    drawCell(part.x, part.y, color, cellSize, skin.glow || '#38bdf8');
+                });
 
-ctx.strokeStyle = '#0e1320';
-ctx.lineWidth = 1;
-const startGridX = Math.max(0, Math.floor((cameraX - canvas.width) / cellSize) * cellSize);
-const endGridX = Math.min(mapSize * cellSize, Math.ceil((cameraX + canvas.width) / cellSize) * cellSize);
-const startGridY = Math.max(0, Math.floor((cameraY - canvas.height) / cellSize) * cellSize);
-const endGridY = Math.min(mapSize * cellSize, Math.ceil((cameraY + canvas.height) / cellSize) * cellSize);
+                particles = particles.filter(p => p.alpha > 0);
+                particles.forEach(p => {
+                    p.x += p.vx; p.y += p.vy; p.alpha -= p.decay;
+                    ctx.globalAlpha = Math.max(0, p.alpha);
+                    ctx.fillStyle = p.color;
+                    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+                });
+                ctx.globalAlpha = 1;
+                ctx.restore();
 
-for (let x = startGridX; x <= endGridX; x += cellSize) {
-ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, mapSize * cellSize); ctx.stroke();
-}
-for (let y = startGridY; y <= endGridY; y += cellSize) {
-ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(mapSize * cellSize, y); ctx.stroke();
-}
+                if (configMinimap && miniCanvas) {
+                    const mw = miniCanvas.width, mh = miniCanvas.height;
+                    mCtx.clearRect(0, 0, mw, mh);
+                    mCtx.fillStyle = '#090c13'; mCtx.fillRect(0, 0, mw, mh);
+                    const scaleX = mw / mapSize, scaleY = mh / mapSize;
+                    mCtx.fillStyle = '#64748b';
+                    obstacles.forEach(o => mCtx.fillRect(o.x * scaleX, o.y * scaleY, 2, 2));
+                    mCtx.fillStyle = '#d946ef';
+                    bots.forEach(b => { const q = b.body[0]; if (q) mCtx.fillRect(q.x * scaleX, q.y * scaleY, 3, 3); });
+                    mCtx.fillStyle = '#38bdf8';
+                    if (snake[0]) mCtx.fillRect(snake[0].x * scaleX, snake[0].y * scaleY, 4, 4);
+                }
 
-ctx.fillStyle = '#1c2436';
-obstacles.forEach(o => {
-ctx.fillRect(o.x * cellSize + 1, o.y * cellSize + 1, cellSize - 2, cellSize - 2);
-ctx.strokeStyle = '#2d3b55';
-ctx.strokeRect(o.x * cellSize + 2, o.y * cellSize + 2, cellSize - 4, cellSize - 4);
-});
+                if (isRunning && !isPaused && !isDying) {
+                    const playerDelay = isSprinting ? 85 : SPEED_NORMAL;
+                    if (!lastPlayerTickTime || now - lastPlayerTickTime >= playerDelay) {
+                        tickPlayer(); lastPlayerTickTime = now;
+                    }
+                    if (!lastBotTickTime || now - lastBotTickTime >= 175) {
+                        tickBots(); lastBotTickTime = now;
+                    }
+                }
+                requestAnimationFrame(renderGame);
+            }
 
-const pulse = Math.sin(timestamp * 0.007) * 1.2;
-foods.forEach(f => {
-const cx = f.x * cellSize + cellSize / 2;
-const cy = f.y * cellSize + cellSize / 2;
-const radius = Math.max(4, (cellSize / 2 - 2) + pulse);
-
-ctx.fillStyle = f.color;
-ctx.beginPath(); ctx.arc(cx, cy, radius, 0, Math.PI * 2); ctx.fill();
-ctx.fillStyle = f.core;
-ctx.beginPath(); ctx.arc(cx, cy, Math.max(1.8, radius * 0.45), 0, Math.PI * 2); ctx.fill();
-});
-
-bots.forEach(b => {
-b.body.forEach((p, i) => {
-ctx.fillStyle = (i === 0) ? b.head : b.body;
-ctx.fillRect(p.x * cellSize + 1, p.y * cellSize + 1, cellSize - 2, cellSize - 2);
-});
-});
-
-const skin = SKINS[selectedSkin];
-let isEpicFlash = false;
-if (skin.rarity === 'epic') {
-const cycleTime = (timestamp % 5000);
-if (cycleTime > 4400) isEpicFlash = true;
-}
-
-if (skin.rarity === 'common') {
-ctx.shadowBlur = 0;
-} else if (skin.rarity === 'epic') {
-ctx.shadowColor = skin.glow;
-ctx.shadowBlur = isEpicFlash ? 24 : 8;
-} else if (skin.rarity === 'mythic' || skin.rarity === 'exclusive') {
-ctx.shadowColor = skin.glow;
-ctx.shadowBlur = 18 + Math.sin(timestamp * 0.008) * 6;
-}
-
-snake.forEach((p, i) => {
-const px = p.x * cellSize;
-const py = p.y * cellSize;
-
-if (skin.rarity === 'exclusive') {
-drawFlagSegment(skin.type, px, py, i === 0, i);
-} else if (skin.gradHead) {
-const grad = ctx.createLinearGradient(px, py, px + cellSize, py + cellSize);
-if (i === 0) {
-grad.addColorStop(0, skin.gradHead[0]);
-grad.addColorStop(1, skin.gradHead[1]);
-} else {
-grad.addColorStop(0, skin.gradBody[0]);
-grad.addColorStop(1, skin.gradBody[1]);
-}
-ctx.fillStyle = grad;
-ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
-} else {
-ctx.fillStyle = (i === 0) ? skin.head : skin.body;
-ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
-}
-});
-ctx.shadowBlur = 0;
-
-if (particles.length > 0) {
-particles.forEach(p => {
-p.x += p.vx; p.y += p.vy;
-p.vx *= 0.96; p.vy *= 0.96;
-p.alpha -= p.decay;
-
-ctx.save();
-ctx.globalAlpha = Math.max(0, p.alpha);
-ctx.fillStyle = p.color;
-ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
-ctx.restore();
-});
-
-particles = particles.filter(p => p.alpha > 0);
-
-if (particles.length === 0 && isDying) {
-isDying = false;
-isRunning = false;
-document.getElementById('over-reason').textContent = I18N[currentLang].collision;
-showScreen('screen-over');
-}
-}
-
-ctx.restore();
-renderMinimap();
-}
-
-// ГЛАВНЫЙ ИГРОВОЙ ЦИКЛ: ИГРОК И БОТЫ ХОДЯТ ПО СВОИМ ТАЙМЕРАМ
-function gameMainLoop(timestamp) {
-if (configFPS > 0) {
-const fpsInterval = 1000 / configFPS;
-const elapsed = timestamp - lastFrameTime;
-if (elapsed < fpsInterval) {
-requestAnimationFrame(gameMainLoop);
-return;
-}
-lastFrameTime = timestamp - (elapsed % fpsInterval);
-}
-
-if (isRunning && !isPaused && !isDying) {
-// Скорость шага игрока (при спринте — 85мс, без — 175мс)
-const playerSpeed = isSprinting ? SPEED_SPRINT : SPEED_NORMAL;
-if (timestamp - lastPlayerTickTime >= playerSpeed) {
-tickPlayer();
-lastPlayerTickTime = timestamp;
-}
-
-// Скорость шага ботов ВСЕГДА неизменна (175мс)
-if (timestamp - lastBotTickTime >= SPEED_NORMAL) {
-tickBots();
-lastBotTickTime = timestamp;
-}
-}
-
-render(timestamp);
-requestAnimationFrame(gameMainLoop);
-}
-
-function startGame(levelToStart = currentLevel) {
-initLevel(levelToStart);
-showScreen(null);
-isRunning = true;
-isPaused = false;
-turnLocked = false;
-disableSprint();
-lastPlayerTickTime = performance.now();
-lastBotTickTime = performance.now();
-}
-
-document.getElementById('btn-start-game').addEventListener('click', () => startGame(currentLevel));
-document.getElementById('btn-restart').addEventListener('click', () => startGame(currentLevel));
-
-const pauseBtn = document.getElementById('btn-pause');
-pauseBtn.addEventListener('click', () => {
-if (!isRunning || isDying) return;
-isPaused = !isPaused;
-const dict = I18N[currentLang];
-pauseBtn.textContent = isPaused ? dict.start_btn : dict.pause_btn;
-});
-
-const sprintBtn = document.getElementById('btn-sprint');
-function enableSprint() {
-isSprinting = true;
-sprintBtn.classList.add('active');
-sprintBtn.textContent = I18N[currentLang].sprint_on;
-}
-function disableSprint() {
-isSprinting = false;
-sprintBtn.classList.remove('active');
-sprintBtn.textContent = I18N[currentLang].sprint_btn;
-}
-function toggleSprint() {
-if (!isRunning || isDying) return;
-if (isSprinting) disableSprint();
-else enableSprint();
-}
-sprintBtn.addEventListener('click', (e) => {
-e.preventDefault();
-toggleSprint();
-});
-
-function setDirection(newX, newY) {
-if (!isRunning || isPaused || turnLocked || isDying) return;
-if (newX === -dx && newY === 0) return;
-if (newY === -dy && newX === 0) return;
-dx = newX;
-dy = newY;
-turnLocked = true;
-}
-
-function bindDirBtn(id, x, y) {
-const el = document.getElementById(id);
-if (el) {
-el.addEventListener('pointerdown', (e) => {
-e.preventDefault();
-setDirection(x, y);
-});
-}
-}
-bindDirBtn('up', 0, -1); bindDirBtn('down', 0, 1); bindDirBtn('left', -1, 0); bindDirBtn('right', 1, 0);
-bindDirBtn('row-up', 0, -1); bindDirBtn('row-down', 0, 1); bindDirBtn('row-left', -1, 0); bindDirBtn('row-right', 1, 0);
-
-const analogPad = document.getElementById('dpad-analog');
-const analogNub = document.getElementById('analog-nub');
-let analogActive = false;
-
-function handleAnalogMove(touchX, touchY) {
-const rect = analogPad.getBoundingClientRect();
-const centerX = rect.left + rect.width / 2;
-const centerY = rect.top + rect.height / 2;
-const diffX = touchX - centerX;
-const diffY = touchY - centerY;
-const dist = Math.hypot(diffX, diffY);
-const maxRadius = rect.width / 2 - 20;
-
-const angle = Math.atan2(diffY, diffX);
-const nubDist = Math.min(dist, maxRadius);
-const nubX = Math.cos(angle) * nubDist;
-const nubY = Math.sin(angle) * nubDist;
-
-analogNub.style.transform = translate(${nubX}px, ${nubY}px)`;
-
-if (dist > 15) {
-if (Math.abs(diffX) > Math.abs(diffY)) {
-if (diffX > 0) setDirection(1, 0);
-else setDirection(-1, 0);
-} else {
-if (diffY > 0) setDirection(0, 1);
-else setDirection(0, -1);
-}
-}
-}
-
-analogPad.addEventListener('pointerdown', (e) => {
-e.preventDefault();
-analogActive = true;
-handleAnalogMove(e.clientX, e.clientY);
-});
-
-window.addEventListener('pointermove', (e) => {
-if (analogActive) handleAnalogMove(e.clientX, e.clientY);
-});
-
-window.addEventListener('pointerup', () => {
-if (analogActive) {
-analogActive = false;
-analogNub.style.transform = translate(0px, 0px);
-}
-});
-
-window.addEventListener('keydown', (e) => {
-const k = e.key.toLowerCase();
-if (k === 'arrowup' || k === 'w') setDirection(0, -1);
-if (k === 'arrowdown' || k === 's') setDirection(0, 1);
-if (k === 'arrowleft' || k === 'a') setDirection(-1, 0);
-if (k === 'arrowright' || k === 'd') setDirection(1, 0);
-if (e.key === 'Shift') toggleSprint();
-if (e.code === 'Space' && isRunning && !isDying) {
-isPaused = !isPaused;
-const dict = I18N[currentLang];
-pauseBtn.textContent = isPaused ? dict.start_btn : dict.pause_btn;
-}
-});
-
-initSettingsUI();
-initLevel(currentLevel);
-requestAnimationFrame(gameMainLoop);
-});
-</script>
+            function resizeCanvas() {
+                const rect = canvas.getBoundingClientRect();
+                const size = Math.max(1, Math.floor(rect.width * (window.devicePixelRatio || 1)));
+                canvas.width = size; canvas.height = size;
+                miniCanvas.width = 160; miniCanvas.height = 160;
+            }
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+            initSettingsUI();
+            applyLanguage();
+            updateLevelUI();
+            requestAnimationFrame(renderGame);
+        });
+    </script>
 </body>
 </html>
