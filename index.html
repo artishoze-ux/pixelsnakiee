@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Неоновая Змейка: Эксклюзивные Скины</title>
+    <title>Неоновая Змейка: v4.2.2</title>
     <style>
         * {
             box-sizing: border-box;
@@ -14,8 +14,12 @@
             -webkit-user-select: none;
         }
 
+        :root {
+            --ui-scale: 1;
+        }
+
         body {
-            background-color: #090c13;
+            background-color: #080b12;
             color: #d1d5db;
             font-family: system-ui, -apple-system, sans-serif;
             display: flex;
@@ -23,34 +27,38 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 8px;
+            padding: 6px;
             overflow: hidden;
+            transition: padding 0.3s ease;
         }
 
+        /* Верхний статус */
         .top-bar {
             display: flex;
             justify-content: space-between;
-            width: 360px;
+            width: calc(360px * var(--ui-scale));
             max-width: 96vw;
-            margin-bottom: 6px;
+            margin-bottom: calc(5px * var(--ui-scale));
             font-weight: 700;
-            font-size: 13px;
+            font-size: calc(13px * var(--ui-scale));
+            transition: width 0.3s ease, font-size 0.2s ease;
         }
 
         .currencies {
             display: flex;
-            gap: 6px;
+            gap: calc(6px * var(--ui-scale));
         }
 
         .matte-badge {
             background: #111624;
-            padding: 5px 12px;
-            border-radius: 12px;
+            padding: calc(5px * var(--ui-scale)) calc(12px * var(--ui-scale));
+            border-radius: calc(12px * var(--ui-scale));
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: calc(5px * var(--ui-scale));
             border: 1px solid #1f2738;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+            transition: all 0.2s ease;
         }
 
         .coins-badge { color: #eab308; border-color: #3b3316; }
@@ -65,10 +73,42 @@
             max-height: 96vw;
             border-radius: 18px;
             overflow: hidden;
-            background: #06080e;
+            background: #04060a;
             border: 1.5px solid #1a2233;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            transition: width 0.3s ease, height 0.3s ease;
         }
+
+        /* ПК Режим: 720x720 */
+        body.pc-screen-mode .top-bar {
+            width: calc(720px * (var(--ui-scale) * 0.9));
+            max-width: 94vw;
+            font-size: calc(15px * var(--ui-scale));
+            margin-bottom: 8px;
+        }
+
+        body.pc-screen-mode .control-panel,
+        body.pc-screen-mode .energy-bar-container {
+            width: calc(720px * (var(--ui-scale) * 0.9));
+            max-width: 94vw;
+        }
+
+        body.pc-screen-mode .game-container {
+            width: 720px;
+            height: 720px;
+            max-width: 94vw;
+            max-height: 74vh;
+        }
+
+        body.pc-screen-mode .top-corner-btn {
+            width: 42px;
+            height: 42px;
+            font-size: 18px;
+            border-radius: 12px;
+            top: 14px;
+        }
+        body.pc-screen-mode .btn-settings-pos { right: 14px; }
+        body.pc-screen-mode .btn-info-pos { right: 64px; }
 
         #game {
             display: block;
@@ -80,17 +120,15 @@
             position: absolute;
             bottom: 8px;
             left: 8px;
-            width: 80px;
-            height: 80px;
             background: rgba(9, 12, 19, 0.85);
             border: 1.5px solid #222d42;
             border-radius: 10px;
             pointer-events: none;
             z-index: 10;
             backdrop-filter: blur(4px);
+            transition: width 0.25s ease, height 0.25s ease;
         }
 
-        /* Стильное матовое уведомление вместо багованного alert */
         #game-toast {
             position: absolute;
             top: 16px;
@@ -107,7 +145,7 @@
             text-align: center;
             pointer-events: none;
             opacity: 0;
-            transition: all 0.25s ease;
+            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
             z-index: 40;
             max-width: 90%;
             white-space: pre-line;
@@ -115,6 +153,88 @@
         #game-toast.show {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
+        }
+
+        /* Индикатор собранных на арене звёзд */
+        #arena-stars-hud {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(17, 22, 36, 0.85);
+            border: 1px solid #38bdf8;
+            border-radius: 10px;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 800;
+            color: #38bdf8;
+            z-index: 12;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            pointer-events: none;
+        }
+
+        /* Хотбар энергии спринта */
+        .energy-bar-container {
+            width: calc(360px * var(--ui-scale));
+            max-width: 96vw;
+            margin-top: calc(5px * var(--ui-scale));
+            background: #0f1422;
+            border: 1px solid #1f2a3e;
+            border-radius: calc(10px * var(--ui-scale));
+            padding: calc(4px * var(--ui-scale)) calc(8px * var(--ui-scale));
+            display: flex;
+            align-items: center;
+            gap: calc(8px * var(--ui-scale));
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: width 0.3s ease;
+        }
+
+        .energy-label {
+            font-size: calc(11px * var(--ui-scale));
+            font-weight: 800;
+            color: #facc15;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            min-width: calc(76px * var(--ui-scale));
+        }
+
+        .energy-track {
+            flex: 1;
+            height: calc(10px * var(--ui-scale));
+            background: #080c16;
+            border-radius: calc(6px * var(--ui-scale));
+            overflow: hidden;
+            border: 1px solid #1a2233;
+            position: relative;
+        }
+
+        .energy-fill {
+            height: 100%;
+            width: 100%;
+            background: #ca8a04;
+            border-radius: 5px;
+            transition: width 0.05s linear;
+        }
+
+        .energy-fill.depleted {
+            background: #ef4444 !important;
+        }
+
+        .energy-value {
+            font-size: calc(10px * var(--ui-scale));
+            font-weight: 800;
+            color: #94a3b8;
+            min-width: calc(38px * var(--ui-scale));
+            text-align: right;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.97); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .modal {
@@ -131,10 +251,12 @@
             padding: 16px;
             z-index: 20;
             backdrop-filter: blur(14px);
+            animation: modalFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         .hidden { display: none !important; }
-h2 {
+
+        h2 {
             font-size: 19px;
             margin-bottom: 12px;
             color: #f1f5f9;
@@ -160,15 +282,16 @@ h2 {
             justify-content: center;
             cursor: pointer;
             z-index: 5;
-            transition: all 0.15s;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .top-corner-btn:active { transform: scale(0.92); background: #1a2235; color: #fff; }
+        .top-corner-btn:hover { background: #182136; color: #f1f5f9; border-color: #334155; }
+        .top-corner-btn:active { transform: scale(0.92) translateY(1px); background: #0f1422; }
         .btn-settings-pos { right: 12px; }
         .btn-info-pos { right: 52px; font-family: serif; font-style: italic; font-weight: bold; }
 
         .scroll-content {
             width: 100%;
-            max-height: 230px;
+            max-height: 220px;
             overflow-y: auto;
             padding: 4px 6px;
             margin-bottom: 8px;
@@ -184,6 +307,7 @@ h2 {
             border-radius: 12px;
             padding: 10px;
             margin-bottom: 8px;
+            transition: border-color 0.2s ease;
         }
 
         .card-title {
@@ -198,19 +322,35 @@ h2 {
 
         .btn-menu {
             width: 86%;
-            padding: 11px;
+            max-width: 320px;
+            padding: 11px 16px;
             margin: 4px 0;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.15s ease;
             z-index: 2;
             background: #161d2e;
             color: #e2e8f0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+                        background-color 0.2s ease,
+                        border-color 0.2s ease,
+                        box-shadow 0.2s ease,
+                        color 0.2s ease;
         }
-        .btn-menu:active { transform: scale(0.97); }
+        .btn-menu:hover {
+            background: #1c253b;
+            border-color: #2b3852;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        }
+        .btn-menu:active {
+            transform: scale(0.97) translateY(1.5px);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+            background: #121826;
+        }
 
         .btn-play-highlight {
             background: #1e293b;
@@ -219,24 +359,41 @@ h2 {
             font-size: 15px;
             box-shadow: 0 4px 16px rgba(2, 132, 199, 0.2);
         }
+        .btn-play-highlight:hover {
+            background: #25334a;
+            border-color: #0ea5e9;
+            color: #7dd3fc;
+        }
+
+        .btn-revive-stars {
+            background: linear-gradient(135deg, #0369a1, #1e3a8a);
+            color: #38bdf8;
+            border: 1px solid #0284c7;
+            font-weight: 800;
+            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.3);
+        }
+        .btn-revive-stars:hover { filter: brightness(1.15); }
 
         .btn-casino-hub {
             background: linear-gradient(135deg, #252012, #1c1828);
             color: #facc15;
             border: 1px solid #854d0e;
         }
+        .btn-casino-hub:hover { border-color: #a16207; color: #fde047; }
 
         .btn-casino-gold {
             background: #252012;
             color: #facc15;
             border: 1px solid #854d0e;
         }
+        .btn-casino-gold:hover { border-color: #a16207; }
 
         .btn-casino-skin {
             background: #24142e;
             color: #d946ef;
             border: 1px solid #86198f;
         }
+        .btn-casino-skin:hover { border-color: #a21caf; }
 
         .btn-exclusive-spin {
             background: linear-gradient(135deg, #be123c, #1d4ed8);
@@ -245,15 +402,30 @@ h2 {
             box-shadow: 0 0 16px rgba(251, 191, 36, 0.4);
             font-weight: 800;
         }
+        .btn-exclusive-spin:hover { filter: brightness(1.1); }
 
         .btn-back {
             background: #151a26;
             color: #94a3b8;
             width: auto;
+            min-width: 110px;
             padding: 7px 22px;
             margin-top: 6px;
             border: 1px solid #232b3d;
         }
+        .btn-back:hover { background: #1c2233; color: #cbd5e1; }
+
+        .btn-ok-settings {
+            background: #1e293b;
+            color: #38bdf8;
+            border: 1px solid #0284c7;
+            width: auto;
+            min-width: 110px;
+            padding: 7px 28px;
+            margin-top: 6px;
+            font-weight: 800;
+        }
+        .btn-ok-settings:hover { background: #24344d; }
 
         .setting-row {
             display: flex;
@@ -269,18 +441,21 @@ h2 {
             border-radius: 8px;
             padding: 2px;
             border: 1px solid #1a2233;
+            gap: 2px;
         }
 
         .seg-btn {
             border: none;
-background: transparent;
+            background: transparent;
             color: #64748b;
             padding: 5px 8px;
             font-size: 11px;
             font-weight: 700;
             border-radius: 6px;
             cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .seg-btn:hover { color: #cbd5e1; }
         .seg-btn.active {
             background: #1e293b;
             color: #38bdf8;
@@ -305,7 +480,9 @@ background: transparent;
             background: #101522;
             color: #64748b;
             cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        .tab-btn:hover { background: #161e30; color: #cbd5e1; }
         .tab-btn.active {
             background: #1e293b;
             color: #f1f5f9;
@@ -314,10 +491,10 @@ background: transparent;
 
         .skins-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 8px;
             margin-bottom: 8px;
-            max-height: 135px;
+            max-height: 145px;
             overflow-y: auto;
             padding: 4px;
             z-index: 2;
@@ -325,7 +502,7 @@ background: transparent;
         }
 
         .skin-item {
-            height: 48px;
+            height: 52px;
             border-radius: 12px;
             border: 2px solid #1e2638;
             cursor: pointer;
@@ -333,9 +510,11 @@ background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            transition: all 0.2s;
+            font-size: 18px;
+            transition: transform 0.18s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease, box-shadow 0.2s ease;
         }
+        .skin-item:hover { transform: scale(1.03); border-color: #334155; }
+        .skin-item:active { transform: scale(0.96); }
 
         .skin-item.selected {
             border-color: #38bdf8;
@@ -344,7 +523,7 @@ background: transparent;
         }
 
         .rarity-pill {
-            font-size: 8px;
+            font-size: 8.5px;
             font-weight: 800;
             text-transform: uppercase;
             padding: 2px 4px;
@@ -406,25 +585,33 @@ background: transparent;
         .slot-machine::after { bottom: 0; background: linear-gradient(to top, #090d16, transparent); }
 
         .control-panel {
-            width: 360px;
+            width: calc(360px * var(--ui-scale));
             max-width: 96vw;
-            margin-top: 6px;
+            margin-top: calc(5px * var(--ui-scale));
             display: flex;
             justify-content: space-between;
-            gap: 6px;
+            gap: calc(6px * var(--ui-scale));
+            transition: width 0.3s ease;
         }
-.action-btn {
+
+        .action-btn {
             flex: 1;
-            padding: 8px 0;
-            border-radius: 10px;
+            padding: calc(8px * var(--ui-scale)) 0;
+            border-radius: calc(10px * var(--ui-scale));
             border: 1px solid #1f2738;
             background: #111624;
             color: #94a3b8;
             font-weight: 700;
-            font-size: 13px;
+            font-size: calc(13px * var(--ui-scale));
             cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+                        background-color 0.2s ease,
+                        color 0.2s ease,
+                        border-color 0.2s ease;
         }
-        .action-btn:active { background: #1a2235; color: #fff; }
+        .action-btn:hover { background: #161e30; color: #f1f5f9; border-color: #27344d; }
+        .action-btn:active { transform: scale(0.97) translateY(1px); background: #0e131f; }
 
         .sprint-btn.active {
             background: #312610 !important;
@@ -433,8 +620,8 @@ background: transparent;
         }
 
         .joystick-zone {
-            margin-top: 6px;
-            height: 112px;
+            margin-top: 4px;
+            height: 110px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -456,8 +643,10 @@ background: transparent;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: all 0.15s ease;
         }
-        .dpad-classic button:active { background: #1e293b; color: #38bdf8; border-color: #38bdf8; }
+        .dpad-classic button:hover { background: #161e30; color: #38bdf8; }
+        .dpad-classic button:active { transform: scale(0.94); background: #1a253d; border-color: #0284c7; }
         .d-up    { grid-column: 2; grid-row: 1; }
         .d-left  { grid-column: 1; grid-row: 2; }
         .d-down  { grid-column: 2; grid-row: 2; }
@@ -478,8 +667,10 @@ background: transparent;
             border: 1px solid #1e2738;
             border-radius: 14px;
             cursor: pointer;
+            transition: all 0.15s ease;
         }
-        .dpad-row button:active { background: #1e293b; color: #38bdf8; border-color: #38bdf8; }
+        .dpad-row button:hover { background: #161e30; color: #38bdf8; }
+        .dpad-row button:active { transform: scale(0.94); background: #1a253d; border-color: #0284c7; }
 
         .dpad-analog {
             position: relative;
@@ -520,16 +711,18 @@ background: transparent;
     </div>
 
     <!-- Игровой контейнер -->
-    <div class="game-container">
+    <div class="game-container" id="game-container">
         <canvas id="game" width="360" height="360"></canvas>
         <canvas id="minimap" width="80" height="80"></canvas>
+        <div id="arena-stars-hud" class="hidden">⭐ <span id="arena-stars-count">0</span></div>
         <div id="game-toast"></div>
 
         <!-- Главное Меню -->
         <div id="screen-main" class="modal">
             <button class="top-corner-btn btn-info-pos" id="btn-open-info" title="Справка">i</button>
             <button class="top-corner-btn btn-settings-pos" id="btn-open-settings" title="Настройки">⚙️</button>
-<h2 data-i18n="game_title">НЕОН ЗМЕЙКА</h2>
+            
+            <h2 data-i18n="game_title">НЕОН ЗМЕЙКА</h2>
             <button class="btn-menu btn-play-highlight" id="btn-start-game">▶ ПРОДОЛЖИТЬ</button>
             <button class="btn-menu" id="btn-open-skins" data-i18n="menu_skins">🎨 ГАРДЕРОБ СКИНОВ</button>
             <button class="btn-menu btn-casino-hub" id="btn-open-casino-hub" data-i18n="menu_casino">🎰 КАЗИНО</button>
@@ -547,6 +740,23 @@ background: transparent;
         <div id="screen-settings" class="modal hidden">
             <h2 data-i18n="settings_title">НАСТРОЙКИ</h2>
             <div class="scroll-content">
+                <div class="matte-card">
+                    <div class="card-title"><span data-i18n="screen_mode_setting">Режим экрана</span></div>
+                    <div class="segmented-control" id="screen-mode-selector">
+                        <button class="seg-btn active" data-mode="mobile" data-i18n="screen_mobile">Мобильный</button>
+                        <button class="seg-btn" data-mode="pc" data-i18n="screen_pc">ПК (Большой)</button>
+                    </div>
+                </div>
+
+                <div class="matte-card">
+                    <div class="card-title"><span data-i18n="ui_scale_setting">Масштаб интерфейса</span></div>
+                    <div class="segmented-control" id="ui-scale-selector">
+                        <button class="seg-btn" data-scale="0.88">S</button>
+                        <button class="seg-btn active" data-scale="1">M</button>
+                        <button class="seg-btn" data-scale="1.15">L</button>
+                    </div>
+                </div>
+
                 <div class="matte-card">
                     <div class="card-title"><span data-i18n="lang_setting">Язык / Language</span></div>
                     <div class="segmented-control" id="lang-selector">
@@ -583,6 +793,17 @@ background: transparent;
                         </div>
                     </div>
                     <div class="setting-row" style="margin-bottom: 0;">
+                        <span data-i18n="minimap_size_setting">Размер миникарты</span>
+                        <div class="segmented-control" id="minimap-size-selector">
+                            <button class="seg-btn" data-size="s">S</button>
+                            <button class="seg-btn active" data-size="m">M</button>
+                            <button class="seg-btn" data-size="l">L</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="matte-card">
+                    <div class="setting-row" style="margin-bottom: 0;">
                         <span data-i18n="vib_setting">Вибрация (Haptic)</span>
                         <div class="segmented-control" id="vibrate-toggle">
                             <button class="seg-btn active" data-val="1" data-i18n="on_btn">ВКЛ</button>
@@ -591,24 +812,20 @@ background: transparent;
                     </div>
                 </div>
             </div>
-            <button class="btn-menu btn-back" id="btn-settings-back" data-i18n="save_btn">СОХРАНИТЬ</button>
+            <button class="btn-menu btn-ok-settings" id="btn-settings-ok">ОК</button>
         </div>
-<!-- Окно Справки -->
+
+        <!-- Окно Справки с 3 вкладками и версией v4.2.2 сбоку -->
         <div id="screen-info" class="modal hidden">
+            <div style="position: absolute; top: 14px; left: 16px; font-size: 11px; font-weight: 800; color: #38bdf8; background: #111726; border: 1px solid #1f2c42; padding: 4px 8px; border-radius: 8px;">v4.2.2</div>
             <h2 data-i18n="info_title">СПРАВКА И ГАЙД</h2>
-            <div class="scroll-content">
-                <div class="matte-card">
-                    <div class="card-title"><span style="color: #38bdf8;" data-i18n="info_stars_title">⭐ Валюта Звёзды</span></div>
-                    <div data-i18n="info_stars_desc">• Награда = номер уровня! (Ур. 1 = 1⭐, Ур. 5 = 5⭐ и т.д.)<br>• Обмен в казино: 1000 🪙 = 10 ⭐.<br>• Прокрутка казино стоит 10 ⭐.</div>
-                </div>
-                <div class="matte-card">
-                    <div class="card-title"><span style="color: #be123c;" data-i18n="info_excl_title">👑 Эксклюзивные Скины (Флаги)</span></div>
-                    <div data-i18n="info_excl_desc">• Каждые 5 уровней (5, 10, 15...) открывается БЕСПЛАТНАЯ рулетка с флагами (РФ, США, Китай)!</div>
-                </div>
-                <div class="matte-card">
-                    <div class="card-title"><span style="color: #eab308;" data-i18n="info_skins_title">🎨 Редкости Скинов</span></div>
-                    <div data-i18n="info_skins_desc">• ⚪ Обычные (10 шт): матовые цвета.<br>• 🟣 Эпик (7 шт): пульсирующий глоу раз в 5 сек.<br>• 🟡 Мифик (3 шт): постоянный ультра-градиент.</div>
-                </div>
+            <div class="tabs-header" id="info-tabs">
+                <button class="tab-btn active" data-infotab="tutorial" data-i18n="info_tab_tutorial">Туториал</button>
+                <button class="tab-btn" data-infotab="mechanics" data-i18n="info_tab_mechanics">Механики</button>
+                <button class="tab-btn" data-infotab="general" data-i18n="info_tab_general">Общее</button>
+            </div>
+            <div class="scroll-content" id="info-content-box">
+                <!-- Контент меняется скриптом -->
             </div>
             <button class="btn-menu btn-back" id="btn-info-back" data-i18n="ok_btn">ПОНЯТНО</button>
         </div>
@@ -639,7 +856,7 @@ background: transparent;
             </div>
             <div class="chances-hint" id="casino-hint"></div>
             <button class="btn-menu btn-play-highlight" id="btn-spin" data-i18n="spin_btn">КРУТИТЬ (10 ⭐)</button>
-            <button class="btn-menu" style="background:#161d2e; width:auto; padding:6px 14px; font-size:12px;" id="btn-buy-stars" data-i18n="exchange_stars_btn">+ Обменять 1000 🪙 на 10 ⭐</button>
+            <button class="btn-menu" style="background:#161d2e; width:auto; padding:6px 14px; font-size:12px;" id="btn-buy-stars" data-i18n="exchange_stars_btn">+ Обменять 1k 🪙 на 10 ⭐</button>
             <button class="btn-menu btn-back" id="btn-casino-back" data-i18n="back_btn">НАЗАД</button>
         </div>
 
@@ -647,7 +864,7 @@ background: transparent;
         <div id="screen-exclusive-roulette" class="modal hidden">
             <h2 style="color: #fbbf24; text-shadow: 0 0 14px rgba(251, 191, 36, 0.6);" data-i18n="excl_roulette_title">👑 ЭКСКЛЮЗИВНАЯ РУЛЕТКА!</h2>
             <p style="font-size: 12px; color: #cbd5e1; margin-bottom: 8px; text-align: center;" data-i18n="excl_roulette_desc">Награда за каждые 5 уровней! Испытай удачу!</p>
-<div class="slot-machine" style="border-color: #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);">
+            <div class="slot-machine" style="border-color: #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);">
                 <div class="slot-reel" id="excl-slot-reel">
                     <div class="slot-item" style="color: #fbbf24;">🇷🇺 🇺🇸 🇨🇳</div>
                 </div>
@@ -660,21 +877,34 @@ background: transparent;
         <div id="screen-win" class="modal hidden">
             <h2 style="color: #4ade80;" id="win-title" data-i18n="level_passed">УРОВЕНЬ ПРОЙДЕН!</h2>
             <p style="font-size: 13px; margin-bottom: 8px; color: #cbd5e1;" id="win-desc" data-i18n="great_job">Отличный заезд!</p>
-            <div class="matte-badge" id="win-reward-badge" style="border-color: #38bdf8; color: #38bdf8; font-size: 14px; font-weight: 800; margin-bottom: 12px;">
-                🎁 НАГРАДА: +X ⭐ ЗВЁЗД!
+            <div class="matte-badge" id="win-reward-badge" style="border-color: #38bdf8; color: #38bdf8; font-size: 14px; font-weight: 800; margin-bottom: 6px;">
+                🎁 НАГРАДА ЗА УРОВЕНЬ: +X ⭐
+            </div>
+            <div class="matte-badge" id="win-arena-stars-badge" style="border-color: #facc15; color: #facc15; font-size: 13px; font-weight: 700; margin-bottom: 12px; display: none;">
+                ⭐ ПОДОБРАНО НА АРЕНЕ: +X ⭐
             </div>
             <button class="btn-menu btn-next" id="btn-win-next" data-i18n="next_btn">ДАЛЬШЕ ▶</button>
             <button class="btn-menu" id="btn-win-retry" data-i18n="retry_btn">ЗАНОВО</button>
             <button class="btn-menu btn-back" id="btn-win-menu" data-i18n="menu_btn">В МЕНЮ</button>
         </div>
 
-        <!-- Меню Поражения -->
+        <!-- Меню Поражения / Возрождения -->
         <div id="screen-over" class="modal hidden">
             <h2 style="color: #ef4444;" data-i18n="game_over_title">ИГРА ОКОНЧЕНА</h2>
-            <p style="font-size: 13px; margin-bottom: 12px; color: #94a3b8;" id="over-reason"></p>
+            <p style="font-size: 13px; margin-bottom: 10px; color: #94a3b8;" id="over-reason"></p>
+            <button class="btn-menu btn-revive-stars" id="btn-revive-stars">🔄 ВОЗРОДИТЬСЯ ЗА 10 ⭐</button>
             <button class="btn-menu btn-play-highlight" id="btn-restart" data-i18n="retry_btn">ЗАНОВО</button>
             <button class="btn-menu btn-back" id="btn-to-menu" data-i18n="menu_btn">В МЕНЮ</button>
         </div>
+    </div>
+
+    <!-- Постоянный хотбар энергии спринта -->
+    <div class="energy-bar-container" id="energy-container">
+        <div class="energy-label"><span id="energy-sprint-label" data-i18n="sprint_btn">⚡ СПРИНТ</span></div>
+        <div class="energy-track">
+            <div class="energy-fill" id="energy-fill"></div>
+        </div>
+        <div class="energy-value" id="energy-value">100/100</div>
     </div>
 
     <!-- Панель опций -->
@@ -704,6 +934,18 @@ background: transparent;
     </div>
 
     <script>
+        function formatThousands(num) {
+            if (num >= 1000000) {
+                const val = (num / 1000000).toFixed(1).replace(/\.0$/, '');
+                return val + 'M';
+            }
+            if (num >= 1000) {
+                const val = (num / 1000).toFixed(1).replace(/\.0$/, '');
+                return val + 'k';
+            }
+            return num.toString();
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const I18N = {
                 ru: {
@@ -716,24 +958,29 @@ background: transparent;
                     casino_skins_btn: "🎨 ЗВЁЗДНОЕ КАЗИНО СКИНОВ (10 ⭐)",
                     back_btn: "НАЗАД",
                     settings_title: "НАСТРОЙКИ",
+                    screen_mode_setting: "Режим экрана",
+                    screen_mobile: "Мобильный",
+                    screen_pc: "ПК (Большой)",
+                    ui_scale_setting: "Масштаб интерфейса",
                     lang_setting: "Язык / Language",
-fps_setting: "Кадры в секунду (FPS)",
+                    fps_setting: "Кадры в секунду (FPS)",
                     joy_setting: "Тип джойстика",
                     joy_classic: "Классик",
                     joy_row: "В ряд",
                     joy_analog: "Стик 360°",
                     minimap_setting: "Миникарта на арене",
+                    minimap_size_setting: "Размер миникарты",
                     vib_setting: "Вибрация (Haptic)",
                     on_btn: "ВКЛ",
                     off_btn: "ВЫКЛ",
                     save_btn: "СОХРАНИТЬ",
                     info_title: "СПРАВКА И ГАЙД",
-                    info_stars_title: "⭐ Валюта Звёзды",
-                    info_stars_desc: "• Награда = номер уровня! (Ур. 1 = 1⭐, Ур. 5 = 5⭐ и т.д.)<br>• Обмен в казино: 1000 🪙 = 10 ⭐.<br>• Прокрутка казино стоит 10 ⭐.",
-                    info_excl_title: "👑 Эксклюзивные Скины (Флаги)",
-                    info_excl_desc: "• Каждые 5 уровней (5, 10, 15...) открывается БЕСПЛАТНАЯ рулетка с флагами (РФ, США, Китай)!",
-                    info_skins_title: "🎨 Редкости Скинов",
-                    info_skins_desc: "• ⚪ Обычные (10 шт): матовые цвета.<br>• 🟣 Эпик (7 шт): пульсирующий глоу раз в 5 сек.<br>• 🟡 Мифик (3 шт): постоянный ультра-градиент.",
+                    info_tab_tutorial: "Туториал",
+                    info_tab_mechanics: "Механики",
+                    info_tab_general: "Общее",
+                    tutorial_text: "• <b>Управление:</b> Используйте D-Pad, аналоговый стик или клавиши WASD / стрелочки.<br>• <b>Цель:</b> Собирайте сферы опыта, чтобы заполнить шкалу уровня.<br>• <b>Спринт:</b> Ускоряйтесь с помощью кнопки Спринт (Shift), следите за шкалой энергии внизу!",
+                    mechanics_text: "• <b>Казино:</b> Монетное (выигрыш монет) и Скиновое (шансы: 50% обыч, 30% эпик, 10% мифик, 30% пусто).<br>• <b>Звёзды на арене:</b> С 3 ур. на карте появляются ⭐ (x1, x2, x3). Собранные звёзды зачисляются только после победы!<br>• <b>Возрождение:</b> Стоит lvl * 10 ⭐. Дает щит на 3 сек.",
+                    general_text: "• <b>Версия:</b> v4.2.2<br>• <b>Скины:</b> 32 уникальных скина (обычные, эпические, мифические и 12 стран-флагов).<br>• <b>Множитель:</b> Растет на +1 каждые 2 уровня кампании.",
                     ok_btn: "ПОНЯТНО",
                     wardrobe_title: "ГАРДЕРОБ",
                     tab_all: "Все",
@@ -745,14 +992,16 @@ fps_setting: "Кадры в секунду (FPS)",
                     spin_btn: "КРУТИТЬ (10 ⭐)",
                     spin_free_btn: "КРУТИТЬ БЕСПЛАТНО!",
                     continue_btn: "ПРОДОЛЖИТЬ",
-                    exchange_stars_btn: "+ Обменять 1000 🪙 на 10 ⭐",
+                    exchange_stars_btn: "+ Обменять 1k 🪙 на 10 ⭐",
                     level_passed: "УРОВЕНЬ ПРОЙДЕН!",
                     great_job: "Отличный заезд!",
-                    win_reward: "🎁 НАГРАДА: +{0} ⭐ ЗВЁЗД!",
+                    win_reward: "🎁 НАГРАДА ЗА УРОВЕНЬ: +{0} ⭐",
+                    win_arena_reward: "⭐ ПОДОБРАНО НА АРЕНЕ: +{0} ⭐",
                     next_btn: "ДАЛЬШЕ ▶",
                     retry_btn: "ЗАНОВО",
                     menu_btn: "В МЕНЮ",
                     game_over_title: "ИГРА ОКОНЧЕНА",
+                    revive_btn: "🔄 ВОЗРОДИТЬСЯ ЗА {0} ⭐",
                     pause_btn: "⏸ Пауза",
                     start_btn: "▶ Старт",
                     sprint_btn: "⚡ СПРИНТ",
@@ -761,26 +1010,25 @@ fps_setting: "Кадры в секунду (FPS)",
                     skins_casino_title: "КАЗИНО СКИНОВ",
                     excl_roulette_title: "👑 ЭКСКЛЮЗИВНАЯ РУЛЕТКА!",
                     excl_roulette_desc: "Награда за каждые 5 уровней! Испытай удачу!",
-                    coins_casino_hint: "Шансы: 50% Пусто | 30% 60🪙<br>15% 150🪙 | 4% 500🪙 | 1% 1500🪙",
-                    skins_casino_hint: "Шансы: Обычный 70% | Эпик 25% | Мифик 5%<br>Повторный скин: компенсация +300🪙",
+                    coins_casino_hint: "Шансы: 50% Пусто | 30% 500🪙<br>15% 1k 🪙 | 4% 5k 🪙 | 1% 50k 🪙!",
+                    skins_casino_hint: "Шансы: Пусто 30% | Обычный 50%<br>Эпик 30% | Мифик 10%<br>Повторный скин: компенсация +1k 🪙",
                     collision: "Столкновение!",
                     all_levels_beaten: "Все 13 уровней пройдены!",
                     champion: "АБСОЛЮТНЫЙ ЧЕМПИОН! 👑",
                     first_level_btn: "В НАЧАЛО (УР. 1)",
-                    need_stars_alert: "Нужно 10 звёзд (⭐)! Заработайте их за уровни или купите за монеты.",
-                    need_1000_coins: "Нужно минимум 1000 монет для покупки 10 звёзд!",
-                    bought_10_stars: "Успешно! +10 ⭐ за 1000 🪙",
-                    duplicate_skin: "Повторный скин: {0}!\nКомпенсация: +300 🪙",
+                    need_stars_alert: "Нужно {0} звёзд (⭐)! Заработайте их за уровни или купите за монеты.",
+                    need_1000_coins: "Нужно минимум 1k монет для покупки 10 звёзд!",
+                    bought_10_stars: "Успешно! +10 ⭐ за 1k 🪙",
+                    duplicate_skin: "Повторный скин: {0}!\nКомпенсация: +1k 🪙",
                     congrats_new_skin: "ПОЗДРАВЛЯЕМ! Новый скин:\n[{0}]!",
                     congrats_excl_skin: "НЕВЕРОЯТНО! Эксклюзивный скин:\n[{0}]!",
-                    all_excl_unlocked: "Все флаги уже открыты!\nКомпенсация: +1000 🪙 и +15 ⭐!",
+                    all_excl_unlocked: "Все флаги уже открыты!\nКомпенсация: +5k 🪙 и +15 ⭐!",
                     not_enough_coins: "Не хватает монет! Нужно {0} 🪙",
                     selected: "Выбран: {0}",
                     play_level: "▶ ИГРАТЬ (УР. {0})",
                     slot_ready: "КРУТИ!",
                     slot_empty: "Ничего 💀",
-slot_jackpot: "🏆 1500 🪙!",
-                    exclusive_locked_hint: "Выпадает только в рулетке за каждые 5 уровней!"
+                    slot_jackpot: "🏆 50k 🪙!"
                 },
                 en: {
                     lvl: "Lvl.",
@@ -792,6 +1040,10 @@ slot_jackpot: "🏆 1500 🪙!",
                     casino_skins_btn: "🎨 STAR SKINS CASINO (10 ⭐)",
                     back_btn: "BACK",
                     settings_title: "SETTINGS",
+                    screen_mode_setting: "Display Mode",
+                    screen_mobile: "Mobile",
+                    screen_pc: "PC (Large)",
+                    ui_scale_setting: "UI Scale",
                     lang_setting: "Language / Язык",
                     fps_setting: "Frames per second (FPS)",
                     joy_setting: "Joystick Type",
@@ -799,17 +1051,18 @@ slot_jackpot: "🏆 1500 🪙!",
                     joy_row: "In Row",
                     joy_analog: "360° Stick",
                     minimap_setting: "Minimap on Arena",
+                    minimap_size_setting: "Minimap Size",
                     vib_setting: "Vibration (Haptic)",
                     on_btn: "ON",
                     off_btn: "OFF",
                     save_btn: "SAVE",
                     info_title: "HELP & GUIDE",
-                    info_stars_title: "⭐ Star Currency",
-                    info_stars_desc: "• Reward = level number! (Lvl. 1 = 1⭐, Lvl. 5 = 5⭐ etc.)<br>• Casino exchange: 1000 🪙 = 10 ⭐.<br>• Casino spin costs 10 ⭐.",
-                    info_excl_title: "👑 Exclusive Skins (Flags)",
-                    info_excl_desc: "• Every 5 levels (5, 10, 15...) unlocks a FREE roulette with flag skins (RF, USA, China)!",
-                    info_skins_title: "🎨 Skin Rarities",
-                    info_skins_desc: "• ⚪ Common (10 pcs): matte colors.<br>• 🟣 Epic (7 pcs): pulse glow every 5s.<br>• 🟡 Mythic (3 pcs): permanent ultra-gradient.",
+                    info_tab_tutorial: "Tutorial",
+                    info_tab_mechanics: "Mechanics",
+                    info_tab_general: "General",
+                    tutorial_text: "• <b>Controls:</b> Use D-Pad, analog stick or WASD / arrow keys.<br>• <b>Goal:</b> Eat orbs to fill the level progress bar.<br>• <b>Sprint:</b> Boost speed with Sprint button (Shift), check energy bar below!",
+                    mechanics_text: "• <b>Casino:</b> Coins (win money) & Skins (odds: 50% common, 30% epic, 10% mythic, 30% empty).<br>• <b>Arena Stars:</b> From lvl 3, pick up ⭐ (x1, x2, x3) and finish level to keep them!<br>• <b>Revival:</b> Cost = level * 10 ⭐. Grants 3s shield.",
+                    general_text: "• <b>Version:</b> v4.2.2<br>• <b>Skins:</b> 32 unique skins (common, epic, mythic & 12 country flags).<br>• <b>Multiplier:</b> Increases by +1 every 2 campaign levels.",
                     ok_btn: "GOT IT",
                     wardrobe_title: "WARDROBE",
                     tab_all: "All",
@@ -821,14 +1074,16 @@ slot_jackpot: "🏆 1500 🪙!",
                     spin_btn: "SPIN (10 ⭐)",
                     spin_free_btn: "SPIN FOR FREE!",
                     continue_btn: "CONTINUE",
-                    exchange_stars_btn: "+ Exchange 1000 🪙 for 10 ⭐",
+                    exchange_stars_btn: "+ Exchange 1k 🪙 for 10 ⭐",
                     level_passed: "LEVEL COMPLETED!",
                     great_job: "Great run!",
-                    win_reward: "🎁 REWARD: +{0} ⭐ STARS!",
+                    win_reward: "🎁 REWARD: +{0} ⭐",
+                    win_arena_reward: "⭐ ARENA STARS: +{0} ⭐",
                     next_btn: "NEXT ▶",
                     retry_btn: "RETRY",
                     menu_btn: "TO MENU",
                     game_over_title: "GAME OVER",
+                    revive_btn: "🔄 REVIVE FOR {0} ⭐",
                     pause_btn: "⏸ Pause",
                     start_btn: "▶ Resume",
                     sprint_btn: "⚡ SPRINT",
@@ -837,26 +1092,25 @@ slot_jackpot: "🏆 1500 🪙!",
                     skins_casino_title: "SKINS CASINO",
                     excl_roulette_title: "👑 EXCLUSIVE ROULETTE!",
                     excl_roulette_desc: "Reward every 5 levels! Test your luck!",
-                    coins_casino_hint: "Odds: 50% Empty | 30% 60🪙<br>15% 150🪙 | 4% 500🪙 | 1% 1500🪙",
-                    skins_casino_hint: "Odds: Common 70% | Epic 25% | Mythic 5%<br>Duplicate skin refund: +300🪙",
+                    coins_casino_hint: "Odds: 50% Empty | 30% 500🪙<br>15% 1k 🪙 | 4% 5k 🪙 | 1% 50k 🪙!",
+                    skins_casino_hint: "Odds: Empty 30% | Common 50%<br>Epic 30% | Mythic 10%<br>Duplicate skin refund: +1k 🪙",
                     collision: "Collision!",
                     all_levels_beaten: "All 13 levels completed!",
                     champion: "ABSOLUTE CHAMPION! 👑",
                     first_level_btn: "TO START (LVL 1)",
-                    need_stars_alert: "Need 10 stars (⭐)! Earn them from levels or exchange coins.",
-                    need_1000_coins: "Need at least 1000 coins to buy 10 stars!",
-                    bought_10_stars: "Success! +10 ⭐ for 1000 🪙",
-duplicate_skin: "Duplicate skin: {0}!\nRefund: +300 🪙",
+                    need_stars_alert: "Need {0} stars (⭐)! Earn them from levels or exchange coins.",
+                    need_1000_coins: "Need at least 1k coins to buy 10 stars!",
+                    bought_10_stars: "Success! +10 ⭐ for 1k 🪙",
+                    duplicate_skin: "Duplicate skin: {0}!\nRefund: +1k 🪙",
                     congrats_new_skin: "CONGRATS! New skin:\n[{0}]!",
                     congrats_excl_skin: "UNBELIEVABLE! Exclusive skin:\n[{0}]!",
-                    all_excl_unlocked: "All flags already unlocked!\nBonus reward: +1000 🪙 & +15 ⭐!",
+                    all_excl_unlocked: "All flags already unlocked!\nBonus reward: +5k 🪙 & +15 ⭐!",
                     not_enough_coins: "Not enough coins! Need {0} 🪙",
                     selected: "Selected: {0}",
                     play_level: "▶ PLAY (LVL {0})",
                     slot_ready: "SPIN!",
                     slot_empty: "Nothing 💀",
-                    slot_jackpot: "🏆 1500 🪙!",
-                    exclusive_locked_hint: "Available only in roulette every 5 levels!"
+                    slot_jackpot: "🏆 50k 🪙!"
                 }
             };
 
@@ -865,6 +1119,13 @@ duplicate_skin: "Duplicate skin: {0}!\nRefund: +300 🪙",
             const miniCanvas = document.getElementById('minimap');
             const mCtx = miniCanvas.getContext('2d');
             const toastEl = document.getElementById('game-toast');
+            const energyContainerEl = document.getElementById('energy-container');
+            const energyFillEl = document.getElementById('energy-fill');
+            const energyValueEl = document.getElementById('energy-value');
+            const energySprintLabelEl = document.getElementById('energy-sprint-label');
+            const reviveStarsBtn = document.getElementById('btn-revive-stars');
+            const arenaStarsHud = document.getElementById('arena-stars-hud');
+            const arenaStarsCountEl = document.getElementById('arena-stars-count');
 
             const scoreEl = document.getElementById('score');
             const goalDisplayEl = document.getElementById('goal-display');
@@ -876,50 +1137,74 @@ duplicate_skin: "Duplicate skin: {0}!\nRefund: +300 🪙",
             const cellSize = 20;
             const mapSize = 60;
 
-            // Скорости: стандартная и спринт
-            const SPEED_NORMAL = 175;
-            const SPEED_SPRINT = 85;
+            const BOT_STEP_INTERVAL = 180;
+            const PLAYER_STEP_NORMAL = 180;
+            const PLAYER_STEP_SPRINT = 85;
 
-            // 23 СКИНА
+            let sprintEnergy = 100;
+            const MAX_ENERGY = 100;
+            const DRAIN_RATE = 10;
+            const RECHARGE_RATE = 4;
+
+            let isInvulnerable = false;
+            let invulnerableEndTime = 0;
+
+            let currentLevelStarsCollected = 0;
+
+            const PARALLAX_STARS = [];
+            for (let i = 0; i < 90; i++) {
+                PARALLAX_STARS.push({
+                    x: Math.random() * (mapSize * cellSize),
+                    y: Math.random() * (mapSize * cellSize),
+                    size: Math.random() * 2 + 1,
+                    alpha: Math.random() * 0.4 + 0.15
+                });
+            }
+
+            // ВСЕГО 32 СКИНА (12 Обычных, 9 Эпиков, 6 Мификов, 12 Эксклюзивов-стран)
             const SKINS = [
                 { id: 0, name: 'Матовый Белый', nameEn: 'Matte White', rarity: 'common', head: '#e2e8f0', body: '#94a3b8', glow: null, price: 0 },
-                { id: 1, name: 'Изумрудный',   nameEn: 'Emerald',     rarity: 'common', head: '#10b981', body: '#059669', glow: null, price: 200 },
-                { id: 2, name: 'Морская Волна', nameEn: 'Aqua Wave',   rarity: 'common', head: '#06b6d4', body: '#0891b2', glow: null, price: 200 },
-                { id: 3, name: 'Песочный',     nameEn: 'Sand Gold',   rarity: 'common', head: '#f59e0b', body: '#d97706', glow: null, price: 200 },
-                { id: 4, name: 'Графит',       nameEn: 'Graphite',    rarity: 'common', head: '#64748b', body: '#475569', glow: null, price: 200 },
-                { id: 5, name: 'Лаванда',      nameEn: 'Lavender',    rarity: 'common', head: '#a855f7', body: '#9333ea', glow: null, price: 200 },
-                { id: 6, name: 'Коралл',       nameEn: 'Coral Red',   rarity: 'common', head: '#f43f5e', body: '#e11d48', glow: null, price: 200 },
-                { id: 7, name: 'Мята',         nameEn: 'Mint Fresh',  rarity: 'common', head: '#6ee7b7', body: '#059669', glow: null, price: 200 },
-                { id: 8, name: 'Индиго',       nameEn: 'Indigo Night',rarity: 'common', head: '#6366f1', body: '#4338ca', glow: null, price: 200 },
-                { id: 9, name: 'Уголь',        nameEn: 'Dark Charcoal',rarity: 'common',head: '#334155', body: '#1e293b', glow: null, price: 200 },
+                { id: 1, name: 'Изумрудный',   nameEn: 'Emerald',     rarity: 'common', head: '#10b981', body: '#059669', glow: null, price: 1500 },
+                { id: 2, name: 'Морская Волна', nameEn: 'Aqua Wave',   rarity: 'common', head: '#06b6d4', body: '#0891b2', glow: null, price: 1500 },
+                { id: 3, name: 'Песочный',     nameEn: 'Sand Gold',   rarity: 'common', head: '#f59e0b', body: '#d97706', glow: null, price: 1500 },
+                { id: 4, name: 'Графит',       nameEn: 'Graphite',    rarity: 'common', head: '#64748b', body: '#475569', glow: null, price: 1500 },
+                { id: 5, name: 'Лаванда',      nameEn: 'Lavender',    rarity: 'common', head: '#a855f7', body: '#9333ea', glow: null, price: 1500 },
+                { id: 6, name: 'Коралл',       nameEn: 'Coral Red',   rarity: 'common', head: '#f43f5e', body: '#e11d48', glow: null, price: 1500 },
+                { id: 7, name: 'Мята',         nameEn: 'Mint Fresh',  rarity: 'common', head: '#6ee7b7', body: '#059669', glow: null, price: 1500 },
+                { id: 8, name: 'Индиго',       nameEn: 'Indigo Night',rarity: 'common', head: '#6366f1', body: '#4338ca', glow: null, price: 1500 },
+                { id: 9, name: 'Уголь',        nameEn: 'Dark Charcoal',rarity: 'common',head: '#334155', body: '#1e293b', glow: null, price: 1500 },
+                { id: 10, name: 'Небесный',    nameEn: 'Sky Blue',    rarity: 'common', head: '#38bdf8', body: '#0284c7', glow: null, price: 1500 },
+                { id: 11, name: 'Оливковый',   nameEn: 'Olive Drab',  rarity: 'common', head: '#84cc16', body: '#4d7c0f', glow: null, price: 1500 },
 
-                { id: 10, name: 'Кибер-Фиолет', nameEn: 'Cyber Violet', rarity: 'epic', head: '#e879f9', body: '#a21caf', glow: '#d946ef', price: 600 },
-                { id: 11, name: 'Нео-Оранж',    nameEn: 'Neo Orange',   rarity: 'epic', head: '#fed7aa', body: '#ea580c', glow: '#f97316', price: 600 },
-                { id: 12, name: 'Электро-Блю',  nameEn: 'Electro Blue', rarity: 'epic', head: '#93c5fd', body: '#2563eb', glow: '#3b82f6', price: 600 },
-                { id: 13, name: 'Кислотный Лайм',nameEn: 'Acid Lime',   rarity: 'epic', head: '#bef264', body: '#65a30d', glow: '#84cc16', price: 600 },
-{ id: 14, name: 'Рубиновый Огонь',nameEn: 'Ruby Fire',  rarity: 'epic', head: '#fca5a5', body: '#dc2626', glow: '#ef4444', price: 600 },
-                { id: 15, name: 'Солнечный Всплеск',nameEn: 'Solar Flare',rarity: 'epic', head: '#fef08a', body: '#ca8a04', glow: '#eab308', price: 600 },
-                { id: 16, name: 'Кибер-Роза',   nameEn: 'Cyber Rose',   rarity: 'epic', head: '#f472b6', body: '#be185d', glow: '#ec4899', price: 600 },
+                { id: 12, name: 'Кибер-Фиолет', nameEn: 'Cyber Violet', rarity: 'epic', head: '#e879f9', body: '#a21caf', glow: '#d946ef', price: 5000 },
+                { id: 13, name: 'Нео-Оранж',    nameEn: 'Neo Orange',   rarity: 'epic', head: '#fed7aa', body: '#ea580c', glow: '#f97316', price: 5000 },
+                { id: 14, name: 'Электро-Блю',  nameEn: 'Electro Blue', rarity: 'epic', head: '#93c5fd', body: '#2563eb', glow: '#3b82f6', price: 5000 },
+                { id: 15, name: 'Кислотный Лайм',nameEn: 'Acid Lime',   rarity: 'epic', head: '#bef264', body: '#65a30d', glow: '#84cc16', price: 5000 },
+                { id: 16, name: 'Рубиновый Огонь',nameEn: 'Ruby Fire',  rarity: 'epic', head: '#fca5a5', body: '#dc2626', glow: '#ef4444', price: 5000 },
+                { id: 17, name: 'Солнечный Всплеск',nameEn: 'Solar Flare',rarity: 'epic', head: '#fef08a', body: '#ca8a04', glow: '#eab308', price: 5000 },
+                { id: 18, name: 'Кибер-Роза',   nameEn: 'Cyber Rose',   rarity: 'epic', head: '#f472b6', body: '#be185d', glow: '#ec4899', price: 5000 },
+                { id: 19, name: 'Неоновый Пурпур', nameEn: 'Neon Purple', rarity: 'epic', head: '#d8b4fe', body: '#7e22ce', glow: '#a855f7', price: 5000 },
+                { id: 20, name: 'Электрический Янтарь', nameEn: 'Electric Amber', rarity: 'epic', head: '#fde047', body: '#b45309', glow: '#eab308', price: 5000 },
 
-                { id: 17, name: 'Аврора Бореалис', nameEn: 'Aurora Borealis', rarity: 'mythic', gradHead: ['#10b981', '#06b6d4'], gradBody: ['#059669', '#0284c7'], cssPreview: 'linear-gradient(135deg, #10b981, #06b6d4)', glow: '#06b6d4', price: 5000 },
-                { id: 18, name: 'Солнечная Магма', nameEn: 'Solar Magma',    rarity: 'mythic', gradHead: ['#ef4444', '#f59e0b'], gradBody: ['#dc2626', '#d97706'], cssPreview: 'linear-gradient(135deg, #ef4444, #f59e0b)', glow: '#f59e0b', price: 5000 },
-                { id: 19, name: 'Космический Токсик', nameEn: 'Cosmic Toxic', rarity: 'mythic', gradHead: ['#a855f7', '#84cc16'], gradBody: ['#9333ea', '#65a30d'], cssPreview: 'linear-gradient(135deg, #a855f7, #84cc16)', glow: '#a855f7', price: 5000 },
+                { id: 21, name: 'Аврора Бореалис', nameEn: 'Aurora Borealis', rarity: 'mythic', gradHead: ['#10b981', '#06b6d4'], gradBody: ['#059669', '#0284c7'], cssPreview: 'linear-gradient(135deg, #10b981, #06b6d4)', glow: '#06b6d4', price: 20000 },
+                { id: 22, name: 'Солнечная Магма', nameEn: 'Solar Magma',    rarity: 'mythic', gradHead: ['#ef4444', '#f59e0b'], gradBody: ['#dc2626', '#d97706'], cssPreview: 'linear-gradient(135deg, #ef4444, #f59e0b)', glow: '#f59e0b', price: 20000 },
+                { id: 23, name: 'Космический Токсик', nameEn: 'Cosmic Toxic', rarity: 'mythic', gradHead: ['#a855f7', '#84cc16'], gradBody: ['#9333ea', '#65a30d'], cssPreview: 'linear-gradient(135deg, #a855f7, #84cc16)', glow: '#a855f7', price: 20000 },
+                { id: 24, name: 'Небесный Шторм', nameEn: 'Sky Storm', rarity: 'mythic', gradHead: ['#38bdf8', '#6366f1'], gradBody: ['#0284c7', '#4338ca'], cssPreview: 'linear-gradient(135deg, #38bdf8, #6366f1)', glow: '#38bdf8', price: 20000 },
+                { id: 25, name: 'Галактический Кристалл', nameEn: 'Galaxy Crystal', rarity: 'mythic', gradHead: ['#f43f5e', '#a855f7'], gradBody: ['#e11d48', '#9333ea'], cssPreview: 'linear-gradient(135deg, #f43f5e, #a855f7)', glow: '#f43f5e', price: 20000 },
+                { id: 26, name: 'Квантовый Импульс', nameEn: 'Quantum Pulse', rarity: 'mythic', gradHead: ['#22c55e', '#38bdf8'], gradBody: ['#15803d', '#0284c7'], cssPreview: 'linear-gradient(135deg, #22c55e, #38bdf8)', glow: '#22c55e', price: 20000 },
 
-                { 
-                    id: 20, name: '🇷🇺 Флаг РФ', nameEn: '🇷🇺 Flag of Russia', rarity: 'exclusive', 
-                    type: 'flag_ru', cssPreview: 'linear-gradient(180deg, #ffffff 33%, #1d4ed8 33%, #1d4ed8 66%, #dc2626 66%)', 
-                    glow: '#3b82f6', price: null 
-                },
-                { 
-                    id: 21, name: '🇺🇸 Флаг США', nameEn: '🇺🇸 Flag of USA', rarity: 'exclusive', 
-                    type: 'flag_us', cssPreview: 'linear-gradient(135deg, #1e3a8a 35%, #dc2626 35%, #ffffff 50%, #dc2626 70%, #ffffff 85%)', 
-                    glow: '#ef4444', price: null 
-                },
-                { 
-                    id: 22, name: '🇨🇳 Флаг Китая', nameEn: '🇨🇳 Flag of China', rarity: 'exclusive', 
-                    type: 'flag_cn', cssPreview: 'linear-gradient(135deg, #dc2626, #b91c1c)', 
-                    glow: '#eab308', price: null 
-                }
+                { id: 27, name: '🇷🇺 Флаг РФ', nameEn: '🇷🇺 Flag of Russia', rarity: 'exclusive', type: 'flag_ru', cssPreview: 'linear-gradient(180deg, #ffffff 33%, #1d4ed8 33%, #1d4ed8 66%, #dc2626 66%)', glow: '#3b82f6', price: null },
+                { id: 28, name: '🇺🇸 Флаг США', nameEn: '🇺🇸 Flag of USA', rarity: 'exclusive', type: 'flag_us', cssPreview: 'linear-gradient(135deg, #1e3a8a 35%, #dc2626 35%, #ffffff 50%, #dc2626 70%, #ffffff 85%)', glow: '#ef4444', price: null },
+                { id: 29, name: '🇨🇳 Флаг Китая', nameEn: '🇨🇳 Flag of China', rarity: 'exclusive', type: 'flag_cn', cssPreview: 'linear-gradient(135deg, #dc2626, #b91c1c)', glow: '#eab308', price: null },
+                { id: 30, name: '🇯🇵 Флаг Японии', nameEn: '🇯🇵 Flag of Japan', rarity: 'exclusive', type: 'flag_jp', cssPreview: 'linear-gradient(135deg, #ffffff 50%, #dc2626 50%)', glow: '#dc2626', price: null },
+                { id: 31, name: '🇩🇪 Флаг Германии', nameEn: '🇩🇪 Flag of Germany', rarity: 'exclusive', type: 'flag_de', cssPreview: 'linear-gradient(180deg, #111111 33%, #dc2626 33%, #dc2626 66%, #facc15 66%)', glow: '#facc15', price: null },
+                { id: 32, name: '🇫🇷 Флаг Франции', nameEn: '🇫🇷 Flag of France', rarity: 'exclusive', type: 'flag_fr', cssPreview: 'linear-gradient(90deg, #1d4ed8 33%, #ffffff 33%, #ffffff 66%, #dc2626 66%)', glow: '#3b82f6', price: null },
+                { id: 33, name: '🇵🇱 Флаг Польши', nameEn: '🇵🇱 Flag of Poland', rarity: 'exclusive', type: 'flag_pl', cssPreview: 'linear-gradient(180deg, #ffffff 50%, #dc2626 50%)', glow: '#dc2626', price: null },
+                { id: 34, name: '🇧🇾 Флаг Беларуси', nameEn: '🇧🇾 Flag of Belarus', rarity: 'exclusive', type: 'flag_by', cssPreview: 'linear-gradient(180deg, #dc2626 66%, #22c55e 66%)', glow: '#22c55e', price: null },
+                { id: 35, name: '🇮🇳 Флаг Индии', nameEn: '🇮🇳 Flag of India', rarity: 'exclusive', type: 'flag_in', cssPreview: 'linear-gradient(180deg, #ea580c 33%, #ffffff 33%, #ffffff 66%, #15803d 66%)', glow: '#ea580c', price: null },
+                { id: 36, name: '🇬🇧 Флаг Великобритании', nameEn: '🇬🇧 Flag of UK', rarity: 'exclusive', type: 'flag_uk', cssPreview: 'linear-gradient(135deg, #1e3a8a, #dc2626)', glow: '#3b82f6', price: null },
+                { id: 37, name: '🇰🇷 Флаг Юж. Кореи', nameEn: '🇰🇷 Flag of South Korea', rarity: 'exclusive', type: 'flag_kr', cssPreview: 'linear-gradient(135deg, #ffffff, #1d4ed8, #dc2626)', glow: '#dc2626', price: null },
+                { id: 38, name: '🇧🇷 Флаг Бразилии', nameEn: '🇧🇷 Flag of Brazil', rarity: 'exclusive', type: 'flag_br', cssPreview: 'linear-gradient(135deg, #15803d, #facc15)', glow: '#22c55e', price: null }
             ];
 
             let coins = 0;
@@ -931,37 +1216,46 @@ duplicate_skin: "Duplicate skin: {0}!\nRefund: +300 🪙",
             let configFPS = 60;
             let configJoystick = 'classic';
             let configMinimap = true;
+            let configMinimapSize = 'm';
             let configVibration = true;
             let currentLang = 'ru';
+            let configScreenMode = 'mobile';
+            let configUiScale = 1;
 
             try {
-                coins = parseInt(localStorage.getItem('snake_v12_coins') || '0', 10) || 0;
-                stars = parseInt(localStorage.getItem('snake_v12_stars') || '0', 10) || 0;
-                unlockedSkins = JSON.parse(localStorage.getItem('snake_v12_skins') || '[0]');
-                selectedSkin = parseInt(localStorage.getItem('snake_v12_skin') || '0', 10) || 0;
-                currentLevel = parseInt(localStorage.getItem('snake_v12_level') || '1', 10) || 1;
+                coins = parseInt(localStorage.getItem('snake_v24_coins') || '0', 10) || 0;
+                stars = parseInt(localStorage.getItem('snake_v24_stars') || '0', 10) || 0;
+                unlockedSkins = JSON.parse(localStorage.getItem('snake_v24_skins') || '[0]');
+                selectedSkin = parseInt(localStorage.getItem('snake_v24_skin') || '0', 10) || 0;
+                currentLevel = parseInt(localStorage.getItem('snake_v24_level') || '1', 10) || 1;
 
-                configFPS = parseInt(localStorage.getItem('snake_v12_fps') || '60', 10);
-                configJoystick = localStorage.getItem('snake_v12_joy') || 'classic';
-                configMinimap = localStorage.getItem('snake_v12_map') !== '0';
-                configVibration = localStorage.getItem('snake_v12_vib') !== '0';
-                currentLang = localStorage.getItem('snake_v12_lang') || 'ru';
+                configFPS = parseInt(localStorage.getItem('snake_v24_fps') || '60', 10);
+                configJoystick = localStorage.getItem('snake_v24_joy') || 'classic';
+                configMinimap = localStorage.getItem('snake_v24_map') !== '0';
+                configMinimapSize = localStorage.getItem('snake_v24_map_size') || 'm';
+                configVibration = localStorage.getItem('snake_v24_vib') !== '0';
+                currentLang = localStorage.getItem('snake_v24_lang') || 'ru';
+                configScreenMode = localStorage.getItem('snake_v24_screen') || 'mobile';
+                configUiScale = parseFloat(localStorage.getItem('snake_v24_ui_scale') || '1');
             } catch (e) {}
 
             function saveStorage() {
                 try {
-                    localStorage.setItem('snake_v12_coins', coins);
-                    localStorage.setItem('snake_v12_stars', stars);
-                    localStorage.setItem('snake_v12_skins', JSON.stringify(unlockedSkins));
-                    localStorage.setItem('snake_v12_skin', selectedSkin);
-localStorage.setItem('snake_v12_level', currentLevel);
-                    localStorage.setItem('snake_v12_fps', configFPS);
-                    localStorage.setItem('snake_v12_joy', configJoystick);
-                    localStorage.setItem('snake_v12_map', configMinimap ? '1' : '0');
-                    localStorage.setItem('snake_v12_vib', configVibration ? '1' : '0');
-                    localStorage.setItem('snake_v12_lang', currentLang);
+                    localStorage.setItem('snake_v24_coins', coins);
+                    localStorage.setItem('snake_v24_stars', stars);
+                    localStorage.setItem('snake_v24_skins', JSON.stringify(unlockedSkins));
+                    localStorage.setItem('snake_v24_skin', selectedSkin);
+                    localStorage.setItem('snake_v24_level', currentLevel);
+                    localStorage.setItem('snake_v24_fps', configFPS);
+                    localStorage.setItem('snake_v24_joy', configJoystick);
+                    localStorage.setItem('snake_v24_map', configMinimap ? '1' : '0');
+                    localStorage.setItem('snake_v24_map_size', configMinimapSize);
+                    localStorage.setItem('snake_v24_vib', configVibration ? '1' : '0');
+                    localStorage.setItem('snake_v24_lang', currentLang);
+                    localStorage.setItem('snake_v24_screen', configScreenMode);
+                    localStorage.setItem('snake_v24_ui_scale', configUiScale);
                 } catch (e) {}
-                coinsEl.textContent = coins;
+                coinsEl.textContent = formatThousands(coins);
                 starsEl.textContent = stars;
             }
             saveStorage();
@@ -977,6 +1271,46 @@ localStorage.setItem('snake_v12_level', currentLevel);
                 }, 2400);
             }
 
+            const sprintBtn = document.getElementById('btn-sprint');
+            const pauseBtn = document.getElementById('btn-pause');
+
+            function getReviveCost(lvl) {
+                return lvl * 10;
+            }
+
+            function getLevelStarsReward(lvl) {
+                return lvl * 2;
+            }
+
+            function updateReviveBtnUI() {
+                const cost = getReviveCost(currentLevel);
+                const dict = I18N[currentLang];
+                reviveStarsBtn.textContent = dict.revive_btn.replace('{0}', formatThousands(cost));
+            }
+
+            // Рендер вкладок окна информации
+            let currentInfoTab = 'tutorial';
+            function renderInfoTabContent() {
+                const box = document.getElementById('info-content-box');
+                const dict = I18N[currentLang];
+                if (currentInfoTab === 'tutorial') {
+                    box.innerHTML = `<div class="matte-card"><div>${dict.tutorial_text}</div></div>`;
+                } else if (currentInfoTab === 'mechanics') {
+                    box.innerHTML = `<div class="matte-card"><div>${dict.mechanics_text}</div></div>`;
+                } else {
+                    box.innerHTML = `<div class="matte-card"><div>${dict.general_text}</div></div>`;
+                }
+            }
+
+            document.querySelectorAll('#info-tabs .tab-btn').forEach(btn => {
+                btn.onclick = () => {
+                    document.querySelectorAll('#info-tabs .tab-btn').forEach(x => x.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentInfoTab = btn.dataset.infotab;
+                    renderInfoTabContent();
+                };
+            });
+
             function applyLanguage() {
                 const dict = I18N[currentLang];
                 document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -984,38 +1318,135 @@ localStorage.setItem('snake_v12_level', currentLevel);
                     if (dict[key]) el.innerHTML = dict[key];
                 });
                 document.getElementById('slot-ready-text').textContent = dict.slot_ready;
+                
+                sprintBtn.textContent = isSprinting ? dict.sprint_on : dict.sprint_btn;
+                if (energySprintLabelEl) energySprintLabelEl.textContent = dict.sprint_btn;
+                if (pauseBtn) pauseBtn.textContent = isPaused ? dict.start_btn : dict.pause_btn;
+
+                renderInfoTabContent();
+                updateReviveBtnUI();
                 updateLevelUI();
                 if (!document.getElementById('screen-skins').classList.contains('hidden')) {
                     renderSkinsMenu();
                 }
             }
 
-            function generateLevelConfig(lvl) {
-                const goals = [20, 40, 70, 100, 130, 160, 200, 240, 280, 330, 380, 440, 500];
-                const goal = goals[lvl - 1] || (lvl * 40);
-                const multiplier = lvl;
+            function applyUiScale() {
+                document.documentElement.style.setProperty('--ui-scale', configUiScale);
+            }
 
-                let botsCount = 3;
-                if (lvl >= 8) botsCount = 10;
-                else if (lvl >= 3) botsCount = 5;
-
-                const obsCount = 4 + (lvl - 1) * 3;
-                const obstacles = [];
-                for (let i = 0; i < obsCount; i++) {
-                    obstacles.push({
-                        x: Math.floor(10 + ((i * 17) % (mapSize - 20))),
-                        y: Math.floor(10 + ((i * 23) % (mapSize - 20)))
-                    });
+            function applyMinimapSize() {
+                if (!configMinimap) {
+                    miniCanvas.style.display = 'none';
+                    return;
                 }
+                miniCanvas.style.display = 'block';
+
+                const isPc = (configScreenMode === 'pc');
+                let dim = 80;
+
+                if (isPc) {
+                    if (configMinimapSize === 's') dim = 110;
+                    else if (configMinimapSize === 'm') dim = 140;
+                    else if (configMinimapSize === 'l') dim = 175;
+                } else {
+                    if (configMinimapSize === 's') dim = 68;
+                    else if (configMinimapSize === 'm') dim = 86;
+                    else if (configMinimapSize === 'l') dim = 112;
+                }
+
+                dim = Math.round(dim * (configUiScale > 1 ? 1.08 : (configUiScale < 1 ? 0.92 : 1)));
+
+                miniCanvas.width = dim;
+                miniCanvas.height = dim;
+                miniCanvas.style.width = dim + 'px';
+                miniCanvas.style.height = dim + 'px';
+            }
+
+            function applyScreenMode() {
+                if (configScreenMode === 'pc') {
+                    document.body.classList.add('pc-screen-mode');
+                    canvas.width = 720;
+                    canvas.height = 720;
+                } else {
+                    document.body.classList.remove('pc-screen-mode');
+                    canvas.width = 360;
+                    canvas.height = 360;
+                }
+                applyMinimapSize();
+                render(performance.now());
+            }
+
+            // БОЛЬШЕ ПРЕПЯТСТВИЙ НА КАРТЕ
+            function generateObstacles(lvl) {
+                const shapesCount = 9 + (lvl - 1) * 3;
+                const obstacles = [];
+                const occupiedMap = new Set();
+
+                function addObs(x, y) {
+                    if (x >= 3 && x < mapSize - 3 && y >= 3 && y < mapSize - 3) {
+                        if (x >= 25 && x <= 35 && y >= 25 && y <= 35) return;
+                        const key = `${x},${y}`;
+                        if (!occupiedMap.has(key)) {
+                            occupiedMap.add(key);
+                            obstacles.push({ x, y });
+                        }
+                    }
+                }
+
+                for (let i = 0; i < shapesCount; i++) {
+                    const cx = Math.floor(4 + ((i * 17 + 3) % (mapSize - 10)));
+                    const cy = Math.floor(4 + ((i * 23 + 7) % (mapSize - 10)));
+                    const shapeType = i % 5;
+
+                    if (shapeType === 0) {
+                        addObs(cx, cy); addObs(cx + 1, cy);
+                        addObs(cx, cy + 1); addObs(cx + 1, cy + 1);
+                    } else if (shapeType === 1) {
+                        for (let dx = 0; dx < 3; dx++) {
+                            for (let dy = 0; dy < 3; dy++) {
+                                addObs(cx + dx, cy + dy);
+                            }
+                        }
+                    } else if (shapeType === 2) {
+                        addObs(cx, cy); addObs(cx, cy + 1); addObs(cx, cy + 2);
+                        addObs(cx + 1, cy + 2); addObs(cx + 2, cy + 2);
+                    } else if (shapeType === 3) {
+                        addObs(cx + 1, cy);
+                        addObs(cx, cy + 1); addObs(cx + 1, cy + 1); addObs(cx + 2, cy + 1);
+                        addObs(cx + 1, cy + 2);
+                    } else {
+                        addObs(cx, cy); addObs(cx + 1, cy + 1); addObs(cx + 2, cy + 2);
+                    }
+                }
+                return obstacles;
+            }
+
+            function generateLevelConfig(lvl) {
+                let goal = 20;
+                if (lvl === 1) goal = 20;
+                else if (lvl === 2) goal = 30;
+                else if (lvl === 3) goal = 50;
+                else if (lvl === 4) goal = 60;
+                else if (lvl === 5) goal = 70;
+                else if (lvl === 6) goal = 85;
+                else if (lvl === 7) goal = 100;
+                else {
+                    goal = 100 + (lvl - 7) * 20;
+                }
+
+                const multiplier = 1 + Math.floor((lvl - 1) / 2);
+                const botsCount = 5 + Math.floor((lvl - 1) / 2);
+                const obstacles = generateObstacles(lvl);
                 return { goal, multiplier, botsCount, obstacles };
             }
 
-            const EXP_ORBS = [
-                { points: 1, color: '#38bdf8', core: '#ffffff', glow: '#0284c7' },
-                { points: 2, color: '#facc15', core: '#fef08a', glow: '#eab308' },
-                { points: 3, color: '#4ade80', core: '#bbf7d0', glow: '#22c55e' },
-                { points: 4, color: '#c084fc', core: '#f3e8ff', glow: '#a855f7' },
-                { points: 5, color: '#f87171', core: '#fecaca', glow: '#ef4444' }
+            const BASE_ORB_COLORS = [
+                { basePoints: 1, color: '#38bdf8', core: '#ffffff', glow: '#0284c7' },
+                { basePoints: 2, color: '#facc15', core: '#fef08a', glow: '#eab308' },
+                { basePoints: 3, color: '#4ade80', core: '#bbf7d0', glow: '#22c55e' },
+                { basePoints: 4, color: '#c084fc', core: '#f3e8ff', glow: '#a855f7' },
+                { basePoints: 5, color: '#f87171', core: '#fecaca', glow: '#ef4444' }
             ];
 
             const BOT_PRESETS = [
@@ -1028,9 +1459,12 @@ localStorage.setItem('snake_v12_level', currentLevel);
                 { head: '#93c5fd', body: '#1d4ed8', glow: '#3b82f6', start: { x: 8, y: 30 } },
                 { head: '#fde68a', body: '#d97706', glow: '#f59e0b', start: { x: 52, y: 30 } },
                 { head: '#86efac', body: '#15803d', glow: '#22c55e', start: { x: 20, y: 20 } },
-                { head: '#e2e8f0', body: '#475569', glow: '#94a3b8', start: { x: 40, y: 40 } }
+                { head: '#e2e8f0', body: '#475569', glow: '#94a3b8', start: { x: 40, y: 40 } },
+                { head: '#f43f5e', body: '#be123c', glow: '#fb7185', start: { x: 24, y: 10 } },
+                { head: '#38bdf8', body: '#0369a1', glow: '#7dd3fc', start: { x: 36, y: 50 } }
             ];
-let currentLevelConfig = generateLevelConfig(currentLevel);
+
+            let currentLevelConfig = generateLevelConfig(currentLevel);
             let snake = [];
             let bots = [];
             let obstacles = [];
@@ -1047,14 +1481,16 @@ let currentLevelConfig = generateLevelConfig(currentLevel);
             let cameraX = 30 * cellSize;
             let cameraY = 30 * cellSize;
 
-            // РАЗДЕЛЬНЫЕ ТАЙМЕРЫ: ИГРОК И БОТЫ
-            let lastPlayerTickTime = 0;
-            let lastBotTickTime = 0;
+            let lastPlayerMoveTime = 0;
+            let lastBotMoveTime = 0;
             let lastFrameTime = 0;
+            let lastEnergyUpdateTime = 0;
 
             function showScreen(id) {
                 document.querySelectorAll('.modal').forEach(m => m.classList.add('hidden'));
-                if (id) document.getElementById(id).classList.remove('hidden');
+                if (id) {
+                    document.getElementById(id).classList.remove('hidden');
+                }
             }
 
             function updateLevelUI() {
@@ -1064,6 +1500,7 @@ let currentLevelConfig = generateLevelConfig(currentLevel);
                 multDisplayEl.textContent = `${currentLevelConfig.multiplier}x`;
                 const dict = I18N[currentLang];
                 document.getElementById('btn-start-game').textContent = dict.play_level.replace('{0}', currentLevel);
+                updateReviveBtnUI();
             }
 
             function triggerHaptic() {
@@ -1083,6 +1520,29 @@ let currentLevelConfig = generateLevelConfig(currentLevel);
             }
 
             function initSettingsUI() {
+                document.querySelectorAll('#screen-mode-selector .seg-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.mode === configScreenMode);
+                    b.onclick = () => {
+                        document.querySelectorAll('#screen-mode-selector .seg-btn').forEach(x => x.classList.remove('active'));
+                        b.classList.add('active');
+                        configScreenMode = b.dataset.mode;
+                        applyScreenMode();
+                        saveStorage();
+                    };
+                });
+
+                document.querySelectorAll('#ui-scale-selector .seg-btn').forEach(b => {
+                    b.classList.toggle('active', parseFloat(b.dataset.scale) === configUiScale);
+                    b.onclick = () => {
+                        document.querySelectorAll('#ui-scale-selector .seg-btn').forEach(x => x.classList.remove('active'));
+                        b.classList.add('active');
+                        configUiScale = parseFloat(b.dataset.scale);
+                        applyUiScale();
+                        applyMinimapSize();
+                        saveStorage();
+                    };
+                });
+
                 document.querySelectorAll('#lang-selector .seg-btn').forEach(b => {
                     b.classList.toggle('active', b.dataset.lang === currentLang);
                     b.onclick = () => {
@@ -1114,13 +1574,25 @@ let currentLevelConfig = generateLevelConfig(currentLevel);
                         saveStorage();
                     };
                 });
-document.querySelectorAll('#minimap-toggle .seg-btn').forEach(b => {
+
+                document.querySelectorAll('#minimap-toggle .seg-btn').forEach(b => {
                     b.classList.toggle('active', (b.dataset.val === '1') === configMinimap);
                     b.onclick = () => {
                         document.querySelectorAll('#minimap-toggle .seg-btn').forEach(x => x.classList.remove('active'));
                         b.classList.add('active');
                         configMinimap = (b.dataset.val === '1');
-                        miniCanvas.style.display = configMinimap ? 'block' : 'none';
+                        applyMinimapSize();
+                        saveStorage();
+                    };
+                });
+
+                document.querySelectorAll('#minimap-size-selector .seg-btn').forEach(b => {
+                    b.classList.toggle('active', b.dataset.size === configMinimapSize);
+                    b.onclick = () => {
+                        document.querySelectorAll('#minimap-size-selector .seg-btn').forEach(x => x.classList.remove('active'));
+                        b.classList.add('active');
+                        configMinimapSize = b.dataset.size;
+                        applyMinimapSize();
                         saveStorage();
                     };
                 });
@@ -1135,15 +1607,22 @@ document.querySelectorAll('#minimap-toggle .seg-btn').forEach(b => {
                     };
                 });
 
-                miniCanvas.style.display = configMinimap ? 'block' : 'none';
+                applyUiScale();
+                applyScreenMode();
                 applyJoystickUI();
                 applyLanguage();
             }
 
             document.getElementById('btn-open-settings').addEventListener('click', () => showScreen('screen-settings'));
-            document.getElementById('btn-settings-back').addEventListener('click', () => showScreen('screen-main'));
+            document.getElementById('btn-settings-ok').addEventListener('click', () => {
+                if (isRunning) showScreen(null);
+                else showScreen('screen-main');
+            });
 
-            document.getElementById('btn-open-info').addEventListener('click', () => showScreen('screen-info'));
+            document.getElementById('btn-open-info').addEventListener('click', () => {
+                renderInfoTabContent();
+                showScreen('screen-info');
+            });
             document.getElementById('btn-info-back').addEventListener('click', () => showScreen('screen-main'));
 
             // --- ГАРДЕРОБ СКИНОВ ---
@@ -1194,7 +1673,8 @@ document.querySelectorAll('#minimap-toggle .seg-btn').forEach(b => {
                 const dict = I18N[currentLang];
 
                 render(performance.now());
-if (isUnlocked) {
+
+                if (isUnlocked) {
                     selectedSkin = id;
                     saveStorage();
                     status.textContent = dict.selected.replace('{0}', getSkinName(skin));
@@ -1210,9 +1690,10 @@ if (isUnlocked) {
                         status.style.color = '#fbbf24';
                         buyBtn.classList.add('hidden');
                     } else {
-                        status.textContent = `${getSkinName(skin)} — ${skin.price} 🪙`;
+                        const priceText = formatThousands(skin.price);
+                        status.textContent = `${getSkinName(skin)} — ${priceText} 🪙`;
                         status.style.color = '#facc15';
-                        buyBtn.textContent = `${dict.buy_btn} (${skin.price} 🪙)`;
+                        buyBtn.textContent = `${dict.buy_btn} (${priceText} 🪙)`;
                         buyBtn.classList.remove('hidden');
                     }
                 }
@@ -1230,7 +1711,7 @@ if (isUnlocked) {
                     previewSkin(skin.id);
                     renderSkinsMenu();
                 } else if (skin.price) {
-                    showToast(dict.not_enough_coins.replace('{0}', skin.price));
+                    showToast(dict.not_enough_coins.replace('{0}', formatThousands(skin.price)));
                 }
             });
 
@@ -1278,11 +1759,11 @@ if (isUnlocked) {
                 }
                 showScreen('screen-casino');
             }
-document.getElementById('btn-choose-coins-casino').addEventListener('click', () => openCasino('coins'));
+
+            document.getElementById('btn-choose-coins-casino').addEventListener('click', () => openCasino('coins'));
             document.getElementById('btn-choose-skins-casino').addEventListener('click', () => openCasino('skins'));
             document.getElementById('btn-casino-back').addEventListener('click', () => showScreen('screen-casino-select'));
 
-            // ПОКУПКА ЗВЁЗД БЕЗ БЕСКОНЕЧНОГО АЛЕРТА
             document.getElementById('btn-buy-stars').addEventListener('click', (e) => {
                 e.preventDefault();
                 const dict = I18N[currentLang];
@@ -1301,7 +1782,7 @@ document.getElementById('btn-choose-coins-casino').addEventListener('click', () 
                 if (spinning) return;
                 const dict = I18N[currentLang];
                 if (stars < 10) {
-                    showToast(dict.need_stars_alert);
+                    showToast(dict.need_stars_alert.replace('{0}', 10));
                     return;
                 }
 
@@ -1309,33 +1790,36 @@ document.getElementById('btn-choose-coins-casino').addEventListener('click', () 
                 saveStorage();
                 spinning = true;
 
-                const rand = Math.random() * 100;
                 let finalResult = null;
 
                 if (casinoMode === 'coins') {
-                    if (rand < 1) finalResult = { text: dict.slot_jackpot, color: '#facc15', type: 'coins', val: 1500 };
-                    else if (rand < 5) finalResult = { text: '🎉 +500 🪙!', color: '#38bdf8', type: 'coins', val: 500 };
-                    else if (rand < 20) finalResult = { text: '🪙 +150 🪙', color: '#4ade80', type: 'coins', val: 150 };
-                    else if (rand < 50) finalResult = { text: '🪙 +60 🪙', color: '#facc15', type: 'coins', val: 60 };
+                    const rand = Math.random() * 100;
+                    if (rand < 1) finalResult = { text: dict.slot_jackpot, color: '#facc15', type: 'coins', val: 50000 };
+                    else if (rand < 5) finalResult = { text: '🎉 +5k 🪙!', color: '#38bdf8', type: 'coins', val: 5000 };
+                    else if (rand < 20) finalResult = { text: '🪙 +1k 🪙', color: '#4ade80', type: 'coins', val: 1000 };
+                    else if (rand < 50) finalResult = { text: '🪙 +500 🪙', color: '#facc15', type: 'coins', val: 500 };
                     else finalResult = { text: dict.slot_empty, color: '#64748b', type: 'coins', val: 0 };
                 } else {
-                    let chosenRarity = 'common';
-                    if (rand < 5) chosenRarity = 'mythic';
-                    else if (rand < 30) chosenRarity = 'epic';
-
-                    const pool = SKINS.filter(s => s.rarity === chosenRarity);
-                    const wonSkin = pool[Math.floor(Math.random() * pool.length)];
-
-                    finalResult = {
-                        text: `🎨 ${getSkinName(wonSkin)}` ,
-                        color: chosenRarity === 'mythic' ? '#facc15' : (chosenRarity === 'epic' ? '#d946ef' : '#38bdf8'),
-                        type: 'skin',
-                        skin: wonSkin
-                    };
+                    const r = Math.random() * 120;
+                    if (r < 30) {
+                        finalResult = { text: dict.slot_empty, color: '#64748b', type: 'empty' };
+                    } else if (r < 80) {
+                        const pool = SKINS.filter(s => s.rarity === 'common');
+                        const won = pool[Math.floor(Math.random() * pool.length)];
+                        finalResult = { text: `⚪ ${getSkinName(won)}`, color: '#e2e8f0', type: 'skin', skin: won };
+                    } else if (r < 110) {
+                        const pool = SKINS.filter(s => s.rarity === 'epic');
+                        const won = pool[Math.floor(Math.random() * pool.length)];
+                        finalResult = { text: `🟣 ${getSkinName(won)}`, color: '#d946ef', type: 'skin', skin: won };
+                    } else {
+                        const pool = SKINS.filter(s => s.rarity === 'mythic');
+                        const won = pool[Math.floor(Math.random() * pool.length)];
+                        finalResult = { text: `🟡 ${getSkinName(won)}`, color: '#facc15', type: 'skin', skin: won };
+                    }
                 }
 
                 slotReel.innerHTML = '';
-                const previewItems = ['⭐ 10', '🪙 60', '🎨 SKIN', '💀 EMPTY', '⭐ 100'];
+                const previewItems = ['⭐ 10', '🪙 500', '🎨 SKIN', '💀 EMPTY', '⭐ 100', '🪙 1k'];
                 for (let i = 0; i < 20; i++) {
                     const div = document.createElement('div');
                     div.className = 'slot-item';
@@ -1356,7 +1840,8 @@ document.getElementById('btn-choose-coins-casino').addEventListener('click', () 
                     const progress = Math.min((currentTime - startTime) / totalDuration, 1);
                     const ease = 1 - Math.pow(1 - progress, 3);
                     slotReel.style.transform = `translateY(${targetOffset * ease}px)`;
-if (progress < 1) {
+
+                    if (progress < 1) {
                         requestAnimationFrame(animateSlot);
                     } else {
                         spinning = false;
@@ -1364,7 +1849,7 @@ if (progress < 1) {
                             coins += finalResult.val;
                         } else if (finalResult.type === 'skin') {
                             if (unlockedSkins.includes(finalResult.skin.id)) {
-                                coins += 300;
+                                coins += 1000;
                                 showToast(dict.duplicate_skin.replace('{0}', getSkinName(finalResult.skin)));
                             } else {
                                 unlockedSkins.push(finalResult.skin.id);
@@ -1378,7 +1863,7 @@ if (progress < 1) {
                 requestAnimationFrame(animateSlot);
             });
 
-            // --- БЕСПЛАТНАЯ ЭКСКЛЮЗИВНАЯ РУЛЕТКА ---
+            // --- ЭКСКЛЮЗИВНАЯ РУЛЕТКА ---
             const exclSlotReel = document.getElementById('excl-slot-reel');
             let exclSpinning = false;
 
@@ -1435,7 +1920,8 @@ if (progress < 1) {
                     const progress = Math.min((currentTime - startTime) / totalDuration, 1);
                     const ease = 1 - Math.pow(1 - progress, 3);
                     exclSlotReel.style.transform = `translateY(${targetOffset * ease}px)`;
-if (progress < 1) {
+
+                    if (progress < 1) {
                         requestAnimationFrame(animateExcl);
                     } else {
                         exclSpinning = false;
@@ -1448,7 +1934,7 @@ if (progress < 1) {
                             saveStorage();
                             showToast(dict.congrats_excl_skin.replace('{0}', getSkinName(wonSkin)));
                         } else {
-                            coins += 1000;
+                            coins += 5000;
                             stars += 15;
                             saveStorage();
                             showToast(dict.all_excl_unlocked);
@@ -1463,7 +1949,11 @@ if (progress < 1) {
                 showWinScreenAfterRoulette();
             });
 
-            document.getElementById('btn-to-menu').addEventListener('click', () => showScreen('screen-main'));
+            document.getElementById('btn-to-menu').addEventListener('click', () => {
+                isRunning = false;
+                disableSprint();
+                showScreen('screen-main');
+            });
             document.getElementById('btn-in-game-menu').addEventListener('click', () => {
                 isRunning = false;
                 isDying = false;
@@ -1471,37 +1961,45 @@ if (progress < 1) {
                 showScreen('screen-main');
             });
 
-            // --- УРОВНИ И ИГРА ---
-            function initLevel(levelNum) {
-                currentLevel = levelNum;
-                saveStorage();
-                currentLevelConfig = generateLevelConfig(currentLevel);
-
-                snake = [{ x: 30, y: 30 }, { x: 29, y: 30 }, { x: 28, y: 30 }];
-                dx = 1; dy = 0;
-                score = 0;
-                particles = [];
-                isDying = false;
-
-                cameraX = snake[0].x * cellSize + cellSize / 2;
-                cameraY = snake[0].y * cellSize + cellSize / 2;
-
-                obstacles = [...currentLevelConfig.obstacles];
-
-                bots = [];
-                for (let i = 0; i < currentLevelConfig.botsCount; i++) {
-                    const p = BOT_PRESETS[i % BOT_PRESETS.length];
-                    bots.push({
-                        id: i,
-                        ...p,
-                        bodyColor: p.body,
-                        body: [{ x: p.start.x, y: p.start.y }, { x: p.start.x + 1, y: p.start.y }, { x: p.start.x + 2, y: p.start.y }]
-                    });
+            // --- СФЕРЫ ОПЫТА И БОНУСНЫЕ ЗВЁЗДЫ НА АРЕНЕ (С 3 УРОВНЯ) ---
+            function createRandomOrb(fx, fy, forceTier = null) {
+                // С 3 уровня шанс 3% спавна звезды вместо опыта
+                if (currentLevel >= 3 && Math.random() < 0.03) {
+                    const starMult = Math.random() < 0.6 ? 1 : (Math.random() < 0.85 ? 2 : 3);
+                    return {
+                        x: fx,
+                        y: fy,
+                        isBonusStar: true,
+                        starMultiplier: starMult,
+                        color: '#facc15',
+                        core: '#fef08a',
+                        glow: '#eab308'
+                    };
                 }
 
-                foods = [];
-                while (foods.length < 18) spawnSingleFood();
-                updateLevelUI();
+                const colorInfo = BASE_ORB_COLORS[Math.floor(Math.random() * BASE_ORB_COLORS.length)];
+                let tier = 1;
+                if (forceTier) {
+                    tier = forceTier;
+                } else {
+                    const r = Math.random();
+                    if (r < 0.65) tier = 1;
+                    else if (r < 0.90) tier = 2;
+                    else tier = 3;
+                }
+
+                const points = colorInfo.basePoints * tier;
+
+                return {
+                    x: fx,
+                    y: fy,
+                    isBonusStar: false,
+                    tier: tier,
+                    points: points,
+                    color: colorInfo.color,
+                    core: colorInfo.core,
+                    glow: colorInfo.glow
+                };
             }
 
             function spawnSingleFood() {
@@ -1515,24 +2013,103 @@ if (progress < 1) {
                                      snake.some(s => s.x === fx && s.y === fy) ||
                                      bots.some(b => b.body.some(bp => bp.x === fx && bp.y === fy)) ||
                                      foods.some(f => f.x === fx && f.y === fy);
-                if (!occupied) {
-                    const orb = EXP_ORBS[Math.floor(Math.random() * EXP_ORBS.length)];
-                    foods.push({ x: fx, y: fy, ...orb });
-                    break;
-                }
+                    if (!occupied) {
+                        foods.push(createRandomOrb(fx, fy));
+                        break;
+                    }
                 }
             }
 
             function dropOrbsFromBot(botBody) {
-                const dropCount = Math.min(botBody.length, Math.floor(4 + Math.random() * 3));
-for (let i = 0; i < dropCount; i++) {
+                const dropCount = Math.min(botBody.length, Math.floor(4 + Math.random() * 4));
+                for (let i = 0; i < dropCount; i++) {
                     const seg = botBody[i % botBody.length];
-                    const orb = EXP_ORBS[Math.floor(Math.random() * EXP_ORBS.length)];
                     if (!foods.some(f => f.x === seg.x && f.y === seg.y)) {
-                        foods.push({ x: seg.x, y: seg.y, ...orb });
+                        const tier = Math.floor(Math.random() * 3) + 1;
+                        foods.push(createRandomOrb(seg.x, seg.y, tier));
                     }
                 }
             }
+
+            function initLevel(levelNum) {
+                currentLevel = levelNum;
+                currentLevelStarsCollected = 0;
+                arenaStarsHud.classList.add('hidden');
+
+                saveStorage();
+                currentLevelConfig = generateLevelConfig(currentLevel);
+
+                snake = [{ x: 30, y: 30 }, { x: 29, y: 30 }, { x: 28, y: 30 }];
+                dx = 1; dy = 0;
+                score = 0;
+                particles = [];
+                isDying = false;
+                isInvulnerable = false;
+
+                sprintEnergy = MAX_ENERGY;
+                updateEnergyBarUI();
+
+                cameraX = snake[0].x * cellSize + cellSize / 2;
+                cameraY = snake[0].y * cellSize + cellSize / 2;
+
+                obstacles = [...currentLevelConfig.obstacles];
+
+                bots = [];
+                for (let i = 0; i < currentLevelConfig.botsCount; i++) {
+                    const p = BOT_PRESETS[i % BOT_PRESETS.length];
+                    bots.push({
+                        id: i,
+                        ...p,
+                        body: [{ x: p.start.x, y: p.start.y }, { x: p.start.x + 1, y: p.start.y }, { x: p.start.x + 2, y: p.start.y }]
+                    });
+                }
+
+                foods = [];
+                while (foods.length < 24) spawnSingleFood();
+                updateLevelUI();
+            }
+
+            // ПЕРЕРОЖДЕНИЕ: ЦЕНА lvl * 10 звёзд
+            reviveStarsBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const cost = getReviveCost(currentLevel);
+                const dict = I18N[currentLang];
+
+                if (stars >= cost) {
+                    stars -= cost;
+                    saveStorage();
+
+                    let spawnX = 30, spawnY = 30;
+                    if (obstacles.some(o => o.x === spawnX && o.y === spawnY)) {
+                        spawnX = 28; spawnY = 28;
+                    }
+
+                    const currentLength = Math.max(3, snake.length || 3);
+                    snake = [];
+                    for (let i = 0; i < currentLength; i++) {
+                        snake.push({ x: spawnX - i, y: spawnY });
+                    }
+                    dx = 1; dy = 0;
+
+                    isInvulnerable = true;
+                    invulnerableEndTime = performance.now() + 3000;
+
+                    isDying = false;
+                    isRunning = true;
+                    isPaused = false;
+                    disableSprint();
+                    showScreen(null);
+
+                    const now = performance.now();
+                    lastPlayerMoveTime = now;
+                    lastBotMoveTime = now;
+                    lastEnergyUpdateTime = now;
+
+                    showToast(`⚡ Возрождение! Щит на 3 сек!`);
+                } else {
+                    showToast(dict.need_stars_alert.replace('{0}', formatThousands(cost)));
+                }
+            });
 
             function getBotNextMove(botObj) {
                 const head = botObj.body[0];
@@ -1575,6 +2152,10 @@ for (let i = 0; i < dropCount; i++) {
                 disableSprint();
                 triggerHaptic();
 
+                // При смерти собранные на карте звезды сгорают
+                currentLevelStarsCollected = 0;
+                arenaStarsHud.classList.add('hidden');
+
                 const skin = SKINS[selectedSkin];
                 particles = [];
 
@@ -1596,37 +2177,46 @@ for (let i = 0; i < dropCount; i++) {
                         });
                     }
                 });
-                snake = [];
-                isRunning = false;
-                const reasonEl = document.getElementById('over-reason');
-                if (reasonEl) reasonEl.textContent = reason || I18N[currentLang].collision;
-                showScreen('screen-over');
+
+                updateReviveBtnUI();
             }
 
+            // ПОБЕДА НА УРОВНЕ: БАЗОВАЯ НАГРАДА ЗА УРОВЕНЬ + СОБРАННЫЕ НА АРЕНЕ ЗВЁЗДЫ (ПИШУТСЯ РАЗДЕЛЬНО)
             function triggerLevelWin() {
                 isRunning = false;
                 disableSprint();
                 triggerHaptic();
 
-                const earnedStars = currentLevel;
-                stars += earnedStars;
+                const baseReward = getLevelStarsReward(currentLevel);
+                const totalEarnedStars = baseReward + currentLevelStarsCollected;
+                stars += totalEarnedStars;
                 saveStorage();
 
                 if (currentLevel % 5 === 0) {
                     openExclusiveRoulette();
                 } else {
-                    showWinScreenAfterRoulette();
+                    showWinScreenAfterRoulette(baseReward, currentLevelStarsCollected);
                 }
             }
 
-            function showWinScreenAfterRoulette() {
-const winTitle = document.getElementById('win-title');
+            function showWinScreenAfterRoulette(customBase = null, customArena = null) {
+                const winTitle = document.getElementById('win-title');
                 const winDesc = document.getElementById('win-desc');
                 const nextBtn = document.getElementById('btn-win-next');
                 const dict = I18N[currentLang];
 
-                const earnedStars = currentLevel;
-                document.getElementById('win-reward-badge').textContent = dict.win_reward.replace('{0}', earnedStars);
+                const baseReward = customBase !== null ? customBase : getLevelStarsReward(currentLevel);
+                const arenaReward = customArena !== null ? customArena : currentLevelStarsCollected;
+
+                document.getElementById('win-reward-badge').textContent = dict.win_reward.replace('{0}', baseReward);
+                
+                const arenaBadge = document.getElementById('win-arena-stars-badge');
+                if (arenaReward > 0) {
+                    arenaBadge.textContent = dict.win_arena_reward.replace('{0}', arenaReward);
+                    arenaBadge.style.display = 'flex';
+                } else {
+                    arenaBadge.style.display = 'none';
+                }
 
                 if (currentLevel < 13) {
                     winTitle.textContent = dict.level_passed;
@@ -1656,7 +2246,6 @@ const winTitle = document.getElementById('win-title');
                 showScreen('screen-main');
             });
 
-            // ШАГ ИГРОКА (ЗАВИСИТ ОТ СПРИНТА: 85мс или 175мс)
             function tickPlayer() {
                 turnLocked = false;
                 const cfg = currentLevelConfig;
@@ -1669,19 +2258,33 @@ const winTitle = document.getElementById('win-title');
                 const hitSelf = (willEat ? snake : snake.slice(0, -1)).some(s => s.x === head.x && s.y === head.y);
                 const hitAnyBot = bots.some(b => b.body.some(p => p.x === head.x && p.y === head.y));
 
-                if (hitWall || hitObstacle || hitSelf || hitAnyBot) {
+                if ((hitWall || hitObstacle || hitSelf || hitAnyBot) && !isInvulnerable) {
                     return triggerDeathAnimation(I18N[currentLang].collision);
+                }
+
+                if (hitWall && isInvulnerable) {
+                    head.x = Math.max(0, Math.min(mapSize - 1, head.x));
+                    head.y = Math.max(0, Math.min(mapSize - 1, head.y));
                 }
 
                 snake.unshift(head);
 
                 if (willEat) {
                     const orb = foods[foodIdx];
-                    score += orb.points;
-                    coins += (5 * orb.points) * cfg.multiplier;
-                    saveStorage();
-                    updateLevelUI();
-                    triggerHaptic();
+
+                    if (orb.isBonusStar) {
+                        currentLevelStarsCollected += orb.starMultiplier;
+                        arenaStarsCountEl.textContent = currentLevelStarsCollected;
+                        arenaStarsHud.classList.remove('hidden');
+                        showToast(`⭐ Звезда x${orb.starMultiplier} в инвентаре!`);
+                        triggerHaptic();
+                    } else {
+                        score += orb.points;
+                        coins += (10 * orb.points) * cfg.multiplier;
+                        saveStorage();
+                        updateLevelUI();
+                        triggerHaptic();
+                    }
 
                     foods.splice(foodIdx, 1);
                     spawnSingleFood();
@@ -1692,7 +2295,6 @@ const winTitle = document.getElementById('win-title');
                 }
             }
 
-            // ШАГ БОТОВ (ВСЕГДА 175мс — НЕ УСКОРЯЮТСЯ ОТ СПРИНТА ИГРОКА!)
             function tickBots() {
                 bots.forEach(b => {
                     const bm = getBotNextMove(b);
@@ -1705,202 +2307,573 @@ const winTitle = document.getElementById('win-title');
                     const bHitSelf = (bWillEat ? b.body : b.body.slice(0, -1)).some(p => p.x === bh.x && p.y === bh.y);
                     const bHitOther = bots.some(ob => ob.id !== b.id && ob.body.some(p => p.x === bh.x && p.y === bh.y));
                     const bHitPlayer = snake.some(s => s.x === bh.x && s.y === bh.y);
+
                     if (bHitWall || bHitObstacle || bHitSelf || bHitOther || bHitPlayer) {
-                        dropOrbsFromBot(b.body);
-                        b.body = [{ x: 5 + Math.floor(Math.random() * (mapSize - 10)), y: 5 + Math.floor(Math.random() * (mapSize - 10)) }];
-                        return;
-                    }
-
-                    b.body.unshift(bh);
-                    if (bWillEat) {
-                        foods.splice(bFoodIdx, 1);
-                        dropOrbsFromBot([bh]);
-                        spawnSingleFood();
+                        if (bHitPlayer) dropOrbsFromBot(b.body);
+                        b.body = [{ x: b.start.x, y: b.start.y }, { x: b.start.x + 1, y: b.start.y }, { x: b.start.x + 2, y: b.start.y }];
                     } else {
-                        b.body.pop();
+                        b.body.unshift(bh);
+                        if (bWillEat) {
+                            foods.splice(bFoodIdx, 1);
+                            spawnSingleFood();
+                        } else {
+                            b.body.pop();
+                        }
                     }
                 });
             }
 
-            function disableSprint() {
-                isSprinting = false;
-                const sprintBtn = document.getElementById('btn-sprint');
-                if (sprintBtn) sprintBtn.classList.remove('active');
+            function updateEnergy(deltaSeconds) {
+                if (!isRunning || isPaused || isDying) return;
+
+                if (isSprinting) {
+                    sprintEnergy -= DRAIN_RATE * deltaSeconds;
+                    if (sprintEnergy <= 0) {
+                        sprintEnergy = 0;
+                        disableSprint();
+                    }
+                } else {
+                    if (sprintEnergy < MAX_ENERGY) {
+                        sprintEnergy += RECHARGE_RATE * deltaSeconds;
+                        if (sprintEnergy > MAX_ENERGY) sprintEnergy = MAX_ENERGY;
+                    }
+                }
+                updateEnergyBarUI();
             }
 
-            function startGame(levelNum = currentLevel) {
-                initLevel(levelNum);
-                isRunning = true;
-                isPaused = false;
-                isDying = false;
-                lastPlayerTickTime = 0;
-                lastBotTickTime = 0;
-                showScreen(null);
+            function updateEnergyBarUI() {
+                const pct = Math.max(0, Math.min(100, Math.round(sprintEnergy)));
+                energyFillEl.style.width = pct + '%';
+                energyValueEl.textContent = `${pct}/100`;
+                energyFillEl.classList.toggle('depleted', pct < 15);
             }
 
-            const startBtn = document.getElementById('btn-start-game');
-            if (startBtn) startBtn.addEventListener('click', () => startGame(currentLevel));
-            const restartBtn = document.getElementById('btn-restart');
-            if (restartBtn) restartBtn.addEventListener('click', () => startGame(currentLevel));
+            function renderMinimap() {
+                if (!configMinimap) return;
+                const mw = miniCanvas.width;
+                const mh = miniCanvas.height;
+                const scale = mw / (mapSize * cellSize);
 
-            const pauseBtn = document.getElementById('btn-pause');
-            if (pauseBtn) pauseBtn.addEventListener('click', () => {
-                if (!isRunning) return;
-                isPaused = !isPaused;
-                pauseBtn.textContent = isPaused ? '▶ Продолжить' : '⏸ Пауза';
-            });
+                mCtx.clearRect(0, 0, mw, mh);
+                mCtx.fillStyle = '#090d16';
+                mCtx.fillRect(0, 0, mw, mh);
 
-            const sprintBtn = document.getElementById('btn-sprint');
-            if (sprintBtn) sprintBtn.addEventListener('click', () => {
-                if (!isRunning || isPaused) return;
-                isSprinting = !isSprinting;
-                sprintBtn.classList.toggle('active', isSprinting);
-            });
+                mCtx.fillStyle = '#334155';
+                obstacles.forEach(o => mCtx.fillRect(o.x * cellSize * scale, o.y * cellSize * scale, Math.max(1, cellSize * scale), Math.max(1, cellSize * scale)));
 
-            function changeDirection(nx, ny) {
-                if (turnLocked || (nx === -dx && ny === -dy)) return;
-                dx = nx; dy = ny; turnLocked = true;
-            }
-
-            const directionButtons = {
-                'up': [0, -1], 'down': [0, 1], 'left': [-1, 0], 'right': [1, 0]
-            };
-            document.querySelectorAll('[data-direction]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const d = directionButtons[btn.dataset.direction];
-                    if (d) changeDirection(d[0], d[1]);
-                });
-            });
-            const directionIds = { up: 'up', down: 'down', left: 'left', right: 'right', 'row-up': 'up', 'row-down': 'down', 'row-left': 'left', 'row-right': 'right' };
-            Object.entries(directionIds).forEach(([id, direction]) => {
-                const btn = document.getElementById(id);
-                if (btn) btn.addEventListener('click', () => {
-                    const d = directionButtons[direction];
-                    changeDirection(d[0], d[1]);
-                });
-            });
-            document.addEventListener('keydown', e => {
-                const keys = {
-                    ArrowUp: [0, -1], w: [0, -1], W: [0, -1],
-                    ArrowDown: [0, 1], s: [0, 1], S: [0, 1],
-                    ArrowLeft: [-1, 0], a: [-1, 0], A: [-1, 0],
-                    ArrowRight: [1, 0], d: [1, 0], D: [1, 0]
-                };
-                if (keys[e.key]) {
-                    e.preventDefault();
-                    changeDirection(keys[e.key][0], keys[e.key][1]);
-                } else if (e.key === ' ' && isRunning) {
-                    e.preventDefault();
-                    isPaused = !isPaused;
-                }
-            });
-
-            function drawCell(x, y, color, size = cellSize, glow = null) {
-                const px = x * size, py = y * size;
-                if (glow) { ctx.shadowColor = glow; ctx.shadowBlur = 8; }
-                ctx.fillStyle = color;
-                ctx.fillRect(px + 2, py + 2, size - 4, size - 4);
-                ctx.shadowBlur = 0;
-            }
-
-            function renderGame(now) {
-                const w = canvas.width, h = canvas.height;
-                if (!w || !h) return;
-                ctx.clearRect(0, 0, w, h);
-                ctx.fillStyle = '#06080e';
-                ctx.fillRect(0, 0, w, h);
-
-                const viewSize = mapSize * cellSize;
-                const player = snake[0];
-                if (player) {
-                    const targetX = player.x * cellSize + cellSize / 2;
-                    const targetY = player.y * cellSize + cellSize / 2;
-                    cameraX += (targetX - cameraX) * 0.12;
-                    cameraY += (targetY - cameraY) * 0.12;
-                }
-                const offsetX = w / 2 - cameraX;
-                const offsetY = h / 2 - cameraY;
-                ctx.save();
-                ctx.translate(offsetX, offsetY);
-
-                ctx.strokeStyle = 'rgba(56,189,248,0.07)';
-                ctx.lineWidth = 1;
-                for (let x = 0; x <= viewSize; x += cellSize) {
-                    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, viewSize); ctx.stroke();
-                }
-                for (let y = 0; y <= viewSize; y += cellSize) {
-                    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(viewSize, y); ctx.stroke();
-                }
-
-                obstacles.forEach(o => drawCell(o.x, o.y, '#273449', cellSize, '#334155'));
                 foods.forEach(f => {
+                    mCtx.fillStyle = f.isBonusStar ? '#facc15' : f.color;
+                    const r = f.isBonusStar ? 2.5 : (f.tier === 3 ? 2.5 : (f.tier === 2 ? 2 : 1.5));
+                    mCtx.fillRect(f.x * cellSize * scale, f.y * cellSize * scale, r, r);
+                });
+
+                mCtx.fillStyle = '#c084fc';
+                bots.forEach(b => b.body.forEach(p => mCtx.fillRect(p.x * cellSize * scale, p.y * cellSize * scale, 2, 2)));
+
+                if (snake.length > 0) {
+                    mCtx.fillStyle = '#22c55e';
+                    snake.forEach(p => mCtx.fillRect(p.x * cellSize * scale, p.y * cellSize * scale, 2.5, 2.5));
+
+                    const viewZoom = (configScreenMode === 'pc') ? 2 : 1;
+                    const camBoxW = (canvas.width / viewZoom) * scale;
+                    const camBoxH = (canvas.height / viewZoom) * scale;
+                    const camBoxX = (cameraX - (canvas.width / viewZoom) / 2) * scale;
+                    const camBoxY = (cameraY - (canvas.height / viewZoom) / 2) * scale;
+                    mCtx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+                    mCtx.lineWidth = 1;
+                    mCtx.strokeRect(camBoxX, camBoxY, camBoxW, camBoxH);
+                }
+            }
+
+            function drawFlagSegment(type, px, py, isHead, index) {
+                if (type === 'flag_ru') {
+                    const h3 = cellSize / 3;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(px + 1, py + 1, cellSize - 2, h3);
+                    ctx.fillStyle = '#1d4ed8';
+                    ctx.fillRect(px + 1, py + 1 + h3, cellSize - 2, h3);
+                    ctx.fillStyle = '#dc2626';
+                    ctx.fillRect(px + 1, py + 1 + h3 * 2, cellSize - 2, h3);
+                } else if (type === 'flag_us') {
+                    if (isHead) {
+                        ctx.fillStyle = '#1e3a8a';
+                        ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
+                        ctx.fillStyle = '#ffffff';
+                        ctx.beginPath();
+                        ctx.arc(px + cellSize / 2, py + cellSize / 2, 2.5, 0, Math.PI * 2);
+                        ctx.fill();
+                    } else {
+                        ctx.fillStyle = (index % 2 === 0) ? '#dc2626' : '#ffffff';
+                        ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
+                    }
+                } else if (type === 'flag_cn') {
+                    ctx.fillStyle = '#dc2626';
+                    ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
+                    if (isHead || index % 3 === 0) {
+                        ctx.fillStyle = '#facc15';
+                        ctx.beginPath();
+                        ctx.arc(px + cellSize / 2, py + cellSize / 2, 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                } else if (type === 'flag_jp') {
+                    if (isHead) {
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
+                        ctx.fillStyle = '#dc2626';
+                        ctx.beginPath();
+                        ctx.arc(px + cellSize / 2, py + cellSize / 2, 3.5, 0, Math.PI * 2);
+                        ctx.fill();
+                    } else {
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
+                    }
+                } else if (type === 'flag_de') {
+                    const h3 = cellSize / 3;
+                    ctx.fillStyle = '#111111';
+                    ctx.fillRect(px + 1, py + 1, cellSize - 2, h3);
+                    ctx.fillStyle = '#dc2626';
+                    ctx.fillRect(px + 1, py + 1 + h3, cellSize - 2, h3);
+                    ctx.fillStyle = '#facc15';
+                    ctx.fillRect(px + 1, py + 1 + h3 * 2, cellSize - 2, h3);
+                } else if (type === 'flag_fr') {
+                    const w3 = cellSize / 3;
+                    ctx.fillStyle = '#1d4ed8';
+                    ctx.fillRect(px + 1, py + 1, w3, cellSize - 2);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(px + 1 + w3, py + 1, w3, cellSize - 2);
+                    ctx.fillStyle = '#dc2626';
+                    ctx.fillRect(px + 1 + w3 * 2, py + 1, w3, cellSize - 2);
+                } else if (type === 'flag_pl') {
+                    const h2 = cellSize / 2;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(px + 1, py + 1, cellSize - 2, h2);
+                    ctx.fillStyle = '#dc2626';
+                    ctx.fillRect(px + 1, py + 1 + h2, cellSize - 2, h2);
+                } else if (type === 'flag_by') {
+                    const h2 = cellSize / 2;
+                    ctx.fillStyle = '#dc2626';
+                    ctx.fillRect(px + 1, py + 1, cellSize - 2, h2);
+                    ctx.fillStyle = '#22c55e';
+                    ctx.fillRect(px + 1, py + 1 + h2, cellSize - 2, h2);
+                } else if (type === 'flag_in') {
+                    const h3 = cellSize / 3;
+                    ctx.fillStyle = '#ea580c';
+                    ctx.fillRect(px + 1, py + 1, cellSize - 2, h3);
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(px + 1, py + 1 + h3, cellSize - 2, h3);
+                    ctx.fillStyle = '#15803d';
+                    ctx.fillRect(px + 1, py + 1 + h3 * 2, cellSize - 2, h3);
+                } else if (type === 'flag_uk') {
+                    ctx.fillStyle = '#1e3a8a';
+                    ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
+                    ctx.fillStyle = '#dc2626';
+                    ctx.fillRect(px + cellSize / 2 - 1, py + 1, 2, cellSize - 2);
+                    ctx.fillRect(px + 1, py + cellSize / 2 - 1, cellSize - 2, 2);
+                } else if (type === 'flag_kr') {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
+                    ctx.fillStyle = '#dc2626';
                     ctx.beginPath();
-                    ctx.fillStyle = f.color;
-                    ctx.shadowColor = f.glow;
-                    ctx.shadowBlur = 12;
-                    ctx.arc(f.x * cellSize + cellSize / 2, f.y * cellSize + cellSize / 2, 5 + f.points * 0.4, 0, Math.PI * 2);
-                    ctx.fill(); ctx.shadowBlur = 0;
-                });
+                    ctx.arc(px + cellSize / 2, py + cellSize / 2, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (type === 'flag_br') {
+                    ctx.fillStyle = '#15803d';
+                    ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
+                    ctx.fillStyle = '#facc15';
+                    ctx.beginPath();
+                    ctx.arc(px + cellSize / 2, py + cellSize / 2, 2.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
 
-                bots.forEach(b => {
-                    b.body.forEach((part, i) => drawCell(part.x, part.y, i === 0 ? b.head : b.bodyColor, cellSize, b.glow));
-                });
-                const skin = SKINS[selectedSkin] || SKINS[0];
-                snake.forEach((part, i) => {
-                    let color = i === 0 ? (skin.head || '#38bdf8') : (skin.body || skin.head || '#0284c7');
-                    if (skin.type === 'flag_ru') color = ['#fff','#1d4ed8','#dc2626'][Math.floor(part.y % 3)];
-                    if (skin.type === 'flag_cn') color = '#dc2626';
-                    if (skin.type === 'flag_us') color = i % 2 ? '#dc2626' : '#fff';
-                    drawCell(part.x, part.y, color, cellSize, skin.glow || '#38bdf8');
-                });
+            function render(timestamp) {
+                ctx.fillStyle = '#06080e';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                particles = particles.filter(p => p.alpha > 0);
-                particles.forEach(p => {
-                    p.x += p.vx; p.y += p.vy; p.alpha -= p.decay;
-                    ctx.globalAlpha = Math.max(0, p.alpha);
-                    ctx.fillStyle = p.color;
-                    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+                const viewZoom = (configScreenMode === 'pc') ? 2 : 1;
+
+                if (snake.length > 0) {
+                    const targetCamX = snake[0].x * cellSize + cellSize / 2;
+                    const targetCamY = snake[0].y * cellSize + cellSize / 2;
+                    cameraX += (targetCamX - cameraX) * 0.15;
+                    cameraY += (targetCamY - cameraY) * 0.15;
+                }
+
+                // 1. ПАРАЛЛАКС 1 (0.3x)
+                const parallaxX1 = -(cameraX * 0.3) % 200;
+                const parallaxY1 = -(cameraY * 0.3) % 200;
+                ctx.save();
+                ctx.scale(viewZoom, viewZoom);
+                ctx.translate(parallaxX1, parallaxY1);
+                PARALLAX_STARS.forEach(st => {
+                    ctx.fillStyle = `rgba(56, 189, 248, ${st.alpha * 0.7})`;
+                    ctx.beginPath();
+                    ctx.arc((st.x % (360 + 40)), (st.y % (360 + 40)), st.size, 0, Math.PI * 2);
+                    ctx.fill();
                 });
-                ctx.globalAlpha = 1;
                 ctx.restore();
 
-                if (configMinimap && miniCanvas) {
-                    const mw = miniCanvas.width, mh = miniCanvas.height;
-                    mCtx.clearRect(0, 0, mw, mh);
-                    mCtx.fillStyle = '#090c13'; mCtx.fillRect(0, 0, mw, mh);
-                    const scaleX = mw / mapSize, scaleY = mh / mapSize;
-                    mCtx.fillStyle = '#64748b';
-                    obstacles.forEach(o => mCtx.fillRect(o.x * scaleX, o.y * scaleY, 2, 2));
-                    mCtx.fillStyle = '#d946ef';
-                    bots.forEach(b => { const q = b.body[0]; if (q) mCtx.fillRect(q.x * scaleX, q.y * scaleY, 3, 3); });
-                    mCtx.fillStyle = '#38bdf8';
-                    if (snake[0]) mCtx.fillRect(snake[0].x * scaleX, snake[0].y * scaleY, 4, 4);
+                // 2. ПАРАЛЛАКС 2 (0.6x)
+                const pGridSize = 80;
+                const parallaxX2 = -(cameraX * 0.6) % pGridSize;
+                const parallaxY2 = -(cameraY * 0.6) % pGridSize;
+                ctx.save();
+                ctx.scale(viewZoom, viewZoom);
+                ctx.strokeStyle = 'rgba(15, 23, 42, 0.45)';
+                ctx.lineWidth = 1;
+                for (let px = parallaxX2 - pGridSize; px <= 360 + pGridSize; px += pGridSize) {
+                    ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, 360); ctx.stroke();
                 }
+                for (let py = parallaxY2 - pGridSize; py <= 360 + pGridSize; py += pGridSize) {
+                    ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(360, py); ctx.stroke();
+                }
+                ctx.restore();
+
+                // 3. МИРОВОЙ СЛОЙ
+                const viewOffsetX = (canvas.width / viewZoom) / 2 - cameraX;
+                const viewOffsetY = (canvas.height / viewZoom) / 2 - cameraY;
+
+                ctx.save();
+                ctx.scale(viewZoom, viewZoom);
+                ctx.translate(viewOffsetX, viewOffsetY);
+
+                ctx.strokeStyle = '#27344d';
+                ctx.lineWidth = 4;
+                ctx.strokeRect(0, 0, mapSize * cellSize, mapSize * cellSize);
+
+                ctx.strokeStyle = '#0e1320';
+                ctx.lineWidth = 1;
+                const logicalWidth = canvas.width / viewZoom;
+                const logicalHeight = canvas.height / viewZoom;
+                const startGridX = Math.max(0, Math.floor((cameraX - logicalWidth) / cellSize) * cellSize);
+                const endGridX = Math.min(mapSize * cellSize, Math.ceil((cameraX + logicalWidth) / cellSize) * cellSize);
+                const startGridY = Math.max(0, Math.floor((cameraY - logicalHeight) / cellSize) * cellSize);
+                const endGridY = Math.min(mapSize * cellSize, Math.ceil((cameraY + logicalHeight) / cellSize) * cellSize);
+
+                for (let x = startGridX; x <= endGridX; x += cellSize) {
+                    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, mapSize * cellSize); ctx.stroke();
+                }
+                for (let y = startGridY; y <= endGridY; y += cellSize) {
+                    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(360, y); ctx.stroke();
+                }
+
+                ctx.fillStyle = '#141c2c';
+                obstacles.forEach(o => {
+                    ctx.fillRect(o.x * cellSize + 1, o.y * cellSize + 1, cellSize - 2, cellSize - 2);
+                    ctx.strokeStyle = '#222e44';
+                    ctx.strokeRect(o.x * cellSize + 2, o.y * cellSize + 2, cellSize - 4, cellSize - 4);
+                });
+
+                const pulse = Math.sin(timestamp * 0.007);
+                foods.forEach(f => {
+                    const cx = f.x * cellSize + cellSize / 2;
+                    const cy = f.y * cellSize + cellSize / 2;
+
+                    if (f.isBonusStar) {
+                        ctx.fillStyle = '#facc15';
+                        ctx.shadowColor = '#eab308';
+                        ctx.shadowBlur = 14;
+                        ctx.beginPath();
+                        ctx.arc(cx, cy, 9 + pulse * 1.5, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+
+                        ctx.fillStyle = '#080b12';
+                        ctx.font = 'bold 10px sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(`x${f.starMultiplier}`, cx, cy);
+                    } else {
+                        let baseR = 4;
+                        if (f.tier === 2) baseR = 6.5;
+                        else if (f.tier === 3) baseR = 9;
+
+                        const radius = Math.max(3, baseR + pulse * (f.tier * 0.8));
+
+                        ctx.fillStyle = f.color;
+                        ctx.shadowColor = f.glow;
+                        ctx.shadowBlur = f.tier === 3 ? 12 : (f.tier === 2 ? 8 : 4);
+                        ctx.beginPath();
+                        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        ctx.fillStyle = f.core;
+                        ctx.beginPath();
+                        ctx.arc(cx, cy, Math.max(1.8, radius * 0.45), 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                });
+                ctx.shadowBlur = 0;
+
+                bots.forEach(b => {
+                    b.body.forEach((p, i) => {
+                        ctx.fillStyle = (i === 0) ? b.head : b.body;
+                        ctx.fillRect(p.x * cellSize + 1, p.y * cellSize + 1, cellSize - 2, cellSize - 2);
+                    });
+                });
+
+                if (isInvulnerable && timestamp > invulnerableEndTime) {
+                    isInvulnerable = false;
+                }
+
+                const skin = SKINS[selectedSkin];
+                
+                const epicCycle = (timestamp % 2000);
+                const isEpicFlash = (skin.rarity === 'epic') && (epicCycle > 1650);
+
+                const isExclTravelling = (skin.rarity === 'exclusive') && ((timestamp % 20000) < 10000);
+                const isExclFlashing = (skin.rarity === 'exclusive') && !isExclTravelling && ((timestamp % 2000) > 1650);
+
+                const snakeLen = Math.max(1, snake.length);
+                const waveBlockIndex = Math.floor((timestamp / 85) % snakeLen);
+
+                const shieldPulse = isInvulnerable && (Math.floor(timestamp / 100) % 2 === 0);
+
+                snake.forEach((p, i) => {
+                    const px = p.x * cellSize;
+                    const py = p.y * cellSize;
+
+                    if (isInvulnerable) {
+                        ctx.shadowColor = '#38bdf8';
+                        ctx.shadowBlur = shieldPulse ? 26 : 8;
+                    } else if (skin.rarity === 'common') {
+                        ctx.shadowBlur = 0;
+                    } else if (skin.rarity === 'epic') {
+                        ctx.shadowColor = skin.glow;
+                        ctx.shadowBlur = isEpicFlash ? 28 : 2;
+                    } else if (skin.rarity === 'mythic') {
+                        ctx.shadowColor = skin.glow;
+                        const distToWave = Math.abs(i - waveBlockIndex);
+                        if (distToWave === 0) ctx.shadowBlur = 26;
+                        else if (distToWave === 1) ctx.shadowBlur = 15;
+                        else ctx.shadowBlur = 4;
+                    } else if (skin.rarity === 'exclusive') {
+                        ctx.shadowColor = skin.glow;
+                        if (isExclTravelling) {
+                            const distToWave = Math.abs(i - waveBlockIndex);
+                            ctx.shadowBlur = (distToWave === 0) ? 26 : ((distToWave === 1) ? 15 : 4);
+                        } else {
+                            ctx.shadowBlur = isExclFlashing ? 28 : 3;
+                        }
+                    }
+
+                    if (skin.rarity === 'exclusive') {
+                        drawFlagSegment(skin.type, px, py, i === 0, i);
+                    } else if (skin.gradHead) {
+                        const grad = ctx.createLinearGradient(px, py, px + cellSize, py + cellSize);
+                        if (i === 0) {
+                            grad.addColorStop(0, skin.gradHead[0]);
+                            grad.addColorStop(1, skin.gradHead[1]);
+                        } else {
+                            grad.addColorStop(0, skin.gradBody[0]);
+                            grad.addColorStop(1, skin.gradBody[1]);
+                        }
+                        ctx.fillStyle = grad;
+                        ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
+                    } else {
+                        ctx.fillStyle = (i === 0) ? skin.head : skin.body;
+                        ctx.fillRect(px + 1, py + 1, cellSize - 2, cellSize - 2);
+                    }
+                });
+                ctx.shadowBlur = 0;
+
+                if (particles.length > 0) {
+                    particles.forEach(p => {
+                        p.x += p.vx; p.y += p.vy;
+                        p.vx *= 0.96; p.vy *= 0.96;
+                        p.alpha -= p.decay;
+
+                        ctx.save();
+                        ctx.globalAlpha = Math.max(0, p.alpha);
+                        ctx.fillStyle = p.color;
+                        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill();
+                        ctx.restore();
+                    });
+
+                    particles = particles.filter(p => p.alpha > 0);
+
+                    if (particles.length === 0 && isDying) {
+                        isDying = false;
+                        isRunning = false;
+                        document.getElementById('over-reason').textContent = I18N[currentLang].collision;
+                        showScreen('screen-over');
+                    }
+                }
+
+                ctx.restore();
+                renderMinimap();
+            }
+
+            // ГЛАВНЫЙ ИГРОВОЙ ЦИКЛ
+            function gameMainLoop(timestamp) {
+                if (configFPS > 0) {
+                    const fpsInterval = 1000 / configFPS;
+                    const elapsed = timestamp - lastFrameTime;
+                    if (elapsed < fpsInterval) {
+                        requestAnimationFrame(gameMainLoop);
+                        return;
+                    }
+                    lastFrameTime = timestamp - (elapsed % fpsInterval);
+                }
+
+                if (!lastEnergyUpdateTime) lastEnergyUpdateTime = timestamp;
+                const deltaSeconds = (timestamp - lastEnergyUpdateTime) / 1000;
+                lastEnergyUpdateTime = timestamp;
 
                 if (isRunning && !isPaused && !isDying) {
-                    const playerDelay = isSprinting ? 85 : SPEED_NORMAL;
-                    if (!lastPlayerTickTime || now - lastPlayerTickTime >= playerDelay) {
-                        tickPlayer(); lastPlayerTickTime = now;
+                    updateEnergy(deltaSeconds);
+
+                    const playerSpeed = isSprinting ? PLAYER_STEP_SPRINT : PLAYER_STEP_NORMAL;
+                    if (timestamp - lastPlayerMoveTime >= playerSpeed) {
+                        tickPlayer();
+                        lastPlayerMoveTime = timestamp;
                     }
-                    if (!lastBotTickTime || now - lastBotTickTime >= 175) {
-                        tickBots(); lastBotTickTime = now;
+
+                    if (timestamp - lastBotMoveTime >= BOT_STEP_INTERVAL) {
+                        tickBots();
+                        lastBotMoveTime = timestamp;
                     }
                 }
-                requestAnimationFrame(renderGame);
+
+                render(timestamp);
+                requestAnimationFrame(gameMainLoop);
             }
 
-            function resizeCanvas() {
-                const rect = canvas.getBoundingClientRect();
-                const size = Math.max(1, Math.floor(rect.width * (window.devicePixelRatio || 1)));
-                canvas.width = size; canvas.height = size;
-                miniCanvas.width = 160; miniCanvas.height = 160;
+            function startGame(levelToStart = currentLevel) {
+                initLevel(levelToStart);
+                showScreen(null);
+                isRunning = true;
+                isPaused = false;
+                turnLocked = false;
+                disableSprint();
+                const now = performance.now();
+                lastPlayerMoveTime = now;
+                lastBotMoveTime = now;
+                lastEnergyUpdateTime = now;
             }
-            window.addEventListener('resize', resizeCanvas);
-            resizeCanvas();
+
+            document.getElementById('btn-start-game').addEventListener('click', () => startGame(currentLevel));
+            document.getElementById('btn-restart').addEventListener('click', () => startGame(currentLevel));
+
+            pauseBtn.addEventListener('click', () => {
+                if (!isRunning || isDying) return;
+                isPaused = !isPaused;
+                const dict = I18N[currentLang];
+                pauseBtn.textContent = isPaused ? dict.start_btn : dict.pause_btn;
+                if (isPaused) disableSprint();
+            });
+
+            function enableSprint() {
+                if (sprintEnergy <= 5) {
+                    showToast('Мало энергии для спринта!');
+                    return;
+                }
+                isSprinting = true;
+                sprintBtn.classList.add('active');
+                sprintBtn.textContent = I18N[currentLang].sprint_on;
+            }
+            function disableSprint() {
+                isSprinting = false;
+                sprintBtn.classList.remove('active');
+                sprintBtn.textContent = I18N[currentLang].sprint_btn;
+            }
+            function toggleSprint() {
+                if (!isRunning || isDying || isPaused) return;
+                if (isSprinting) disableSprint();
+                else enableSprint();
+            }
+            sprintBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                toggleSprint();
+            });
+
+            function setDirection(newX, newY) {
+                if (!isRunning || isPaused || turnLocked || isDying) return;
+                if (newX === -dx && newY === 0) return;
+                if (newY === -dy && newX === 0) return;
+                dx = newX;
+                dy = newY;
+                turnLocked = true;
+            }
+
+            function bindDirBtn(id, x, y) {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('pointerdown', (e) => {
+                        e.preventDefault();
+                        setDirection(x, y);
+                    });
+                }
+            }
+            bindDirBtn('up', 0, -1); bindDirBtn('down', 0, 1); bindDirBtn('left', -1, 0); bindDirBtn('right', 1, 0);
+            bindDirBtn('row-up', 0, -1); bindDirBtn('row-down', 0, 1); bindDirBtn('row-left', -1, 0); bindDirBtn('row-right', 1, 0);
+
+            const analogPad = document.getElementById('dpad-analog');
+            const analogNub = document.getElementById('analog-nub');
+            let analogActive = false;
+
+            function handleAnalogMove(touchX, touchY) {
+                const rect = analogPad.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const diffX = touchX - centerX;
+                const diffY = touchY - centerY;
+                const dist = Math.hypot(diffX, diffY);
+                const maxRadius = rect.width / 2 - 20;
+
+                const angle = Math.atan2(diffY, diffX);
+                const nubDist = Math.min(dist, maxRadius);
+                const nubX = Math.cos(angle) * nubDist;
+                const nubY = Math.sin(angle) * nubDist;
+
+                analogNub.style.transform = `translate(${nubX}px, ${nubY}px)`;
+
+                if (dist > 15) {
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        if (diffX > 0) setDirection(1, 0);
+                        else setDirection(-1, 0);
+                    } else {
+                        if (diffY > 0) setDirection(0, 1);
+                        else setDirection(0, -1);
+                    }
+                }
+            }
+
+            analogPad.addEventListener('pointerdown', (e) => {
+                e.preventDefault();
+                analogActive = true;
+                handleAnalogMove(e.clientX, e.clientY);
+            });
+
+            window.addEventListener('pointermove', (e) => {
+                if (analogActive) handleAnalogMove(e.clientX, e.clientY);
+            });
+
+            window.addEventListener('pointerup', () => {
+                if (analogActive) {
+                    analogActive = false;
+                    analogNub.style.transform = `translate(0px, 0px)`;
+                }
+            });
+
+            window.addEventListener('keydown', (e) => {
+                const k = e.key.toLowerCase();
+                if (k === 'arrowup' || k === 'w') setDirection(0, -1);
+                if (k === 'arrowdown' || k === 's') setDirection(0, 1);
+                if (k === 'arrowleft' || k === 'a') setDirection(-1, 0);
+                if (k === 'arrowright' || k === 'd') setDirection(1, 0);
+                if (e.key === 'Shift') toggleSprint();
+                if (e.code === 'Space' && isRunning && !isDying) {
+                    isPaused = !isPaused;
+                    const dict = I18N[currentLang];
+                    pauseBtn.textContent = isPaused ? dict.start_btn : dict.pause_btn;
+                    if (isPaused) disableSprint();
+                }
+            });
+
             initSettingsUI();
-            applyLanguage();
-            updateLevelUI();
-            requestAnimationFrame(renderGame);
+            initLevel(currentLevel);
+            requestAnimationFrame(gameMainLoop);
         });
     </script>
 </body>
